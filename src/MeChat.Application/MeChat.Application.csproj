@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="Abstractions\" />
+    <Folder Include="DependencyInjection\Extentions\" />
+    <Folder Include="DependencyInjection\Options\" />
+    <Folder Include="UseCases\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MeChat.Common\MeChat.Common.csproj" />
+    <ProjectReference Include="..\MeChat.Domain\MeChat.Domain.csproj" />
+    <ProjectReference Include="..\MeChat.Persistence\MeChat.Persistence.csproj" />
+  </ItemGroup>
+
+</Project>

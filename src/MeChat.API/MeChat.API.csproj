@@ -1,0 +1,30 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.5" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="DependencyInjection\Extentions\" />
+    <Folder Include="DependencyInjection\Options\" />
+    <Folder Include="Middlewares\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MeChat.Application\MeChat.Application.csproj" />
+    <ProjectReference Include="..\MeChat.Common\MeChat.Common.csproj" />
+    <ProjectReference Include="..\MeChat.Infrastucture.Dapper\MeChat.Infrastucture.Dapper.csproj" />
+    <ProjectReference Include="..\MeChat.Infrastucture.Jwt\MeChat.Infrastucture.Jwt.csproj" />
+    <ProjectReference Include="..\MeChat.Infrastucture.Redis\MeChat.Infrastucture.Redis.csproj" />
+    <ProjectReference Include="..\MeChat.Persistence\MeChat.Persistence.csproj" />
+    <ProjectReference Include="..\MeChat.Presentation\MeChat.Presentation.csproj" />
+  </ItemGroup>
+
+</Project>

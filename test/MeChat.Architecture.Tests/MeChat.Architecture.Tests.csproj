@@ -1,0 +1,39 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+
+    <IsPackable>false</IsPackable>
+    <IsTestProject>true</IsTestProject>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FluentAssertions" Version="6.12.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.5.0" />
+    <PackageReference Include="NetArchTest.Rules" Version="1.3.2" />
+    <PackageReference Include="xunit" Version="2.4.2" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.5">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="coverlet.collector" Version="3.2.0">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\MeChat.API\MeChat.API.csproj" />
+    <ProjectReference Include="..\..\src\MeChat.Application\MeChat.Application.csproj" />
+    <ProjectReference Include="..\..\src\MeChat.Common\MeChat.Common.csproj" />
+    <ProjectReference Include="..\..\src\MeChat.Domain\MeChat.Domain.csproj" />
+    <ProjectReference Include="..\..\src\MeChat.Infrastucture.Dapper\MeChat.Infrastucture.Dapper.csproj" />
+    <ProjectReference Include="..\..\src\MeChat.Infrastucture.Jwt\MeChat.Infrastucture.Jwt.csproj" />
+    <ProjectReference Include="..\..\src\MeChat.Infrastucture.Redis\MeChat.Infrastucture.Redis.csproj" />
+    <ProjectReference Include="..\..\src\MeChat.Persistence\MeChat.Persistence.csproj" />
+    <ProjectReference Include="..\..\src\MeChat.Presentation\MeChat.Presentation.csproj" />
+  </ItemGroup>
+
+</Project>
