@@ -8,9 +8,16 @@
 
   <ItemGroup>
     <Folder Include="Abstractions\" />
-    <Folder Include="DependencyInjection\Extentions\" />
     <Folder Include="DependencyInjection\Options\" />
-    <Folder Include="UseCases\" />
+    <Folder Include="UseCases\V1\User\CommandHandlers\" />
+    <Folder Include="UseCases\V1\User\QueryHandlers\" />
+    <Folder Include="UseCases\V2\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FluentValidation" Version="11.9.0" />
+    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.9.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
   </ItemGroup>
 
   <ItemGroup>
