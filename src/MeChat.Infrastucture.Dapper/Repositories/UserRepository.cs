@@ -1,12 +1,14 @@
 ﻿using Dapper;
 using MeChat.Domain.Abstractions.Dapper.Repositories;
 using MeChat.Domain.Entities;
+using Microsoft.Data.SqlClient;
 using static Dapper.SqlMapper;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace MeChat.Infrastucture.Dapper.Repositories;
 public class UserRepository : IUserRepository
 {
-    private ApplicationDbContext context;
+    private readonly ApplicationDbContext context;
 
     public UserRepository(ApplicationDbContext context)
     {
@@ -25,12 +27,13 @@ public class UserRepository : IUserRepository
            ,@Username>
            ,@Password)";
 
-        using(var connection = context.CreateConnection()) 
-        {
-            await connection.OpenAsync();
-            var result = await connection.ExecuteAsync(sql, entity);
-            return result;
-        }
+        using SqlConnection connection = context.CreateConnection();
+        await connection.OpenAsync();
+
+        var result = await connection.ExecuteAsync(sql, entity);
+
+        await connection.DisposeAsync();
+        return result;
     }
 
     public async Task<int> DeleteAsync(Guid id)
@@ -38,12 +41,13 @@ public class UserRepository : IUserRepository
         var sql =
 @"DELETE FROM [dbo].[User]
       WHERE Id = @Id";
-        using (var connection = context.CreateConnection())
-        {
-            await connection.OpenAsync();
-            var result = await connection.ExecuteAsync(sql, new { Id = id });
-            return result;
-        }
+        using SqlConnection connection = context.CreateConnection();
+        await connection.OpenAsync();
+
+        var result = await connection.ExecuteAsync(sql, new { Id = id });
+
+        await connection.DisposeAsync();
+        return result;
     }
 
     public async Task<User?> FindByIdAsync(Guid id)
@@ -54,12 +58,13 @@ public class UserRepository : IUserRepository
       ,[Password]
 FROM [dbo].[User]
 WHERE Id = @Id";
-        using (var connection = context.CreateConnection())
-        {
-            await connection.OpenAsync();
-            var result = await connection.QuerySingleOrDefaultAsync<User>(sql, new {Id = id});
-            return result;
-        }
+        using SqlConnection connection = context.CreateConnection();
+        await connection.OpenAsync();
+
+        var result = await connection.QuerySingleOrDefaultAsync<User>(sql, new { Id = id });
+
+        await connection.DisposeAsync();
+        return result;
     }
 
     public async Task<IReadOnlyList<User>?> GetAllAsync()
@@ -69,12 +74,13 @@ WHERE Id = @Id";
       ,[Username]
       ,[Password]
 FROM [dbo].[User]";
-        using (var connection = context.CreateConnection())
-        {
-            await connection.OpenAsync();
-            var result = await connection.QueryAsync<User>(sql);
-            return result.ToList();
-        }
+        using SqlConnection connection = context.CreateConnection();
+        await connection.OpenAsync();
+
+        var result = await connection.QueryAsync<User>(sql);
+
+        await connection.DisposeAsync();
+        return result.ToList();
     }
 
     public async Task<int> UpdateAsync(User entity)
@@ -85,11 +91,12 @@ FROM [dbo].[User]";
       ,[Username] = @Username
       ,[Password] = @Password
  WHERE [Id] = @Id";
-        using (var connection = context.CreateConnection())
-        {
-            await connection.OpenAsync();
-            var result = await connection.ExecuteAsync(sql, entity);
-            return result;
-        }
+        using SqlConnection connection = context.CreateConnection();
+        await connection.OpenAsync();
+
+        var result = await connection.ExecuteAsync(sql, entity);
+
+        await connection.DisposeAsync();
+        return result;
     }
 }
