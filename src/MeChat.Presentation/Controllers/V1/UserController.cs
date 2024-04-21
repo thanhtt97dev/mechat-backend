@@ -19,4 +19,20 @@ public class UserController : ApiControllerBase
         var result = await sender.Send(user);
         return Ok(result);
     }
+
+    [HttpPut("{id}")]
+    public async Task<IActionResult> UpdateUser(Guid id, [FromBody] Command.UpdateUser user)
+    {
+        var userUpdate = new Command.UpdateUser(id, user.Username, user.Password);
+        var resut = await sender.Send(userUpdate);
+        return Ok(resut);
+    }
+
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> DeleteUser(Guid id)
+    {
+        var user = new Command.DeleteUser(id);
+        var result = await sender.Send(user);
+        return Ok(result);
+    }
 }

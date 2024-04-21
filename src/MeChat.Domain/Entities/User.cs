@@ -1,4 +1,5 @@
 ﻿using MeChat.Domain.Abstractions.Entities;
+using System.Xml.Linq;
 
 namespace MeChat.Domain.Entities;
 public class User : DomainEntity<Guid>

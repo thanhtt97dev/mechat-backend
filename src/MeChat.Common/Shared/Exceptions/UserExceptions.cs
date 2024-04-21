@@ -5,7 +5,7 @@ public static class UserExceptions
 {
     public class UserNotFound : NotFoundException
     {
-        protected UserNotFound(Guid id) :
+        public UserNotFound(Guid id) :
             base($"The user with the id {id} was not found.") { }
 
     }
