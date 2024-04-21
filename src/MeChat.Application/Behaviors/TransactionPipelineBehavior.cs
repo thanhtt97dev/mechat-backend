@@ -26,7 +26,7 @@ public sealed class TransactionPipelineBehavior<TRequest, TResponse> : IPipeline
         }
     }
 
-    private bool IsCommand()
+    private static bool IsCommand()
     {
         string? fullName = typeof(TRequest).FullName??string.Empty;
         return fullName.Contains("Command");

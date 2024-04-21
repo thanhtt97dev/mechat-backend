@@ -12,7 +12,7 @@ public class UnitOfWork : IUnitOfWork
 
     public async Task SaveChangeAsync(CancellationToken cancellationToken = default)
     {
-        await context.SaveChangesAsync();
+        await context.SaveChangesAsync(cancellationToken);
     }
 
     public async ValueTask DisposeAsync()
