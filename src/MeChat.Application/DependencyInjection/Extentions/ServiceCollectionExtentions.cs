@@ -1,21 +1,29 @@
 ﻿using FluentValidation;
+using MeChat.Application.Behaviors;
+using MeChat.Application.Mapper;
+using MediatR;
 using Microsoft.Extensions.DependencyInjection;
-using System.Diagnostics.Contracts;
 
 namespace MeChat.Application.DependencyInjection.Extentions;
 public static class ServiceCollectionExtentions
 {
     public static void AddConfiguraionMediatR(this IServiceCollection services)
     {
-        services.AddMediatR(options =>
+        services.AddMediatR(configs =>
         {
-            options.RegisterServicesFromAssemblies(AssemblyReference.Assembly);
+            configs.RegisterServicesFromAssembly(AssemblyReference.Assembly);
         });
 
-        //Add pipe line behavior
+        //Add MediatR's Middleware for Fluent Validation models
+        services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationPipelineBehavior<,>));
 
-        //Add validation
+        //Add Fluent Validation from Common Assembly
         services.AddValidatorsFromAssembly(Common.AssemblyReference.Assembly, includeInternalTypes: true);
+    }
+       
+    public static void AddConfigurationAutoMapper(this IServiceCollection services) 
+    {
+        services.AddAutoMapper(typeof(ServiceProfile));
     }
 
 }

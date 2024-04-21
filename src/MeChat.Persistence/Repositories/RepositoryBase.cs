@@ -20,7 +20,7 @@ public class RepositoryBase<TEntity, TKey> : IRepositoryBase<TEntity, TKey>, IDi
 
     public void Dispose()
     {
-        throw new NotImplementedException();
+        context.DisposeAsync();
     }
 
     public IQueryable<TEntity> FindAll(Expression<Func<TEntity, bool>>? predicate = null, params Expression<Func<TEntity, object>>[] includeProperties)
