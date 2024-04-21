@@ -1,0 +1,68 @@
+﻿using MeChat.Domain.Abstractions.Entities;
+using MeChat.Domain.Abstractions.EntityFramework.Repositories;
+using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
+
+namespace MeChat.Persistence.Repositories;
+public class RepositoryBase<TEntity, TKey> : IRepositoryBase<TEntity, TKey>, IDisposable where TEntity : DomainEntity<TKey>
+{
+    private readonly ApplicationDbContext context;
+
+    public RepositoryBase(ApplicationDbContext context)
+    {
+        this.context = context;
+    }
+
+    public void Add(TEntity entity)
+    {
+        context.Add(entity);
+    }
+
+    public void Dispose()
+    {
+        throw new NotImplementedException();
+    }
+
+    public IQueryable<TEntity> FindAll(Expression<Func<TEntity, bool>>? predicate = null, params Expression<Func<TEntity, object>>[] includeProperties)
+    {
+        IQueryable<TEntity> items = context.Set<TEntity>().AsNoTracking(); // Importance Always include AsNoTracking for Query Side
+        if (includeProperties != null)
+            foreach (var includeProperty in includeProperties)
+                items = items.Include(includeProperty);
+
+        if (predicate is not null)
+            items = items.Where(predicate);
+
+        return items;
+    }
+
+    public async Task<TEntity> FindByIdAsync(TKey id, CancellationToken cancellationToken = default, params Expression<Func<TEntity, object>>[] includeProperties)
+    {
+#pragma warning disable CS8603 // Possible null reference return.
+        return await FindAll(null, includeProperties).AsTracking().SingleOrDefaultAsync(x => x.Id.Equals(id), cancellationToken);
+#pragma warning restore CS8603 // Possible null reference return.
+    }
+        
+
+    public async Task<TEntity> FindSingleAsync(Expression<Func<TEntity, bool>>? predicate = null, CancellationToken cancellationToken = default, params Expression<Func<TEntity, object>>[] includeProperties)
+    {
+#pragma warning disable CS8603 // Possible null reference return.
+        return await FindAll(null, includeProperties).AsTracking().SingleOrDefaultAsync(predicate, cancellationToken);
+#pragma warning restore CS8603 // Possible null reference return.
+    }
+
+    public void Remove(TEntity entity)
+    {
+        context.Set<TEntity>().Remove(entity);
+    }
+
+    public void RemoveMultiple(List<TEntity> entities)
+    {
+        context.Set<TEntity>().RemoveRange(entities);
+    }
+
+    public void Update(TEntity entity)
+    {
+        context.Set<TEntity>().Update(entity);
+    }
+}

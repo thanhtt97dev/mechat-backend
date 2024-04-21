@@ -1,3 +1,4 @@
+using MeChat.Persistence.DependencyInjection.Extentions;
 
 namespace MeChat.API;
 
@@ -13,6 +14,9 @@ public class Program
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
+
+        //Add db sql server
+        builder.Services.AddDbSqlServerConfiguration();
 
         var app = builder.Build();
 

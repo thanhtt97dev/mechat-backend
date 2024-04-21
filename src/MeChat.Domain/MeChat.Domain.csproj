@@ -7,7 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Abstractions\" />
     <Folder Include="DependencyInjection\Extentions\" />
     <Folder Include="DependencyInjection\Options\" />
   </ItemGroup>
