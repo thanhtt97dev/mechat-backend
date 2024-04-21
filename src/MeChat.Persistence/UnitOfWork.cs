@@ -10,7 +10,7 @@ public class UnitOfWork : IUnitOfWork
         this.context = context;
     }
 
-    public async Task CommitAsync(CancellationToken cancellationToken = default)
+    public async Task SaveChangeAsync(CancellationToken cancellationToken = default)
     {
         await context.SaveChangesAsync();
     }

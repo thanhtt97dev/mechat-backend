@@ -9,13 +9,11 @@ namespace MeChat.Application.UseCases.V1.User.CommandHandlers;
 public class AddUserCommandHandler : ICommandHandler<Command.AddUser>
 {
     private readonly IRepositoryBase<Domain.Entities.User, Guid> userRepository;
-    private readonly IUnitOfWork unitOfWork;
     private readonly IMapper mapper;
 
-    public AddUserCommandHandler(IRepositoryBase<Domain.Entities.User, Guid> userRepository, IUnitOfWork unitOfWork, IMapper mapper)
+    public AddUserCommandHandler(IRepositoryBase<Domain.Entities.User, Guid> userRepository, IMapper mapper)
     {
         this.userRepository = userRepository;
-        this.unitOfWork = unitOfWork;
         this.mapper = mapper;
     }
 
@@ -24,8 +22,6 @@ public class AddUserCommandHandler : ICommandHandler<Command.AddUser>
         var user = mapper.Map<Domain.Entities.User>(request);
 
         userRepository.Add(user);
-
-        await unitOfWork.CommitAsync(cancellationToken);
 
         return Result.Success();
     }

@@ -17,6 +17,9 @@ public static class ServiceCollectionExtentions
         //Add MediatR's Middleware for Fluent Validation models
         services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationPipelineBehavior<,>));
 
+        //Add MediatR's Middleware for Global transaction EF
+        services.AddTransient(typeof(IPipelineBehavior<,>), typeof(TransactionPipelineBehavior<,>));
+
         //Add Fluent Validation from Common Assembly
         services.AddValidatorsFromAssembly(Common.AssemblyReference.Assembly, includeInternalTypes: true);
     }

@@ -13,7 +13,7 @@ namespace MeChat.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
     [Migration("20240421014636_init")]
-    partial class init
+    partial class Init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
