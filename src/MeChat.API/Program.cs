@@ -3,6 +3,7 @@ using MeChat.Infrastucture.Dapper.DependencyInjection.Extentions;
 using MicroElements.Swashbuckle.FluentValidation.AspNetCore;
 using MeChat.API.DependencyInjection.Extentions;
 using MeChat.Application.DependencyInjection.Extentions;
+using MeChat.API.Middlewares;
 
 namespace MeChat.API;
 
@@ -50,6 +51,8 @@ public class Program
         //Add config AutoMapper
         builder.Services.AddConfigurationAutoMapper();
 
+        //Add middlewares
+        builder.Services.AddTransient<ExceptionHandlingMiddleware>();
 
         var app = builder.Build();
 
@@ -58,6 +61,9 @@ public class Program
         {
             app.UseConfigurationSwagger();
         }
+
+        //Use middlewares
+        app.UseMiddleware<ExceptionHandlingMiddleware>();
 
         app.UseAuthorization();
 
