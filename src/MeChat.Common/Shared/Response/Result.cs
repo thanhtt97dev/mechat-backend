@@ -1,4 +1,5 @@
 ﻿using MeChat.Common.Constants;
+using Newtonsoft.Json;
 
 namespace MeChat.Common.Shared.Response;
 public class Result
@@ -28,17 +29,21 @@ public class Result
     public static Result Failure(string message) 
         => new(ResponseCodes.Failure, message, false);
     public static Result<TData> Failure<TData>(TData data, string message)
-    => new(ResponseCodes.Failure, "Success!", false, data);
+    => new(ResponseCodes.Failure, message, false, data);
+
+    public static Result<TData> ValidationError<TData>(TData data)
+    {
+        return new Result<TData>(ResponseCodes.ValidationErrors, "Validation error!", false, data);
+    }
 
 }
 
-public class Result<TData> : Result
+public class Result<TValue> : Result
 {
-    private readonly TData? Data;
-
-    protected internal Result(string code, string message,bool oke, TData? data)
+    public TValue? Value { get; set; }
+    protected internal Result(string code, string message,bool oke, TValue? value)
          : base(code, message, oke)
     {
-        Data = data;
+        this.Value = value;
     }
 }

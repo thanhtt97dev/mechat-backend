@@ -1,6 +1,7 @@
 ﻿namespace MeChat.Common.Constants;
 public static class ResponseCodes
 {
-    public static string Success = "00";
-    public static string Failure = "01";
+    public const string Success = "00";
+    public const string Failure = "01";
+    public const string ValidationErrors = "01";
 }
