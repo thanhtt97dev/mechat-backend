@@ -2,7 +2,6 @@
 using MeChat.Common.Abstractions.Messages;
 using MeChat.Common.Shared.Response;
 using MeChat.Common.UseCases.V1.User;
-using MeChat.Domain.Abstractions.Dapper.Repositories;
 using MeChat.Domain.Abstractions.EntityFramework;
 using MeChat.Domain.Abstractions.EntityFramework.Repositories;
 

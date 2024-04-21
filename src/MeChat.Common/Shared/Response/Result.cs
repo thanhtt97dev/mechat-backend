@@ -1,5 +1,4 @@
 ﻿using MeChat.Common.Constants;
-using Newtonsoft.Json;
 
 namespace MeChat.Common.Shared.Response;
 public class Result
