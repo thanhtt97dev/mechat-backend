@@ -39,7 +39,9 @@ public class RepositoryBase<TEntity, TKey> : IRepositoryBase<TEntity, TKey>, IDi
     public async Task<TEntity> FindByIdAsync(TKey id, CancellationToken cancellationToken = default, params Expression<Func<TEntity, object>>[] includeProperties)
     {
 #pragma warning disable CS8603 // Possible null reference return.
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
         return await FindAll(null, includeProperties).AsTracking().SingleOrDefaultAsync(x => x.Id.Equals(id), cancellationToken);
+#pragma warning restore CS8602 // Dereference of a possibly null reference.
 #pragma warning restore CS8603 // Possible null reference return.
     }
         
@@ -47,7 +49,9 @@ public class RepositoryBase<TEntity, TKey> : IRepositoryBase<TEntity, TKey>, IDi
     public async Task<TEntity> FindSingleAsync(Expression<Func<TEntity, bool>>? predicate = null, CancellationToken cancellationToken = default, params Expression<Func<TEntity, object>>[] includeProperties)
     {
 #pragma warning disable CS8603 // Possible null reference return.
+#pragma warning disable CS8604 // Possible null reference argument.
         return await FindAll(null, includeProperties).AsTracking().SingleOrDefaultAsync(predicate, cancellationToken);
+#pragma warning restore CS8604 // Possible null reference argument.
 #pragma warning restore CS8603 // Possible null reference return.
     }
 

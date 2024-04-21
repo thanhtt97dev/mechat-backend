@@ -1,4 +1,5 @@
 using MeChat.Persistence.DependencyInjection.Extentions;
+using MeChat.Infrastucture.Dapper.DependencyInjection.Extentions;
 
 namespace MeChat.API;
 
@@ -17,6 +18,8 @@ public class Program
 
         //Add db sql server
         builder.Services.AddDbSqlServerConfiguration();
+        //Add infrastucture dapper
+        builder.Services.AddInfrastuctureDapper();
 
         var app = builder.Build();
 
