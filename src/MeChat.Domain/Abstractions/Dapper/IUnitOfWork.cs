@@ -3,5 +3,5 @@
 namespace MeChat.Domain.Abstractions.Dapper;
 public interface IUnitOfWork
 {
-    IRepositoryBase<Domain.Entities.User> Users { get; }
+    IUserRepository Users { get; }
 }

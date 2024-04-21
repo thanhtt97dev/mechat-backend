@@ -5,9 +5,8 @@ using MeChat.Domain.Entities;
 namespace MeChat.Infrastucture.Dapper;
 public class UnitOfWork : IUnitOfWork
 {
-    public IRepositoryBase<User> Users { get;}
-
-    public UnitOfWork(IRepositoryBase<User> users)
+    public IUserRepository Users { get;}
+    public UnitOfWork(IUserRepository users)
     {
         Users = users;
     }
