@@ -2,6 +2,7 @@ using MeChat.Persistence.DependencyInjection.Extentions;
 using MeChat.Infrastucture.Dapper.DependencyInjection.Extentions;
 using MicroElements.Swashbuckle.FluentValidation.AspNetCore;
 using MeChat.API.DependencyInjection.Extentions;
+using MeChat.Application.DependencyInjection.Extentions;
 
 namespace MeChat.API;
 
@@ -21,6 +22,9 @@ public class Program
 
         //Add infrastucture dapper
         builder.Services.AddConfigurationDapper();
+
+        //Add configuration MediatR
+        builder.Services.AddConfiguraionMediatR();
 
         //Add controller API
         builder.Services
@@ -42,6 +46,9 @@ public class Program
                 options.GroupNameFormat = "'v'VVV";
                 options.SubstituteApiVersionInUrl = true;
             });
+
+        //Add config AutoMapper
+        builder.Services.AddConfigurationAutoMapper();
 
 
         var app = builder.Build();
