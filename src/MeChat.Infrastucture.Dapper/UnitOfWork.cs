@@ -1,6 +1,5 @@
-﻿using MeChat.Domain.Abstractions.Dapper;
-using MeChat.Domain.Abstractions.Dapper.Repositories;
-using MeChat.Domain.Entities;
+﻿using MeChat.Common.Abstractions.Data.Dapper;
+using MeChat.Common.Abstractions.Data.Dapper.Repositories;
 
 namespace MeChat.Infrastucture.Dapper;
 public class UnitOfWork : IUnitOfWork

@@ -1,9 +1,8 @@
 ﻿using AutoMapper;
+using MeChat.Common.Abstractions.Data.EntityFramework.Repositories;
 using MeChat.Common.Abstractions.Messages;
 using MeChat.Common.Shared.Response;
 using MeChat.Common.UseCases.V1.User;
-using MeChat.Domain.Abstractions.EntityFramework;
-using MeChat.Domain.Abstractions.EntityFramework.Repositories;
 using System.Threading.Tasks;
 
 namespace MeChat.Application.UseCases.V1.User.CommandHandlers;

@@ -1,4 +1,4 @@
-﻿using MeChat.Domain.Abstractions.EntityFramework;
+﻿using MeChat.Common.Abstractions.Data.EntityFramework;
 
 namespace MeChat.Persistence;
 public class UnitOfWork : IUnitOfWork

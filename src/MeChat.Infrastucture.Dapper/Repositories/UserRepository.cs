@@ -1,9 +1,9 @@
 ﻿using Dapper;
-using MeChat.Domain.Abstractions.Dapper.Repositories;
+using MeChat.Common.Abstractions.Data.Dapper.Repositories;
+using MeChat.Common.Constants;
+using MeChat.Common.Enumerations;
 using MeChat.Domain.Entities;
 using Microsoft.Data.SqlClient;
-using static Dapper.SqlMapper;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace MeChat.Infrastucture.Dapper.Repositories;
 public class UserRepository : IUserRepository
@@ -67,20 +67,69 @@ WHERE Id = @Id";
         return result;
     }
 
-    public async Task<IReadOnlyList<User>?> GetAllAsync()
+    public async Task<List<User>?> GetManyAsync(string? searchTerm, IDictionary<string, Common.Enumerations.SortOrderSql> sortColumnWithOrders, int pageIndex = Page.IndexDefault, int pageSize = Page.SizeDefault)
+    {
+        if (pageIndex <= 0)
+            pageIndex = Page.IndexDefault;
+
+        if (pageSize > Page.SizeMaximun)
+            pageSize = Page.SizeMaximun;
+
+        var query =
+@$"SELECT * FROM [User]
+WHERE (1 = 1) AND
+{nameof(User.Id)} LIKE '%{searchTerm}%' OR
+{nameof(User.Username)} LIKE '%{searchTerm}%'
+ORDER BY ";
+        if (sortColumnWithOrders.Count == 0)
+        {
+            query += @$"{GetSortProperty(string.Empty)}";
+        }
+        else
+        {
+            foreach (var item in sortColumnWithOrders)
+            {
+                var x = GetSortProperty(item.Key);
+                var order = item.Value == SortOrderSql.Descending ?
+                    $"{GetSortProperty(item.Key)} DESC, " :
+                    $"{GetSortProperty(item.Key)} ASC, ";
+                query += order;
+            }
+            query = query.Remove(query.Length - 2);
+        }
+
+        query += $"\nOFFSET {(pageIndex - 1) * pageSize} ROWS FETCH NEXT {pageSize} ROWS ONLY";
+
+
+        using SqlConnection connection = context.CreateConnection();
+        await connection.OpenAsync();
+
+        var result = await connection.QueryAsync<User>(query);
+
+        await connection.DisposeAsync();
+        return result.ToList();
+    }
+
+    public string GetSortProperty(string sortProperty)
+    => sortProperty.ToLower() switch
+    {
+        "id" => nameof(User.Id),
+        "password" => nameof(User.Username),
+        _ => nameof(User.Id)
+    };
+
+    public async Task<int> GetTotalRecord()
     {
         var sql =
-@"SELECT [Id]
-      ,[Username]
-      ,[Password]
+@"SELECT COUNT(*) 
 FROM [dbo].[User]";
         using SqlConnection connection = context.CreateConnection();
         await connection.OpenAsync();
 
-        var result = await connection.QueryAsync<User>(sql);
+        var result = await connection.QueryFirstAsync<int>(sql);
 
         await connection.DisposeAsync();
-        return result.ToList();
+        return result;
     }
 
     public async Task<int> UpdateAsync(User entity)

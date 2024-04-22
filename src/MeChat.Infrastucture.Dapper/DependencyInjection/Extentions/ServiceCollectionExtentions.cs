@@ -1,5 +1,5 @@
-﻿using MeChat.Domain.Abstractions.Dapper;
-using MeChat.Domain.Abstractions.Dapper.Repositories;
+﻿using MeChat.Common.Abstractions.Data.Dapper;
+using MeChat.Common.Abstractions.Data.Dapper.Repositories;
 using MeChat.Infrastucture.Dapper.Repositories;
 using Microsoft.Extensions.DependencyInjection;
 

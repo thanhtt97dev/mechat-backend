@@ -1,6 +1,5 @@
 ﻿using MeChat.Common.Shared.Response;
 using MeChat.Common.Shared.Exceptions.Base;
-using Microsoft.AspNetCore.Http;
 using System.Text.Json;
 
 namespace MeChat.API.Middlewares;

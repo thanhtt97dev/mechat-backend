@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
+using MeChat.Common.Abstractions.Data.Dapper;
 using MeChat.Common.Abstractions.Messages;
 using MeChat.Common.Shared.Exceptions;
 using MeChat.Common.Shared.Response;
 using MeChat.Common.UseCases.V1.User;
-using MeChat.Domain.Abstractions.Dapper;
 
 namespace MeChat.Application.UseCases.V1.User.QueryHandlers;
 public class GetUserQueryHandler : IQueryHandler<Query.GetUserById, Response.User>

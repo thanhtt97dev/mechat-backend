@@ -22,6 +22,7 @@
   <ItemGroup>
     <ProjectReference Include="..\MeChat.Common\MeChat.Common.csproj" />
     <ProjectReference Include="..\MeChat.Domain\MeChat.Domain.csproj" />
+    <ProjectReference Include="..\MeChat.Infrastucture.Dapper\MeChat.Infrastucture.Dapper.csproj" />
     <ProjectReference Include="..\MeChat.Persistence\MeChat.Persistence.csproj" />
   </ItemGroup>
 

@@ -1,4 +1,4 @@
-﻿using MeChat.Domain.Abstractions.EntityFramework;
+﻿using MeChat.Common.Abstractions.Data.EntityFramework;
 using MediatR;
 using System.Transactions;
 

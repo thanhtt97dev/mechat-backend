@@ -1,4 +1,7 @@
 ﻿using Asp.Versioning;
+using MeChat.Common.Enumerations;
+using MeChat.Common.Extentions;
+using MeChat.Common.Shared.Response;
 using MeChat.Common.UseCases.V1.User;
 using MeChat.Presentation.Abstractions;
 using MediatR;
@@ -17,6 +20,18 @@ public class UserController : ApiControllerBase
     public async Task<IActionResult> GetUser(Guid id)
     {
         var userQuery = new Query.GetUserById(id);
+        var result = await sender.Send(userQuery);
+        return Ok(result);
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> GetUsers(
+        string? searchTerm,
+        string? sortColumnWithOrders = null,
+        int pageIndex = 1,
+        int pageSize = 10)
+    {
+        var userQuery = new Query.GetUsers(searchTerm, SortOrderExtention.Convert(sortColumnWithOrders), pageIndex, pageSize);
         var result = await sender.Send(userQuery);
         return Ok(result);
     }

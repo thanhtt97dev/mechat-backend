@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using MeChat.Common.Shared.Response;
 using MeChat.Domain.Entities;
 
 namespace MeChat.Application.Mapper;
@@ -12,6 +13,7 @@ public class ServiceProfile : Profile
         CreateMap<User, Common.UseCases.V1.User.Command.AddUser>().ReverseMap();
         CreateMap<User, Common.UseCases.V1.User.Command.UpdateUser>().ReverseMap();
         CreateMap<User, Common.UseCases.V1.User.Response.User>().ReverseMap();
+        CreateMap<PageResult<User>, PageResult<Common.UseCases.V1.User.Response.User>>().ReverseMap();
         #endregion
 
         #endregion

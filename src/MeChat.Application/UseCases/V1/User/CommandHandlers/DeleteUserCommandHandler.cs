@@ -1,8 +1,8 @@
-﻿using MeChat.Common.Abstractions.Messages;
+﻿using MeChat.Common.Abstractions.Data.EntityFramework.Repositories;
+using MeChat.Common.Abstractions.Messages;
 using MeChat.Common.Shared.Exceptions;
 using MeChat.Common.Shared.Response;
 using MeChat.Common.UseCases.V1.User;
-using MeChat.Domain.Abstractions.EntityFramework.Repositories;
 
 namespace MeChat.Application.UseCases.V1.User.CommandHandlers;
 public class DeleteUserCommandHandler : ICommandHandler<Command.DeleteUser>
