@@ -1,10 +1,14 @@
 ﻿using MeChat.Common.Constants;
+using System.Text.Json.Serialization;
 
 namespace MeChat.Common.Shared.Response;
 public class Result
 {
+    [JsonPropertyOrder(1)]
     public string? Code { get; set; }
+    [JsonPropertyOrder(2)]
     public string? Message { get; set; }
+    [JsonPropertyOrder(3)]
     public bool Ok { get; set; }
 
     public Result(string? code, string? message, bool ok)
@@ -46,6 +50,7 @@ public class Result
 
 public class Result<TValue> : Result
 {
+    [JsonPropertyOrder(4)]
     public TValue? Value { get; set; }
     protected internal Result(string code, string message,bool oke, TValue? value)
          : base(code, message, oke)
