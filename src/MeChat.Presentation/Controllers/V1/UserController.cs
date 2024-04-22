@@ -13,6 +13,14 @@ public class UserController : ApiControllerBase
     {
     }
 
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetUser(Guid id)
+    {
+        var userQuery = new Query.GetUserById(id);
+        var result = await sender.Send(userQuery);
+        return Ok(result);
+    }
+
     [HttpPost]
     public async Task<IActionResult> AddUser([FromBody] Command.AddUser user)
     {
@@ -23,16 +31,16 @@ public class UserController : ApiControllerBase
     [HttpPut("{id}")]
     public async Task<IActionResult> UpdateUser(Guid id, [FromBody] Command.UpdateUser user)
     {
-        var userUpdate = new Command.UpdateUser(id, user.Username, user.Password);
-        var resut = await sender.Send(userUpdate);
+        var userCommand = new Command.UpdateUser(id, user.Username, user.Password);
+        var resut = await sender.Send(userCommand);
         return Ok(resut);
     }
 
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteUser(Guid id)
     {
-        var user = new Command.DeleteUser(id);
-        var result = await sender.Send(user);
+        var userCommand = new Command.DeleteUser(id);
+        var result = await sender.Send(userCommand);
         return Ok(result);
     }
 }

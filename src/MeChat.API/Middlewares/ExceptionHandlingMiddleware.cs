@@ -28,13 +28,40 @@ public class ExceptionHandlingMiddleware : IMiddleware
     private static async Task HandleExceptionAsync(HttpContext httpContext, Exception exception)
     {
         var statusCode = GetStatusCode(exception);
-        var response = Result.Failure(exception.Message);
+        var response = GetResultException(exception);
 
         httpContext.Response.ContentType = "application/json";
 
         httpContext.Response.StatusCode = statusCode;
 
         await httpContext.Response.WriteAsync(JsonSerializer.Serialize(response));
+    }
+
+    private static Result GetResultException(Exception exception) 
+    {
+        Result result;
+        switch(exception) 
+        {
+            case BadRequestException:
+                result = Result.Failure(exception.Message);
+                break;
+            case NotFoundException:
+                result = Result.NotFound(exception.Message);
+                break;
+            case FluentValidation.ValidationException:
+                result = Result.ValidationError(exception.Message);
+                break;
+            case UnAuthorizedException:
+                result = Result.UnAuthorized(exception.Message);
+                break;
+            case FormatException:
+                result = Result.ValidationError(exception.Message);
+                break;
+            default:
+                result = Result.Failure(exception.Message);
+                break;
+        }
+        return result;
     }
 
     private static int GetStatusCode(Exception exception)
@@ -44,6 +71,7 @@ public class ExceptionHandlingMiddleware : IMiddleware
             BadRequestException => StatusCodes.Status400BadRequest,
             NotFoundException => StatusCodes.Status404NotFound,
             FluentValidation.ValidationException => StatusCodes.Status422UnprocessableEntity,
+            UnAuthorizedException => StatusCodes.Status401Unauthorized,
             FormatException => StatusCodes.Status422UnprocessableEntity,
             _ => StatusCodes.Status500InternalServerError
         };

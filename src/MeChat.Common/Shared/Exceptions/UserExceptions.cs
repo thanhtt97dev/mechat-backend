@@ -3,9 +3,9 @@
 namespace MeChat.Common.Shared.Exceptions;
 public static class UserExceptions
 {
-    public class UserNotFound : NotFoundException
+    public class NotFound : NotFoundException
     {
-        public UserNotFound(Guid id) :
+        public NotFound(Guid id) :
             base($"The user with the id {id} was not found.") { }
 
     }
