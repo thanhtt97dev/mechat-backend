@@ -16,14 +16,13 @@ public sealed class TransactionPipelineBehavior<TRequest, TResponse> : IPipeline
     {
         if (!IsCommand())
             return await next();
-        using (var transaction = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
-        {
-            var response = await next();
-            await unitOfWork.SaveChangeAsync(cancellationToken);
-            transaction.Complete();
-            await unitOfWork.DisposeAsync();
-            return response;
-        }
+
+        using var transaction = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled);
+        var response = await next();
+        await unitOfWork.SaveChangeAsync(cancellationToken);
+        transaction.Complete();
+        await unitOfWork.DisposeAsync();
+        return response;
     }
 
     private static bool IsCommand()

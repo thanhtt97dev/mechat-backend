@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
 namespace MeChat.Persistence.Repositories;
-public class RepositoryBase<TEntity, TKey> : IRepositoryBase<TEntity, TKey>, IDisposable where TEntity : DomainEntity<TKey>
+public class RepositoryBase<TEntity, TKey> : IRepositoryBase<TEntity, TKey> where TEntity : DomainEntity<TKey>
 {
     private readonly ApplicationDbContext context;
 
@@ -18,9 +18,9 @@ public class RepositoryBase<TEntity, TKey> : IRepositoryBase<TEntity, TKey>, IDi
         context.Add(entity);
     }
 
-    public void Dispose()
+    public virtual async void Dispose()
     {
-        context.DisposeAsync();
+        await context.DisposeAsync();
     }
 
     public IQueryable<TEntity> FindAll(Expression<Func<TEntity, bool>>? predicate = null, params Expression<Func<TEntity, object>>[] includeProperties)

@@ -39,28 +39,15 @@ public class ExceptionHandlingMiddleware : IMiddleware
 
     private static Result GetResultException(Exception exception) 
     {
-        Result result;
-        switch(exception) 
+        Result result = exception switch
         {
-            case BadRequestException:
-                result = Result.Failure(exception.Message);
-                break;
-            case NotFoundException:
-                result = Result.NotFound(exception.Message);
-                break;
-            case FluentValidation.ValidationException:
-                result = Result.ValidationError(exception.Message);
-                break;
-            case UnAuthorizedException:
-                result = Result.UnAuthorized(exception.Message);
-                break;
-            case FormatException:
-                result = Result.ValidationError(exception.Message);
-                break;
-            default:
-                result = Result.Failure(exception.Message);
-                break;
-        }
+            BadRequestException => Result.Failure(exception.Message),
+            NotFoundException => Result.NotFound(exception.Message),
+            FluentValidation.ValidationException => Result.ValidationError(exception.Message),
+            UnAuthorizedException => Result.UnAuthorized(exception.Message),
+            FormatException => Result.ValidationError(exception.Message),
+            _ => Result.Failure(exception.Message),
+        };
         return result;
     }
 
@@ -75,12 +62,4 @@ public class ExceptionHandlingMiddleware : IMiddleware
             FormatException => StatusCodes.Status422UnprocessableEntity,
             _ => StatusCodes.Status500InternalServerError
         };
-
-    private static string GetTitle(Exception exception) =>
-        exception switch
-        {
-            DomainException applicationException => applicationException.Title,
-            _ => "Server Error"
-        };
-
 }

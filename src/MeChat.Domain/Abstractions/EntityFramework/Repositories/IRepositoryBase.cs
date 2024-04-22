@@ -1,7 +1,7 @@
 ﻿using System.Linq.Expressions;
 
 namespace MeChat.Domain.Abstractions.EntityFramework.Repositories;
-public interface IRepositoryBase<TEntity, TKey> where TEntity : class
+public interface IRepositoryBase<TEntity, TKey> : IDisposable where TEntity : class
 {
     Task<TEntity> FindByIdAsync(TKey id, CancellationToken cancellationToken = default, params Expression<Func<TEntity, object>>[] includeProperties);
     Task<TEntity> FindSingleAsync(Expression<Func<TEntity, bool>>? predicate = null, CancellationToken cancellationToken = default, params Expression<Func<TEntity, object>>[] includeProperties);
