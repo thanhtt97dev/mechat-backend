@@ -55,7 +55,7 @@ public class Program
         builder.Services.AddTransient<ExceptionHandlingMiddleware>();
 
         //Add configuration Jwt
-
+        builder.AddJwtAuthentication(builder.Configuration);
         var app = builder.Build();
 
         // Configure the HTTP request pipeline.

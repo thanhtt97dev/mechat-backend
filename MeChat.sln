@@ -12,25 +12,23 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{1366F6BD-010
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{3B15E549-960E-422E-B4BD-F0314471C61A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MeChat.API", "src\MeChat.API\MeChat.API.csproj", "{28C90CA2-A32C-406D-A415-7A94BAE1D6FB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MeChat.API", "src\MeChat.API\MeChat.API.csproj", "{28C90CA2-A32C-406D-A415-7A94BAE1D6FB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MeChat.Application", "src\MeChat.Application\MeChat.Application.csproj", "{EE100AF5-7B29-436A-B2E5-2EAE2044FDE6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MeChat.Application", "src\MeChat.Application\MeChat.Application.csproj", "{EE100AF5-7B29-436A-B2E5-2EAE2044FDE6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MeChat.Common", "src\MeChat.Common\MeChat.Common.csproj", "{3E6260F4-6DCC-4D23-A4D6-7141D0B270C6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MeChat.Common", "src\MeChat.Common\MeChat.Common.csproj", "{3E6260F4-6DCC-4D23-A4D6-7141D0B270C6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MeChat.Domain", "src\MeChat.Domain\MeChat.Domain.csproj", "{613373A1-62D6-4F81-9E5F-2527548A2092}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MeChat.Domain", "src\MeChat.Domain\MeChat.Domain.csproj", "{613373A1-62D6-4F81-9E5F-2527548A2092}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MeChat.Infrastucture.Jwt", "src\MeChat.Infrastucture.Jwt\MeChat.Infrastucture.Jwt.csproj", "{C10BC7AC-233C-41C7-B737-7406B8CF5980}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MeChat.Infrastucture.Dapper", "src\MeChat.Infrastucture.Dapper\MeChat.Infrastucture.Dapper.csproj", "{E1F7B066-CC21-4E8F-B339-0124A1C73772}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MeChat.Infrastucture.Dapper", "src\MeChat.Infrastucture.Dapper\MeChat.Infrastucture.Dapper.csproj", "{E1F7B066-CC21-4E8F-B339-0124A1C73772}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MeChat.Persistence", "src\MeChat.Persistence\MeChat.Persistence.csproj", "{740AF8E9-6399-483D-811C-85ADE385DC39}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MeChat.Persistence", "src\MeChat.Persistence\MeChat.Persistence.csproj", "{740AF8E9-6399-483D-811C-85ADE385DC39}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MeChat.Presentation", "src\MeChat.Presentation\MeChat.Presentation.csproj", "{0041E65C-F147-4423-A090-ED7D34910674}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MeChat.Presentation", "src\MeChat.Presentation\MeChat.Presentation.csproj", "{0041E65C-F147-4423-A090-ED7D34910674}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MeChat.Infrastucture.Redis", "src\MeChat.Infrastucture.Redis\MeChat.Infrastucture.Redis.csproj", "{35801E1B-11DE-4822-87A7-1E9B06A197F2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MeChat.Infrastucture.Redis", "src\MeChat.Infrastucture.Redis\MeChat.Infrastucture.Redis.csproj", "{35801E1B-11DE-4822-87A7-1E9B06A197F2}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MeChat.Architecture.Tests", "test\MeChat.Architecture.Tests\MeChat.Architecture.Tests.csproj", "{FC1337F3-3EAE-4490-A880-7745E22D0E14}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MeChat.Architecture.Tests", "test\MeChat.Architecture.Tests\MeChat.Architecture.Tests.csproj", "{FC1337F3-3EAE-4490-A880-7745E22D0E14}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -54,10 +52,6 @@ Global
 		{613373A1-62D6-4F81-9E5F-2527548A2092}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{613373A1-62D6-4F81-9E5F-2527548A2092}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{613373A1-62D6-4F81-9E5F-2527548A2092}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C10BC7AC-233C-41C7-B737-7406B8CF5980}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C10BC7AC-233C-41C7-B737-7406B8CF5980}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C10BC7AC-233C-41C7-B737-7406B8CF5980}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C10BC7AC-233C-41C7-B737-7406B8CF5980}.Release|Any CPU.Build.0 = Release|Any CPU
 		{E1F7B066-CC21-4E8F-B339-0124A1C73772}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{E1F7B066-CC21-4E8F-B339-0124A1C73772}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E1F7B066-CC21-4E8F-B339-0124A1C73772}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -87,7 +81,6 @@ Global
 		{EE100AF5-7B29-436A-B2E5-2EAE2044FDE6} = {1366F6BD-0107-407B-ADCE-8D176E2D41E3}
 		{3E6260F4-6DCC-4D23-A4D6-7141D0B270C6} = {1366F6BD-0107-407B-ADCE-8D176E2D41E3}
 		{613373A1-62D6-4F81-9E5F-2527548A2092} = {1366F6BD-0107-407B-ADCE-8D176E2D41E3}
-		{C10BC7AC-233C-41C7-B737-7406B8CF5980} = {1366F6BD-0107-407B-ADCE-8D176E2D41E3}
 		{E1F7B066-CC21-4E8F-B339-0124A1C73772} = {1366F6BD-0107-407B-ADCE-8D176E2D41E3}
 		{740AF8E9-6399-483D-811C-85ADE385DC39} = {1366F6BD-0107-407B-ADCE-8D176E2D41E3}
 		{0041E65C-F147-4423-A090-ED7D34910674} = {1366F6BD-0107-407B-ADCE-8D176E2D41E3}

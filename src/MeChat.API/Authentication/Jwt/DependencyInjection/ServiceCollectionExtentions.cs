@@ -1,11 +1,12 @@
-﻿using MeChat.API.Authentication.Jwt.Options;
+﻿using MeChat.API.Authentication.Jwt.Abstractions;
+using MeChat.API.Authentication.Jwt.Options;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
-namespace Demo.API.DependencyInjection.Extentions;
+namespace MeChat.API.Authentication.Jwt.DependencyInjection;
 
-public static class JwtExtentions
+public static class ServiceCollectionExtentions
 {
     public static void AddJwtAuthentication(this IServiceCollection services, IConfiguration configuration)
     {
@@ -20,6 +21,7 @@ public static class JwtExtentions
             configuration.GetSection(nameof(JwtOption)).Bind(jwtOption);
 
             var key = Encoding.UTF8.GetBytes(jwtOption.SecretKey);
+            var encryptingKey = Encoding.UTF8.GetBytes(jwtOption.EncryptingKey);
             options.SaveToken = true;
             options.TokenValidationParameters = new TokenValidationParameters
             {
@@ -30,7 +32,8 @@ public static class JwtExtentions
                 ValidIssuer = jwtOption.Issuer,
                 ValidAudience = jwtOption.Audience,
                 IssuerSigningKey = new SymmetricSecurityKey(key),
-                ClockSkew = TimeSpan.Zero
+                ClockSkew = TimeSpan.Zero,
+                TokenDecryptionKey = new SymmetricSecurityKey(encryptingKey)
             };
 
             options.Events = new JwtBearerEvents
@@ -47,5 +50,8 @@ public static class JwtExtentions
         });
 
         services.AddAuthorization();
+
+        //Add DI Jwt extentions
+        services.AddTransient<IJwtTokenService, IJwtTokenService>();
     }
 }
