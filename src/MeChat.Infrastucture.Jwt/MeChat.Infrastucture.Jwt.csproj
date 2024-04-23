@@ -7,14 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Abstractions\" />
-    <Folder Include="DependencyInjection\Extentions\" />
-    <Folder Include="DependencyInjection\Options\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\MeChat.Common\MeChat.Common.csproj" />
-    <ProjectReference Include="..\MeChat.Domain\MeChat.Domain.csproj" />
+    <ProjectReference Include="..\MeChat.Application\MeChat.Application.csproj" />
+    <ProjectReference Include="..\MeChat.Persistence\MeChat.Persistence.csproj" />
   </ItemGroup>
 
 </Project>

@@ -54,6 +54,8 @@ public class Program
         //Add middlewares
         builder.Services.AddTransient<ExceptionHandlingMiddleware>();
 
+        //Add configuration Jwt
+
         var app = builder.Build();
 
         // Configure the HTTP request pipeline.

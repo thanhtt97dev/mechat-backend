@@ -11,6 +11,7 @@
     <PackageReference Include="Asp.Versioning.Mvc.ApiExplorer" Version="7.1.0" />
     <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.9.0" />
     <PackageReference Include="MicroElements.Swashbuckle.FluentValidation" Version="6.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.18" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.5" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.18">
       <PrivateAssets>all</PrivateAssets>
@@ -25,7 +26,6 @@
     <ProjectReference Include="..\MeChat.Application\MeChat.Application.csproj" />
     <ProjectReference Include="..\MeChat.Common\MeChat.Common.csproj" />
     <ProjectReference Include="..\MeChat.Infrastucture.Dapper\MeChat.Infrastucture.Dapper.csproj" />
-    <ProjectReference Include="..\MeChat.Infrastucture.Jwt\MeChat.Infrastucture.Jwt.csproj" />
     <ProjectReference Include="..\MeChat.Infrastucture.Redis\MeChat.Infrastucture.Redis.csproj" />
     <ProjectReference Include="..\MeChat.Persistence\MeChat.Persistence.csproj" />
     <ProjectReference Include="..\MeChat.Presentation\MeChat.Presentation.csproj" />
