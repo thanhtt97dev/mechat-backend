@@ -1,13 +1,14 @@
-﻿using MeChat.API.Authentication.Jwt.Abstractions;
-using MeChat.API.Authentication.Jwt.Options;
+﻿using MeChat.Application.Authentication.Jwt.Abstractions;
+using MeChat.Application.Authentication.Jwt.Options;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace MeChat.API.Authentication.Jwt.Extentions;
+namespace MeChat.Application.Authentication.Jwt.Extentions;
 
 public class JwtTokenService : IJwtTokenService
 {
@@ -21,11 +22,9 @@ public class JwtTokenService : IJwtTokenService
     public string GenerateAccessToken(IEnumerable<Claim> claims)
     {
         var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtOption.SecretKey));
-        var encryptingCredentials = 
-            new EncryptingCredentials(new SymmetricSecurityKey(
-                Encoding.UTF8.GetBytes(jwtOption.SecretKey)), 
-                JwtConstants.DirectKeyUseAlg, 
-                SecurityAlgorithms.Aes256CbcHmacSha512);
+        var encryptingKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtOption.EncryptingKey));
+        var encryptingCredentials = new EncryptingCredentials(encryptingKey, JwtConstants.DirectKeyUseAlg, SecurityAlgorithms.Aes256CbcHmacSha512);
+
         var signingCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
 
         var jwtSecurityTokenHandler = new JwtSecurityTokenHandler();

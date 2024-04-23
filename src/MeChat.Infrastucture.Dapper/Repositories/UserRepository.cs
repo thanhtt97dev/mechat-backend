@@ -15,6 +15,7 @@ public class UserRepository : IUserRepository
         this.context = context;
     }
 
+    #region Add async
     public async Task<int> AddAsync(User entity)
     {
         var sql =
@@ -35,7 +36,9 @@ public class UserRepository : IUserRepository
         await connection.DisposeAsync();
         return result;
     }
+    #endregion
 
+    #region Delete async
     public async Task<int> DeleteAsync(Guid id)
     {
         var sql =
@@ -49,7 +52,9 @@ public class UserRepository : IUserRepository
         await connection.DisposeAsync();
         return result;
     }
+    #endregion
 
+    #region Find by Id async
     public async Task<User?> FindByIdAsync(Guid id)
     {
         var sql =
@@ -66,7 +71,9 @@ WHERE Id = @Id";
         await connection.DisposeAsync();
         return result;
     }
+    #endregion
 
+    #region Get many async
     public async Task<List<User>?> GetManyAsync(string? searchTerm, IDictionary<string, Common.Enumerations.SortOrderSql> sortColumnWithOrders, int pageIndex = Page.IndexDefault, int pageSize = Page.SizeDefault)
     {
         if (pageIndex <= 0)
@@ -109,7 +116,9 @@ ORDER BY ";
         await connection.DisposeAsync();
         return result.ToList();
     }
+    #endregion
 
+    #region Get sort property
     public string GetSortProperty(string sortProperty)
     => sortProperty.ToLower() switch
     {
@@ -117,7 +126,9 @@ ORDER BY ";
         "password" => nameof(User.Username),
         _ => nameof(User.Id)
     };
+    #endregion
 
+    #region Get total record
     public async Task<int> GetTotalRecord()
     {
         var sql =
@@ -131,7 +142,29 @@ FROM [dbo].[User]";
         await connection.DisposeAsync();
         return result;
     }
+    #endregion
 
+    #region Get user by username and password
+    public async Task<User?> GetUserByUsernameAndPassword(string username, string password)
+    {
+        var query =
+@"SELECT [Id]
+      ,[Username]
+      ,[Password]
+  FROM [dbo].[User]
+WHERE [Username] = @Username AND [Password] = @Password";
+
+        using SqlConnection connection = context.CreateConnection();
+        await connection.OpenAsync();
+
+        var result = await connection.QuerySingleOrDefaultAsync<User>(query, new { Username = username, Password = password});
+
+        await connection.DisposeAsync();
+        return result;
+    }
+    #endregion
+
+    #region Update
     public async Task<int> UpdateAsync(User entity)
     {
         var sql =
@@ -148,4 +181,6 @@ FROM [dbo].[User]";
         await connection.DisposeAsync();
         return result;
     }
+    #endregion
+
 }

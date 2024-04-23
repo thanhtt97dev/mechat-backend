@@ -1,4 +1,4 @@
-﻿namespace MeChat.API.Authentication.Jwt.Options;
+﻿namespace MeChat.Application.Authentication.Jwt.Options;
 
 public class JwtOption
 {

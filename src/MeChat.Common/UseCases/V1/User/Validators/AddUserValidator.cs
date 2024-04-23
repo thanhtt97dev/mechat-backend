@@ -5,7 +5,7 @@ public class AddUserValidator : AbstractValidator<Command.AddUser>
 {
     public AddUserValidator()
     {
-        RuleFor(x => x.Username).NotEmpty().EmailAddress();
+        RuleFor(x => x.Username).NotEmpty();
         RuleFor(x => x.Password).NotEmpty();
     }
 }

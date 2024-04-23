@@ -1,6 +1,6 @@
 ﻿using System.Security.Claims;
 
-namespace MeChat.API.Authentication.Jwt.Abstractions;
+namespace MeChat.Application.Authentication.Jwt.Abstractions;
 public interface IJwtTokenService
 {
     string GenerateAccessToken(IEnumerable<Claim> claims);

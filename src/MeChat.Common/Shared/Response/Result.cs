@@ -32,7 +32,7 @@ public class Result
     public static Result Failure(string message) 
         => new(ResponseCodes.Failure, message, false);
 
-    public static Result<TData> Failure<TData>(TData data, string message)
+    public static Result<TData> Failure<TData>(TData? data, string message)
         => new(ResponseCodes.Failure, message, false, data);
 
     public static Result NotFound(string message)

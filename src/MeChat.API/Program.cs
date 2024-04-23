@@ -4,7 +4,6 @@ using MicroElements.Swashbuckle.FluentValidation.AspNetCore;
 using MeChat.API.DependencyInjection.Extentions;
 using MeChat.Application.DependencyInjection.Extentions;
 using MeChat.API.Middlewares;
-using MeChat.API.Authentication.Jwt.DependencyInjection;
 
 namespace MeChat.API;
 
@@ -69,6 +68,10 @@ public class Program
         //Use middlewares
         app.UseMiddleware<ExceptionHandlingMiddleware>();
 
+        //Use authentication
+        app.UseAuthentication();
+
+        //Use authorization
         app.UseAuthorization();
 
 

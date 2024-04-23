@@ -5,6 +5,7 @@ using MeChat.Common.Shared.Response;
 using MeChat.Common.UseCases.V1.User;
 using MeChat.Presentation.Abstractions;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MeChat.Presentation.Controllers.V1;
@@ -16,6 +17,7 @@ public class UserController : ApiControllerBase
     {
     }
 
+    [Authorize]
     [HttpGet("{id}")]
     public async Task<IActionResult> GetUser(Guid id)
     {
