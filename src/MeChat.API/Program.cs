@@ -4,6 +4,7 @@ using MicroElements.Swashbuckle.FluentValidation.AspNetCore;
 using MeChat.API.DependencyInjection.Extentions;
 using MeChat.Application.DependencyInjection.Extentions;
 using MeChat.API.Middlewares;
+using MeChat.API.Authentication.Jwt.DependencyInjection;
 
 namespace MeChat.API;
 
@@ -55,7 +56,8 @@ public class Program
         builder.Services.AddTransient<ExceptionHandlingMiddleware>();
 
         //Add configuration Jwt
-        builder.AddJwtAuthentication(builder.Configuration);
+        builder.Services.AddJwtAuthentication(builder.Configuration);
+
         var app = builder.Build();
 
         // Configure the HTTP request pipeline.
