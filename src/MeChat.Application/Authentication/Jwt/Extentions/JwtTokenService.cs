@@ -1,6 +1,5 @@
 ﻿using MeChat.Application.Authentication.Jwt.Abstractions;
 using MeChat.Application.Authentication.Jwt.Options;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -21,30 +20,22 @@ public class JwtTokenService : IJwtTokenService
 
     public string GenerateAccessToken(IEnumerable<Claim> claims)
     {
-        var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtOption.SecretKey));
-        var encryptingKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtOption.EncryptingKey));
-        var encryptingCredentials = new EncryptingCredentials(encryptingKey, JwtConstants.DirectKeyUseAlg, SecurityAlgorithms.Aes256CbcHmacSha512);
+        var secretKeyBytes = Encoding.UTF8.GetBytes(jwtOption.SecretKey);
+        var signingCredentials =
+                new SigningCredentials(new SymmetricSecurityKey(secretKeyBytes), SecurityAlgorithms.HmacSha512Signature);
 
-        var signingCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
-
-        var jwtSecurityTokenHandler = new JwtSecurityTokenHandler();
-
-        var securityTokenDescriptor = new SecurityTokenDescriptor()
+        var tokenDescription = new SecurityTokenDescriptor
         {
             Issuer = jwtOption.Issuer,
             Audience = jwtOption.Audience,
             Subject = new ClaimsIdentity(claims),
-            NotBefore = DateTime.Now,
-            Expires = DateTime.Now.AddSeconds(jwtOption.ExpireSecond),
-            IssuedAt = DateTime.Now,
-            SigningCredentials = signingCredentials,
-            EncryptingCredentials = encryptingCredentials,
+            Expires = DateTime.Now.AddMinutes(jwtOption.ExpireMinute),
+            SigningCredentials = signingCredentials
         };
 
-        var jwtSecurityToken = jwtSecurityTokenHandler.CreateJwtSecurityToken(securityTokenDescriptor);
-
-        var token = jwtSecurityTokenHandler.WriteToken(jwtSecurityToken);
-
+        var jwtSecurityTokenHandler = new JwtSecurityTokenHandler();
+        var securityToken = jwtSecurityTokenHandler.CreateToken(tokenDescription);
+        var token = jwtSecurityTokenHandler.WriteToken(securityToken);
         return token;
     }
 
@@ -58,29 +49,25 @@ public class JwtTokenService : IJwtTokenService
         return randomNumber;
     }
 
-    public ClaimsPrincipal GetPrincipalFromExpiredToken(string token)
+    public ClaimsPrincipal GetClaimsPrincipal(string token)
     {
-        var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtOption.SecretKey));
-        var encryptingCredentials = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtOption.EncryptingKey));
+        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtOption.SecretKey));
 
-        var tokenValidationParameters = new TokenValidationParameters
+        var tokenValidationPrarameters = new TokenValidationParameters
         {
-            ValidateIssuer = false, //on production make it true
-            ValidateAudience = false, //on production make it true
-            ValidateLifetime = true,
+            ValidateAudience = false,
+            ValidateIssuer = false,
+            ValidateLifetime = false,
             ValidateIssuerSigningKey = true,
-            ValidIssuer = jwtOption.Issuer,
-            ValidAudience = jwtOption.Audience,
-            IssuerSigningKey = secretKey,
-            ClockSkew = TimeSpan.Zero,
-            TokenDecryptionKey = encryptingCredentials,
+            IssuerSigningKey = key,
+            ClockSkew = TimeSpan.Zero
         };
 
-        var jwtSecurityTokenHandler = new JwtSecurityTokenHandler();
-        ClaimsPrincipal claimsPrincipal = jwtSecurityTokenHandler.ValidateToken(token, tokenValidationParameters, out SecurityToken securityToken);
+        var tokenhandler = new JwtSecurityTokenHandler();
+        var claimsPrincipal = tokenhandler.ValidateToken(token, tokenValidationPrarameters, out SecurityToken securityToken);
 
         JwtSecurityToken? jwtSecurityToken = securityToken as JwtSecurityToken;
-        if (jwtSecurityToken == null || jwtSecurityToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256, StringComparison.InvariantCultureIgnoreCase))
+        if (jwtSecurityToken == null || !jwtSecurityToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256, StringComparison.InvariantCultureIgnoreCase))
             throw new SecurityTokenException("Invalid token");
 
         return claimsPrincipal;

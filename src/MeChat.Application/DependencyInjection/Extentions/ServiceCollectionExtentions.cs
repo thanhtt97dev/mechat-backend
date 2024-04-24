@@ -49,7 +49,6 @@ public static class ServiceCollectionExtentions
             configuration.GetSection(nameof(JwtOption)).Bind(jwtOption);
 
             var key = Encoding.UTF8.GetBytes(jwtOption.SecretKey);
-            var encryptingKey = Encoding.UTF8.GetBytes(jwtOption.EncryptingKey);
             options.SaveToken = true;
             options.TokenValidationParameters = new TokenValidationParameters
             {
@@ -61,7 +60,6 @@ public static class ServiceCollectionExtentions
                 ValidAudience = jwtOption.Audience,
                 IssuerSigningKey = new SymmetricSecurityKey(key),
                 ClockSkew = TimeSpan.Zero,
-                TokenDecryptionKey = new SymmetricSecurityKey(encryptingKey)
             };
 
             options.Events = new JwtBearerEvents

@@ -17,7 +17,6 @@ public class UserController : ApiControllerBase
     {
     }
 
-    [Authorize]
     [HttpGet("{id}")]
     public async Task<IActionResult> GetUser(Guid id)
     {
@@ -26,6 +25,7 @@ public class UserController : ApiControllerBase
         return Ok(result);
     }
 
+    [Authorize]
     [HttpGet]
     public async Task<IActionResult> GetUsers(
         string? searchTerm,
