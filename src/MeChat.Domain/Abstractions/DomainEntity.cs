@@ -1,4 +1,4 @@
-﻿namespace MeChat.Domain.Abstractions.Entities;
+﻿namespace MeChat.Domain.Abstractions;
 public class DomainEntity<TKey>
 {
     public virtual TKey Id { get; set; }

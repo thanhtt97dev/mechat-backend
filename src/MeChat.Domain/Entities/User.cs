@@ -1,4 +1,4 @@
-﻿using MeChat.Domain.Abstractions.Entities;
+﻿using MeChat.Domain.Abstractions;
 using System.Xml.Linq;
 
 namespace MeChat.Domain.Entities;

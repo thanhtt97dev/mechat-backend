@@ -30,6 +30,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MeChat.Infrastucture.Redis"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MeChat.Architecture.Tests", "test\MeChat.Architecture.Tests\MeChat.Architecture.Tests.csproj", "{FC1337F3-3EAE-4490-A880-7745E22D0E14}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MeChat.Infrastucture.Jwt", "src\MeChat.Infrastucture.Jwt\MeChat.Infrastucture.Jwt\MeChat.Infrastucture.Jwt.csproj", "{C73BAA82-64EE-4419-9EE6-6559F34E1765}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -72,6 +74,10 @@ Global
 		{FC1337F3-3EAE-4490-A880-7745E22D0E14}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FC1337F3-3EAE-4490-A880-7745E22D0E14}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FC1337F3-3EAE-4490-A880-7745E22D0E14}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C73BAA82-64EE-4419-9EE6-6559F34E1765}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C73BAA82-64EE-4419-9EE6-6559F34E1765}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C73BAA82-64EE-4419-9EE6-6559F34E1765}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C73BAA82-64EE-4419-9EE6-6559F34E1765}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -86,6 +92,7 @@ Global
 		{0041E65C-F147-4423-A090-ED7D34910674} = {1366F6BD-0107-407B-ADCE-8D176E2D41E3}
 		{35801E1B-11DE-4822-87A7-1E9B06A197F2} = {1366F6BD-0107-407B-ADCE-8D176E2D41E3}
 		{FC1337F3-3EAE-4490-A880-7745E22D0E14} = {3B15E549-960E-422E-B4BD-F0314471C61A}
+		{C73BAA82-64EE-4419-9EE6-6559F34E1765} = {1366F6BD-0107-407B-ADCE-8D176E2D41E3}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {AB641A2F-8F72-43FE-9A01-864452A31FB7}

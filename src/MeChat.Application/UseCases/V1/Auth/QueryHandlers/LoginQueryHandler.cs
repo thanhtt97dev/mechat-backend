@@ -1,7 +1,6 @@
-﻿using MeChat.Application.Authentication.Jwt.Abstractions;
-using MeChat.Application.Authentication.Jwt.Options;
-using MeChat.Common.Abstractions.Data.Dapper;
+﻿using MeChat.Common.Abstractions.Data.Dapper;
 using MeChat.Common.Abstractions.Messages;
+using MeChat.Common.Abstractions.Services;
 using MeChat.Common.Shared.Response;
 using MeChat.Common.UseCases.V1.Auth;
 using Microsoft.Extensions.Configuration;

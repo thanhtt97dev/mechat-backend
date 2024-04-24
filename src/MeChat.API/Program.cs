@@ -4,6 +4,7 @@ using MicroElements.Swashbuckle.FluentValidation.AspNetCore;
 using MeChat.API.DependencyInjection.Extentions;
 using MeChat.Application.DependencyInjection.Extentions;
 using MeChat.API.Middlewares;
+using MeChat.Infrastucture.Jwt.DependencyInjection;
 
 namespace MeChat.API;
 

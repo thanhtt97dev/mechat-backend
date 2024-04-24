@@ -1,14 +1,12 @@
-﻿using MeChat.Application.Authentication.Jwt.Abstractions;
-using MeChat.Application.Authentication.Jwt.Options;
+﻿using MeChat.Common.Abstractions.Services;
+using MeChat.MeChat.Infrastucture.Jwt.Options;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using System.Security.Cryptography;
 using System.Text;
 
-namespace MeChat.Application.Authentication.Jwt.Extentions;
-
+namespace MeChat.Infrastucture.Jwt.Extentions;
 public class JwtTokenService : IJwtTokenService
 {
     private readonly JwtOption jwtOption = new JwtOption();
@@ -41,12 +39,7 @@ public class JwtTokenService : IJwtTokenService
 
     public string GenerateRefreshToken()
     {
-        var random = new byte[32];
-        using var randomNumberGenerator = RandomNumberGenerator.Create();
-        randomNumberGenerator.GetBytes(random);
-        var randomNumber = Convert.ToBase64String(random);
-
-        return randomNumber;
+        return Guid.NewGuid().ToString();
     }
 
     public ClaimsPrincipal GetClaimsPrincipal(string token)

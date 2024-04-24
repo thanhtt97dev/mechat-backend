@@ -7,8 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\MeChat.Application\MeChat.Application.csproj" />
-    <ProjectReference Include="..\MeChat.Persistence\MeChat.Persistence.csproj" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.18" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\MeChat.Common\MeChat.Common.csproj" />
   </ItemGroup>
 
 </Project>
