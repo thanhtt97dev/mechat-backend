@@ -5,6 +5,7 @@ using MeChat.API.DependencyInjection.Extentions;
 using MeChat.Application.DependencyInjection.Extentions;
 using MeChat.API.Middlewares;
 using MeChat.Infrastucture.Jwt.DependencyInjection;
+using MeChat.Infrastucture.Redis.DependencyInjection.Extentions;
 
 namespace MeChat.API;
 
@@ -57,6 +58,9 @@ public class Program
 
         //Add configuration Jwt
         builder.Services.AddJwtAuthentication(builder.Configuration);
+
+        //Add cache Redis
+        builder.Services.AddCacheRedis(builder.Configuration);
 
         var app = builder.Build();
 
