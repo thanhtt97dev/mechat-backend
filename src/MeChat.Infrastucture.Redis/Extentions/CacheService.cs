@@ -8,12 +8,11 @@ namespace MeChat.Infrastucture.Redis.Extentions;
 public class CacheService : ICacheService
 {
     private readonly IDistributedCache distributedCache;
-    private readonly IConnectionMultiplexer connectionMultiplexer;
+    //private readonly IConnectionMultiplexer connectionMultiplexer;
 
-    public CacheService(IDistributedCache distributedCache, IConnectionMultiplexer connectionMultiplexer)
+    public CacheService(IDistributedCache distributedCache)
     {
         this.distributedCache = distributedCache;
-        this.connectionMultiplexer = connectionMultiplexer;
     }
 
     public async Task<string?> GetCache(string key)
@@ -22,6 +21,11 @@ public class CacheService : ICacheService
         if (string.IsNullOrEmpty(result))
             return null;
         return result;
+    }
+
+    public async Task RemoveCache(string key)
+    {
+        await distributedCache.RemoveAsync(key);
     }
 
     public async Task SetCache(string key, object value, TimeSpan timeOut)

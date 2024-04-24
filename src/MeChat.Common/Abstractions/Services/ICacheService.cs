@@ -2,5 +2,6 @@
 public interface ICacheService
 {
     Task<string?> GetCache(string key);
+    Task RemoveCache(string key);
     Task SetCache(string key, object value, TimeSpan timeOut);
 }

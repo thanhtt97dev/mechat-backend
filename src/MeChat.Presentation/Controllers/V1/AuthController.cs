@@ -12,10 +12,10 @@ public class AuthController : ApiControllerBase
     }
 
     [HttpPost("login")]
-    [AllowAnonymous]
     public async Task<IActionResult> Login(Query.Login login)
     {
         var result = await sender.Send(login);
         return Ok(result);
     }
+
 }

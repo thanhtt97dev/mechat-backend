@@ -9,14 +9,17 @@ using System.Security.Claims;
 namespace MeChat.Application.UseCases.V1.Auth.QueryHandlers;
 public class LoginQueryHandler : IQueryHandler<Query.Login, Response.Authenticated>
 {
+    private readonly IConfiguration configuration;
     private readonly IUnitOfWork unitOfWork;
     private readonly IJwtTokenService jwtTokenService;
-    private readonly IConfiguration configuration;
-    public LoginQueryHandler(IUnitOfWork unitOfWork, IJwtTokenService jwtTokenService, IConfiguration configuration)
+    private readonly ICacheService cacheService;
+
+    public LoginQueryHandler(IConfiguration configuration, IUnitOfWork unitOfWork, IJwtTokenService jwtTokenService, ICacheService cacheService)
     {
+        this.configuration = configuration;
         this.unitOfWork = unitOfWork;
         this.jwtTokenService = jwtTokenService;
-        this.configuration = configuration;
+        this.cacheService = cacheService;
     }
 
     public async Task<Result<Response.Authenticated>> Handle(Query.Login request, CancellationToken cancellationToken)
@@ -33,13 +36,19 @@ public class LoginQueryHandler : IQueryHandler<Query.Login, Response.Authenticat
 
         var accessToken = jwtTokenService.GenerateAccessToken(clamims);
         var refreshToken = jwtTokenService.GenerateRefreshToken();
+        var refreshTokenExpiryTime = int.Parse(configuration["JwtOption:ExpireMinute"] ?? "0");
 
         var result = new Response.Authenticated
         {
             AccessToken = accessToken,
             RefreshToken = refreshToken,
-            RefreshTokenExpiryTime = DateTime.Now.AddSeconds(1100)
+            RefreshTokenExpiryTime = DateTime.Now.AddMinutes(refreshTokenExpiryTime)
         };
+
+        //save refresh token into cache
+        //await cacheService.SetCache(user.Id.ToString(), refreshToken, TimeSpan.FromMinutes(refreshTokenExpiryTime));
+        await cacheService.SetCache(user.Id.ToString(), refreshToken, TimeSpan.FromMinutes(3));
+
         return Result.Success(result);
     }
 }
