@@ -18,4 +18,12 @@ public class AuthController : ApiControllerBase
         return Ok(result);
     }
 
+    [HttpPost("refreshToken")]
+    public async Task<IActionResult> RefreshToken([FromBody]RequestBodyModel.RefreshTokenRequest request)
+    {
+        Query.RefreshToken query = new Query.RefreshToken(HttpContext.Request.Headers.Authorization.ToString(), request.RefreshToken);
+        var result = await sender.Send(query);
+        return Ok(result);
+    }
+
 }

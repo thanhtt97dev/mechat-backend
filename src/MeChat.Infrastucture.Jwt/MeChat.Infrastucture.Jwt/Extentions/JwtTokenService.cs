@@ -1,4 +1,5 @@
 ﻿using MeChat.Common.Abstractions.Services;
+using MeChat.Common.Shared.Exceptions;
 using MeChat.MeChat.Infrastucture.Jwt.Options;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -42,27 +43,40 @@ public class JwtTokenService : IJwtTokenService
         return Guid.NewGuid().ToString();
     }
 
-    public ClaimsPrincipal GetClaimsPrincipal(string token)
+    public ClaimsPrincipal GetClaimsPrincipal(string? token)
     {
-        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtOption.SecretKey));
-
-        var tokenValidationPrarameters = new TokenValidationParameters
+        try
         {
-            ValidateAudience = false,
-            ValidateIssuer = false,
-            ValidateLifetime = false,
-            ValidateIssuerSigningKey = true,
-            IssuerSigningKey = key,
-            ClockSkew = TimeSpan.Zero
-        };
+            if (string.IsNullOrEmpty(token))
+                throw new AuthExceptions.AccessTokenInValid();
 
-        var tokenhandler = new JwtSecurityTokenHandler();
-        var claimsPrincipal = tokenhandler.ValidateToken(token, tokenValidationPrarameters, out SecurityToken securityToken);
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtOption.SecretKey));
 
-        JwtSecurityToken? jwtSecurityToken = securityToken as JwtSecurityToken;
-        if (jwtSecurityToken == null || !jwtSecurityToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256, StringComparison.InvariantCultureIgnoreCase))
-            throw new SecurityTokenException("Invalid token");
+            var tokenValidationPrarameters = new TokenValidationParameters
+            {
+                ValidateIssuer = false, //on production make it true
+                ValidateAudience = false, //on production make it true
+                ValidateLifetime = true,
+                ValidateIssuerSigningKey = true,
+                ValidIssuer = jwtOption.Issuer,
+                ValidAudience = jwtOption.Audience,
+                IssuerSigningKey = key,
+                ClockSkew = TimeSpan.Zero
+            };
 
-        return claimsPrincipal;
+
+            var tokenhandler = new JwtSecurityTokenHandler();
+            var claimsPrincipal = tokenhandler.ValidateToken(token, tokenValidationPrarameters, out SecurityToken securityToken);
+
+            JwtSecurityToken? jwtSecurityToken = securityToken as JwtSecurityToken;
+            if (jwtSecurityToken == null || !jwtSecurityToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256, StringComparison.InvariantCultureIgnoreCase))
+                throw new SecurityTokenException("Invalid token");
+
+            return claimsPrincipal;
+        }
+        catch (Exception ex) 
+        {
+            return null;
+        }
     }
 }

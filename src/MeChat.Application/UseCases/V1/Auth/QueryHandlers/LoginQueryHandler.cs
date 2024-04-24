@@ -31,7 +31,7 @@ public class LoginQueryHandler : IQueryHandler<Query.Login, Response.Authenticat
 
         var clamims = new List<Claim>
         {
-            new Claim(ClaimTypes.Name, request.Username),
+            new Claim(ClaimTypes.Name, user.Id.ToString()),
             new Claim(ClaimTypes.Role, "Admin"),
         };
 
