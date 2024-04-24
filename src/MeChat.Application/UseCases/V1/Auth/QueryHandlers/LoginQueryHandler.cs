@@ -3,6 +3,7 @@ using MeChat.Common.Abstractions.Messages;
 using MeChat.Common.Abstractions.Services;
 using MeChat.Common.Shared.Response;
 using MeChat.Common.UseCases.V1.Auth;
+using MeChat.MeChat.Infrastucture.Jwt.Options;
 using Microsoft.Extensions.Configuration;
 using System.Security.Claims;
 
@@ -36,18 +37,21 @@ public class LoginQueryHandler : IQueryHandler<Query.Login, Response.Authenticat
 
         var accessToken = jwtTokenService.GenerateAccessToken(clamims);
         var refreshToken = jwtTokenService.GenerateRefreshToken();
-        var refreshTokenExpiryTime = int.Parse(configuration["JwtOption:ExpireMinute"] ?? "0");
+
+        JwtOption jwtOption = new JwtOption();
+        configuration.GetSection(nameof(JwtOption)).Bind(jwtOption);
+
+        var sessionTime = jwtOption.ExpireMinute + jwtOption.RefreshTokenExpireMinute;
 
         var result = new Response.Authenticated
         {
             AccessToken = accessToken,
             RefreshToken = refreshToken,
-            RefreshTokenExpiryTime = DateTime.Now.AddMinutes(refreshTokenExpiryTime)
+            RefreshTokenExpiryTime = DateTime.Now.AddMinutes(sessionTime)
         };
 
         //save refresh token into cache
-        //await cacheService.SetCache(user.Id.ToString(), refreshToken, TimeSpan.FromMinutes(refreshTokenExpiryTime));
-        await cacheService.SetCache(user.Id.ToString(), refreshToken, TimeSpan.FromMinutes(3));
+        await cacheService.SetCache(user.Id.ToString(), refreshToken, TimeSpan.FromMinutes(sessionTime));
 
         return Result.Success(result);
     }
