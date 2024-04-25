@@ -6,6 +6,7 @@ using MeChat.Common.Shared.Response;
 using MeChat.Common.UseCases.V1.Auth;
 using MeChat.MeChat.Infrastucture.Jwt.Options;
 using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
 using System.Security.Claims;
 
 namespace MeChat.Application.UseCases.V1.Auth.QueryHandlers;
@@ -28,19 +29,20 @@ public class GetRefreshTokenQueryHandler : IQueryHandler<Query.RefreshToken, Res
     {
         //Get userId in access token
         var principal = jwtTokenService.GetClaimsPrincipal(request.AccessToken);
-        var userIdFromAccessToken = principal.Claims.FirstOrDefault(claim => claim.Type == ClaimTypes.Name);
-        if (userIdFromAccessToken == null) throw new AuthExceptions.AccessTokenInValid();
+        var userIdFromAccessToken = principal.Claims.FirstOrDefault(claim => claim.Type == ClaimTypes.Name) ?? throw new AuthExceptions.AccessTokenInValid();
         var userId = new Guid(userIdFromAccessToken.Value);
 
         //Check user's permitssion
-        var user = await unitOfWork.Users.FindByIdAsync(userId);
-        if(user == null) // check user is banned yet
-            throw new AuthExceptions.UserNotHavePermission();
+        var user = await unitOfWork.Users.FindByIdAsync(userId) ?? throw new AuthExceptions.UserNotHavePermission();
 
         //Check refesh token
-        var refreshTokenInCache = await cacheService.GetCache(userId.ToString());
-        if (refreshTokenInCache == null || refreshTokenInCache != request.Refresh)
+        var rawUserIdFromCacheWithRefreshToken = await cacheService.GetCache(request.Refresh) ?? string.Empty;
+        if(string.IsNullOrEmpty(rawUserIdFromCacheWithRefreshToken))
             return Result.Failure<Response.Authenticated>(null, "Refresh token has been expried!");
+
+        var userIdFromCacheWithRefreshToken = JsonConvert.DeserializeObject<string>(rawUserIdFromCacheWithRefreshToken);
+        if (userIdFromCacheWithRefreshToken != user.Id.ToString())
+            return Result.Failure<Response.Authenticated>(null, "Invalid refresh token!");
 
         //Generate new access token
         var clamims = new List<Claim>
@@ -52,7 +54,7 @@ public class GetRefreshTokenQueryHandler : IQueryHandler<Query.RefreshToken, Res
         var accessToken = jwtTokenService.GenerateAccessToken(clamims);
         var refreshToken = jwtTokenService.GenerateRefreshToken();
 
-        JwtOption jwtOption = new JwtOption();
+        JwtOption jwtOption = new();
         configuration.GetSection(nameof(JwtOption)).Bind(jwtOption);
 
         var sessionTime = jwtOption.ExpireMinute + jwtOption.RefreshTokenExpireMinute;

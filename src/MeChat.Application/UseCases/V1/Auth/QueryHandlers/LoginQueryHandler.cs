@@ -38,7 +38,7 @@ public class LoginQueryHandler : IQueryHandler<Query.Login, Response.Authenticat
         var accessToken = jwtTokenService.GenerateAccessToken(clamims);
         var refreshToken = jwtTokenService.GenerateRefreshToken();
 
-        JwtOption jwtOption = new JwtOption();
+        JwtOption jwtOption = new();
         configuration.GetSection(nameof(JwtOption)).Bind(jwtOption);
 
         var sessionTime = jwtOption.ExpireMinute + jwtOption.RefreshTokenExpireMinute;
@@ -51,7 +51,7 @@ public class LoginQueryHandler : IQueryHandler<Query.Login, Response.Authenticat
         };
 
         //save refresh token into cache
-        await cacheService.SetCache(user.Id.ToString(), refreshToken, TimeSpan.FromMinutes(sessionTime));
+        await cacheService.SetCache(refreshToken, user.Id.ToString(), TimeSpan.FromMinutes(sessionTime));
 
         return Result.Success(result);
     }

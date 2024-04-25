@@ -1,6 +1,7 @@
 ﻿using MeChat.Common.UseCases.V1.Auth;
 using MeChat.Presentation.Abstractions;
 using MediatR;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -21,7 +22,8 @@ public class AuthController : ApiControllerBase
     [HttpPost("refreshToken")]
     public async Task<IActionResult> RefreshToken([FromBody]RequestBodyModel.RefreshTokenRequest request)
     {
-        Query.RefreshToken query = new Query.RefreshToken(HttpContext.Request.Headers.Authorization.ToString(), request.RefreshToken);
+        var accessToken = HttpContext.Request.Headers.Authorization.ToString().Replace(JwtBearerDefaults.AuthenticationScheme, string.Empty).Trim();
+        Query.RefreshToken query = new (accessToken, request.RefreshToken);
         var result = await sender.Send(query);
         return Ok(result);
     }

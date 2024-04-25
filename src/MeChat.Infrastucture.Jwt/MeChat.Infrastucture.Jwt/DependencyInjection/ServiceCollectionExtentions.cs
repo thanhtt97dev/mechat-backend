@@ -19,7 +19,7 @@ public static class ServiceCollectionExtentions
             options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
         }).AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
         {
-            JwtOption jwtOption = new JwtOption();
+            JwtOption jwtOption = new();
             configuration.GetSection(nameof(JwtOption)).Bind(jwtOption);
 
             var key = Encoding.UTF8.GetBytes(jwtOption.SecretKey);
