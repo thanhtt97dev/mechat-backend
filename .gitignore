@@ -226,4 +226,4 @@ AppPackages/
 #####
 
 #MeChat
-MeChat.Persistence/Migration/
+src\MeChat.Persistence\Migrations/

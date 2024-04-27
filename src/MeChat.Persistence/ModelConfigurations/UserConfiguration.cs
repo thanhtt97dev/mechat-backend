@@ -14,5 +14,14 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         builder.Property(x => x.Id).HasMaxLength(50);
         builder.Property(x => x.Username).HasMaxLength(50).IsRequired(true);
         builder.Property(x => x.Password).HasMaxLength(50).IsRequired(true);
+        builder.Property(x => x.DateCreated);
+        builder.Property(x => x.DateUpdated);
+        builder.Property(x => x.Status).HasDefaultValue(true);
+
+        builder
+            .HasOne(x => x.Role)
+            .WithMany(x => x.Users)
+            .HasForeignKey(x => x.RoldeId)
+            .IsRequired();
     }
 }
