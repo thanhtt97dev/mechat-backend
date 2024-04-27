@@ -44,6 +44,9 @@ public class GetRefreshTokenQueryHandler : IQueryHandler<Query.RefreshToken, Res
         if (userIdFromCacheWithRefreshToken != user.Id.ToString())
             return Result.Failure<Response.Authenticated>(null, "Invalid refresh token!");
 
+        //Remove old refresh token from cache
+        await cacheService.RemoveCache(request.Refresh);
+
         //Generate new access token
         var clamims = new List<Claim>
         {
