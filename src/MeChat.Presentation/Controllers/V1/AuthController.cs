@@ -12,10 +12,17 @@ public class AuthController : ApiControllerBase
     {
     }
 
-    [HttpPost("login")]
-    public async Task<IActionResult> Login(Query.Login login)
+    [HttpPost("SignIn")]
+    public async Task<IActionResult> SignIn(Query.SignIn signIn)
     {
-        var result = await sender.Send(login);
+        var result = await sender.Send(signIn);
+        return Ok(result);
+    }
+
+    [HttpPost("SignInByGoogle")]
+    public async Task<IActionResult> SignInByGoogle(Query.SignInByGoogle signInByGoogle)
+    {
+        var result = await sender.Send(signInByGoogle);
         return Ok(result);
     }
 

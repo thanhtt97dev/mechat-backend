@@ -16,7 +16,7 @@ public class UserRepository : IUserRepository
     }
 
     #region Add async
-    public async Task<int> AddAsync(User entity)
+    public async Task<int> AddAsync(Domain.Entities.User entity)
     {
         var sql =
 @"INSERT INTO [dbo].[User]
@@ -55,18 +55,16 @@ public class UserRepository : IUserRepository
     #endregion
 
     #region Find by Id async
-    public async Task<User?> FindByIdAsync(Guid id)
+    public async Task<Domain.Entities.User?> FindByIdAsync(Guid id)
     {
         var sql =
-@"SELECT [Id]
-      ,[Username]
-      ,[Password]
+@"SELECT * 
 FROM [dbo].[User]
 WHERE Id = @Id";
         using SqlConnection connection = context.CreateConnection();
         await connection.OpenAsync();
 
-        var result = await connection.QuerySingleOrDefaultAsync<User>(sql, new { Id = id });
+        var result = await connection.QuerySingleOrDefaultAsync<Domain.Entities.User>(sql, new { Id = id });
 
         await connection.DisposeAsync();
         return result;
@@ -74,7 +72,7 @@ WHERE Id = @Id";
     #endregion
 
     #region Get many async
-    public async Task<List<User>?> GetManyAsync(string? searchTerm, IDictionary<string, Common.Enumerations.SortOrderSql> sortColumnWithOrders, int pageIndex = Page.IndexDefault, int pageSize = Page.SizeDefault)
+    public async Task<List<Domain.Entities.User>?> GetManyAsync(string? searchTerm, IDictionary<string, Common.Enumerations.SortOrderSql> sortColumnWithOrders, int pageIndex = Page.IndexDefault, int pageSize = Page.SizeDefault)
     {
         if (pageIndex <= 0)
             pageIndex = Page.IndexDefault;
@@ -85,8 +83,8 @@ WHERE Id = @Id";
         var query =
 @$"SELECT * FROM [User]
 WHERE (1 = 1) AND
-{nameof(User.Id)} LIKE '%{searchTerm}%' OR
-{nameof(User.Username)} LIKE '%{searchTerm}%'
+{nameof(Domain.Entities.User.Id)} LIKE '%{searchTerm}%' OR
+{nameof(Domain.Entities.User.Username)} LIKE '%{searchTerm}%'
 ORDER BY ";
         if (sortColumnWithOrders.Count == 0)
         {
@@ -111,7 +109,7 @@ ORDER BY ";
         using SqlConnection connection = context.CreateConnection();
         await connection.OpenAsync();
 
-        var result = await connection.QueryAsync<User>(query);
+        var result = await connection.QueryAsync<Domain.Entities.User>(query);
 
         await connection.DisposeAsync();
         return result.ToList();
@@ -122,9 +120,9 @@ ORDER BY ";
     public string GetSortProperty(string sortProperty)
     => sortProperty.ToLower() switch
     {
-        "id" => nameof(User.Id),
-        "password" => nameof(User.Username),
-        _ => nameof(User.Id)
+        "id" => nameof(Domain.Entities.User.Id),
+        "password" => nameof(Domain.Entities.User.Username),
+        _ => nameof(Domain.Entities.User.Id)
     };
     #endregion
 
@@ -145,19 +143,34 @@ FROM [dbo].[User]";
     #endregion
 
     #region Get user by username and password
-    public async Task<User?> GetUserByUsernameAndPassword(string username, string password)
+    public async Task<Domain.Entities.User?> GetUserByUsernameAndPassword(string username, string password)
     {
         var query =
-@"SELECT [Id]
-      ,[Username]
-      ,[Password]
+@"SELECT *
   FROM [dbo].[User]
 WHERE [Username] = @Username AND [Password] = @Password";
 
         using SqlConnection connection = context.CreateConnection();
         await connection.OpenAsync();
 
-        var result = await connection.QuerySingleOrDefaultAsync<User>(query, new { Username = username, Password = password});
+        var result = await connection.QuerySingleOrDefaultAsync<Domain.Entities.User>(query, new { Username = username, Password = password});
+
+        await connection.DisposeAsync();
+        return result;
+    }
+    #endregion
+
+    #region Get user by email
+    public async Task<Domain.Entities.User?> GetUserByEmail(string email)
+    {
+        var sql =
+@"SELECT *
+FROM [dbo].[User]
+WHERE [Email] = @Email";
+        using SqlConnection connection = context.CreateConnection();
+        await connection.OpenAsync();
+
+        var result = await connection.QuerySingleOrDefaultAsync<Domain.Entities.User>(sql, new { Email = email });
 
         await connection.DisposeAsync();
         return result;
@@ -165,7 +178,7 @@ WHERE [Username] = @Username AND [Password] = @Password";
     #endregion
 
     #region Update
-    public async Task<int> UpdateAsync(User entity)
+    public async Task<int> UpdateAsync(Domain.Entities.User entity)
     {
         var sql =
 @"UPDATE [dbo].[User]

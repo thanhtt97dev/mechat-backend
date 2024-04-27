@@ -1,9 +1,9 @@
 ﻿using FluentValidation;
 
 namespace MeChat.Common.UseCases.V1.Auth.Validators;
-public class LoginValidator : AbstractValidator<Query.Login>
+public class SignInValidator : AbstractValidator<Query.SignIn>
 {
-    public LoginValidator()
+    public SignInValidator()
     {
         RuleFor(x => x.Username).NotEmpty();
         RuleFor(x => x.Password).NotEmpty();

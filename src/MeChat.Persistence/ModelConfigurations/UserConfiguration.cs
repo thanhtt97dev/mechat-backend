@@ -12,12 +12,13 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         builder.HasKey(x => x.Id);
 
         builder.Property(x => x.Id).HasMaxLength(50);
-        builder.Property(x => x.Username).HasMaxLength(50).IsRequired(true);
-        builder.Property(x => x.Password).HasMaxLength(50).IsRequired(true);
+        builder.Property(x => x.Username).HasMaxLength(50);
+        builder.Property(x => x.Password).HasMaxLength(50);
         builder.Property(x => x.Email);
         builder.Property(x => x.DateCreated);
         builder.Property(x => x.DateUpdated);
-        builder.Property(x => x.Status).HasDefaultValue(true);
+        builder.Property(x => x.Status);
+        builder.Property(x => x.OAuth2Status);
 
         builder
             .HasOne(x => x.Role)

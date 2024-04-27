@@ -41,6 +41,12 @@ public class Result
     public static Result UnAuthorized(string message)
         => new(ResponseCodes.UnAuthorized, message, false);
 
+    public static Result Initialization(string code, string message, bool oke)
+        => new(code,message, oke);
+
+    public static Result<TData> Initialization<TData>(string code, string message, bool oke, TData? data)
+    => new(code, message, oke, data);
+
     public static Result<TData> ValidationError<TData>(TData data)
     {
         return new Result<TData>(ResponseCodes.ValidationError, "Validation error!", false, data);

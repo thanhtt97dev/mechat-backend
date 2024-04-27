@@ -27,10 +27,11 @@ namespace MeChat.Persistence.Migrations
 
             modelBuilder.Entity("MeChat.Domain.Entities.Role", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasMaxLength(50)
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("datetime2");
@@ -38,13 +39,30 @@ namespace MeChat.Persistence.Migrations
                     b.Property<DateTime>("DateUpdated")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("RoleName")
+                    b.Property<string>("RoleName")
+                        .IsRequired()
                         .HasMaxLength(100)
-                        .HasColumnType("int");
+                        .HasColumnType("nvarchar(100)");
 
                     b.HasKey("Id");
 
                     b.ToTable("Role", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            DateCreated = new DateTime(2024, 4, 27, 11, 52, 7, 638, DateTimeKind.Local).AddTicks(2591),
+                            DateUpdated = new DateTime(2024, 4, 27, 11, 52, 7, 638, DateTimeKind.Local).AddTicks(2602),
+                            RoleName = "Admin"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            DateCreated = new DateTime(2024, 4, 27, 11, 52, 7, 638, DateTimeKind.Local).AddTicks(2603),
+                            DateUpdated = new DateTime(2024, 4, 27, 11, 52, 7, 638, DateTimeKind.Local).AddTicks(2604),
+                            RoleName = "User"
+                        });
                 });
 
             modelBuilder.Entity("MeChat.Domain.Entities.User", b =>
@@ -66,21 +84,20 @@ namespace MeChat.Persistence.Migrations
                     b.Property<string>("Email")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("OAuth2Status")
+                        .HasColumnType("int");
+
                     b.Property<string>("Password")
-                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<Guid>("RoldeId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("RoldeId")
+                        .HasColumnType("int");
 
                     b.Property<int>("Status")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasDefaultValue(1);
+                        .HasColumnType("int");
 
                     b.Property<string>("Username")
-                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 

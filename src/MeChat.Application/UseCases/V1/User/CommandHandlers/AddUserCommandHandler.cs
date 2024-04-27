@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using MeChat.Common.Abstractions.Data.EntityFramework.Repositories;
 using MeChat.Common.Abstractions.Messages;
+using MeChat.Common.Constants;
 using MeChat.Common.Shared.Response;
 using MeChat.Common.UseCases.V1.User;
 using System.Threading.Tasks;
@@ -20,6 +21,13 @@ public class AddUserCommandHandler : ICommandHandler<Command.AddUser>
     public  Task<Result> Handle(Command.AddUser request, CancellationToken cancellationToken)
     {
         var user = mapper.Map<Domain.Entities.User>(request);
+        user.Avatar = null;
+        user.Email = null;
+        user.DateCreated = DateTime.Now;
+        user.DateUpdated = DateTime.Now;
+        user.Status = UserConstant.Status.Activate;
+        user.OAuth2Status = UserConstant.OAuth2.Deactive;
+        user.RoldeId = RoleConstant.User;
 
         userRepository.Add(user);
         return Task.FromResult<Result>(Result.Success());

@@ -1,6 +1,7 @@
 ﻿using MeChat.Common.Abstractions.Data.Dapper;
 using MeChat.Common.Abstractions.Messages;
 using MeChat.Common.Abstractions.Services;
+using MeChat.Common.Constants;
 using MeChat.Common.Shared.Exceptions;
 using MeChat.Common.Shared.Response;
 using MeChat.Common.UseCases.V1.Auth;
@@ -34,6 +35,9 @@ public class GetRefreshTokenQueryHandler : IQueryHandler<Query.RefreshToken, Res
 
         //Check user's permitssion
         var user = await unitOfWork.Users.FindByIdAsync(userId) ?? throw new AuthExceptions.UserNotHavePermission();
+
+        if (user.Status != Common.Constants.UserConstant.Status.Activate)
+            return Result.Initialization<Response.Authenticated>(ResponseCodes.UserBanned, "User has been banned!", false, null);
 
         //Check refesh token
         var rawUserIdFromCacheWithRefreshToken = await cacheService.GetCache(request.Refresh) ?? string.Empty;

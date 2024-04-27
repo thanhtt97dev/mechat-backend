@@ -6,4 +6,7 @@ public static class ResponseCodes
     public const string NotFound = "02";
     public const string ValidationError = "03";
     public const string UnAuthorized = "04";
+
+    //User
+    public const string UserBanned = "1001";
 }
