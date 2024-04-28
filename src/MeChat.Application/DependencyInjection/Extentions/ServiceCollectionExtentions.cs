@@ -7,7 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 namespace MeChat.Application.DependencyInjection.Extentions;
 public static class ServiceCollectionExtentions
 {
-    public static void AddConfiguraionMediatR(this IServiceCollection services)
+    public static void AddMediatR(this IServiceCollection services)
     {
         services.AddMediatR(configs =>
         {
@@ -24,7 +24,7 @@ public static class ServiceCollectionExtentions
         services.AddValidatorsFromAssembly(Common.AssemblyReference.Assembly, includeInternalTypes: true);
     }
        
-    public static void AddConfigurationAutoMapper(this IServiceCollection services) 
+    public static void AddAutoMapper(this IServiceCollection services) 
     {
         services.AddAutoMapper(typeof(ServiceProfile));
     }

@@ -10,7 +10,7 @@ using Microsoft.Extensions.Options;
 namespace MeChat.Persistence.DependencyInjection.Extentions;
 public static class ServiceCollectionExtensions
 {
-    public static void AddDbSqlServerConfiguration(this IServiceCollection services)
+    public static void AddSqlServerEntityFramwork(this IServiceCollection services)
     {
         //add EF
         services.AddDbContextPool<DbContext, ApplicationDbContext>((serviceProvider, dbContextOptionbuilder) =>

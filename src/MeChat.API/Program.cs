@@ -7,6 +7,7 @@ using MeChat.API.Middlewares;
 using MeChat.Infrastucture.Jwt.DependencyInjection;
 using MeChat.Infrastucture.Redis.DependencyInjection.Extentions;
 using System.Text.Json.Serialization;
+using MeChat.Infrastucture.Mail.DependencyInjection.Extentions;
 
 namespace MeChat.API;
 
@@ -21,28 +22,14 @@ public class Program
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         builder.Services.AddSwaggerGen();
 
-        //Add db sql server
-        builder.Services.AddDbSqlServerConfiguration();
-
-        //Add infrastucture dapper
-        builder.Services.AddConfigurationDapper();
-
-        //Add configuration MediatR
-        builder.Services.AddConfiguraionMediatR();
-
-        //Add controller API
-        builder.Services
-            .AddControllers()
-            .AddApplicationPart(Presentation.AssemblyReference.Assembly);
-
-        //Add config Swagger with api versioning
+        //Add configuration Swagger with api versioning (API)
         builder.Services
             .AddSwaggerGenNewtonsoftSupport()
             .AddFluentValidationRulesToSwagger()
             .AddEndpointsApiExplorer()
             .AddConfigurationSwagger();
 
-        //Add config Api versioning
+        //Add configuration Api versioning
         builder.Services
             .AddApiVersioning(options => options.ReportApiVersions = true)
             .AddApiExplorer(options =>
@@ -51,17 +38,37 @@ public class Program
                 options.SubstituteApiVersionInUrl = true;
             });
 
-        //Add config AutoMapper
-        builder.Services.AddConfigurationAutoMapper();
+        //Add configuration MediatR(Application)
+        builder.Services.AddMediatR();
 
-        //Add middlewares
-        builder.Services.AddTransient<ExceptionHandlingMiddleware>();
+        //Add configuration AutoMapper(Application)
+        builder.Services.AddAutoMapper();
 
-        //Add configuration Jwt
+        //Add configuration connect SQL Server with Dapper(Infrastucture.Dapper)
+        builder.Services.AddSqlServerDapper();
+
+        //Add configuration Jwt Authentication (Infrastucture.Jwt)
         builder.Services.AddJwtAuthentication(builder.Configuration);
 
-        //Add cache Redis
+        //Add configuration Jwt Service (Infrastucture.Jwt)
+        builder.Services.AddJwtService();
+
+        //Add configuration Mail service(Infrastucture.Mail)
+        builder.Services.AddMailService();
+
+        //Add configuration Redis(Infrastucture.Redis)
         builder.Services.AddCacheRedis(builder.Configuration);
+        
+        //Add configuration connect SQL Server with EF(Infrastucture.Persistence)
+        builder.Services.AddSqlServerEntityFramwork();
+
+        //Add controller API (Infrastucture.Presentation)
+        builder.Services
+            .AddControllers()
+            .AddApplicationPart(Presentation.AssemblyReference.Assembly);
+
+        //Add Middlewares
+        builder.Services.AddTransient<ExceptionHandlingMiddleware>();
 
         //Add Cors
         builder.Services.AddCors(options =>
