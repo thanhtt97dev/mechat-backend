@@ -6,6 +6,7 @@ using MeChat.Application.DependencyInjection.Extentions;
 using MeChat.API.Middlewares;
 using MeChat.Infrastucture.Jwt.DependencyInjection;
 using MeChat.Infrastucture.Redis.DependencyInjection.Extentions;
+using System.Text.Json.Serialization;
 
 namespace MeChat.API;
 
@@ -62,6 +63,22 @@ public class Program
         //Add cache Redis
         builder.Services.AddCacheRedis(builder.Configuration);
 
+        //Add Cors
+        builder.Services.AddCors(options =>
+        {
+            var origin = builder.Configuration["CorsOrign"] ?? string.Empty;
+            options.AddPolicy("FE-endpoint", builder =>
+            {
+                builder.WithOrigins(origin).AllowCredentials().AllowAnyMethod().AllowAnyHeader();
+            });
+        });
+
+        // Use remove cycle object's data in json respone
+        builder.Services.AddControllers().AddJsonOptions(options =>
+        {
+            options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+        });
+
         var app = builder.Build();
 
         // Configure the HTTP request pipeline.
@@ -69,6 +86,9 @@ public class Program
         {
             app.UseConfigurationSwagger();
         }
+
+        //Use CORS
+        app.UseCors();
 
         //Use middlewares
         app.UseMiddleware<ExceptionHandlingMiddleware>();
@@ -78,7 +98,6 @@ public class Program
 
         //Use authorization
         app.UseAuthorization();
-
 
         app.MapControllers();
 
