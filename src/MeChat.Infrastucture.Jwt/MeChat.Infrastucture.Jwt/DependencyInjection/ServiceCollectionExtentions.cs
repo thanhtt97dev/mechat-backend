@@ -50,8 +50,10 @@ public static class ServiceCollectionExtentions
         });
 
         services.AddAuthorization();
+    }
 
-        //Add DI Jwt extentions
+    public static void AddJwtService(this IServiceCollection services)
+    {
         services.AddTransient<IJwtTokenService, JwtTokenService>();
     }
 }
