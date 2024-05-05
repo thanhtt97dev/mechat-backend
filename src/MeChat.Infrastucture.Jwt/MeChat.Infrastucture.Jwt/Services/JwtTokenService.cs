@@ -1,6 +1,6 @@
 ﻿using MeChat.Common.Abstractions.Services;
 using MeChat.Common.Shared.Exceptions;
-using MeChat.MeChat.Infrastucture.Jwt.Options;
+using MeChat.Infrastucture.Jwt.DependencyInjection.Options;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;

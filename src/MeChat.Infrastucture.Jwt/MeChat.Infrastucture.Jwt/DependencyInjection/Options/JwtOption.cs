@@ -1,4 +1,4 @@
-﻿namespace MeChat.MeChat.Infrastucture.Jwt.Options;
+﻿namespace MeChat.Infrastucture.Jwt.DependencyInjection.Options;
 
 public class JwtOption
 {

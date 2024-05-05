@@ -5,7 +5,7 @@ using MeChat.Common.Constants;
 using MeChat.Common.Shared.Exceptions;
 using MeChat.Common.Shared.Response;
 using MeChat.Common.UseCases.V1.Auth;
-using MeChat.MeChat.Infrastucture.Jwt.Options;
+using MeChat.Infrastucture.Jwt.DependencyInjection.Options;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using System.Security.Claims;

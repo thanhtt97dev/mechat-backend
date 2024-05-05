@@ -4,10 +4,12 @@ using MicroElements.Swashbuckle.FluentValidation.AspNetCore;
 using MeChat.API.DependencyInjection.Extentions;
 using MeChat.Application.DependencyInjection.Extentions;
 using MeChat.API.Middlewares;
-using MeChat.Infrastucture.Jwt.DependencyInjection;
 using MeChat.Infrastucture.Redis.DependencyInjection.Extentions;
 using System.Text.Json.Serialization;
 using MeChat.Infrastucture.Mail.DependencyInjection.Extentions;
+using MeChat.Infrastucture.Jwt.DependencyInjection.Extentions;
+using MeChat.Infrastucture.AWS.S3;
+using MeChat.Infrastucture.AWS.S3.DependencyInjection.Extentions;
 
 namespace MeChat.API;
 
@@ -43,6 +45,9 @@ public class Program
 
         //Add configuration AutoMapper(Application)
         builder.Services.AddAutoMapper();
+
+        //Add configuration storage with Amazon S3
+        builder.Services.AddAmazonS3();
 
         //Add configuration connect SQL Server with Dapper(Infrastucture.Dapper)
         builder.Services.AddSqlServerDapper();

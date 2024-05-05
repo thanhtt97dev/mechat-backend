@@ -1,13 +1,13 @@
 ﻿using MeChat.Common.Abstractions.Services;
+using MeChat.Infrastucture.Jwt.DependencyInjection.Options;
 using MeChat.Infrastucture.Jwt.Extentions;
-using MeChat.MeChat.Infrastucture.Jwt.Options;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
-namespace MeChat.Infrastucture.Jwt.DependencyInjection;
+namespace MeChat.Infrastucture.Jwt.DependencyInjection.Extentions;
 public static class ServiceCollectionExtentions
 {
     public static void AddJwtAuthentication(this IServiceCollection services, IConfiguration configuration)
