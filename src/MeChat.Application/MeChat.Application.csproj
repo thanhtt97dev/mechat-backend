@@ -9,6 +9,7 @@
   <ItemGroup>
     <Folder Include="Abstractions\" />
     <Folder Include="DependencyInjection\Options\" />
+    <Folder Include="UseCases\V1\Storage\QueryHandler\" />
     <Folder Include="UseCases\V2\" />
   </ItemGroup>
 

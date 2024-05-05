@@ -20,7 +20,6 @@ public class AwsS3Service : IStorageService
         this.awsS3Client = new AmazonS3Client(
             awsAccessKeyId: awsS3Option.AwsAccessKeyId,
             awsSecretAccessKey: awsS3Option.AwsSecretAccessKey,
-            awsSessionToken: awsS3Option.AwsSessionToken,
             region: RegionEndpoint.GetBySystemName(awsS3Option.Region));
     }
 
