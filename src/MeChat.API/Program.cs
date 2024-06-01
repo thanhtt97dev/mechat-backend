@@ -10,6 +10,7 @@ using MeChat.Infrastucture.Mail.DependencyInjection.Extentions;
 using MeChat.Infrastucture.Jwt.DependencyInjection.Extentions;
 using MeChat.Infrastucture.AWS.S3;
 using MeChat.Infrastucture.AWS.S3.DependencyInjection.Extentions;
+using Amazon.Auth.AccessControlPolicy;
 
 namespace MeChat.API;
 
@@ -20,6 +21,16 @@ public class Program
         var builder = WebApplication.CreateBuilder(args);
 
         // Add services to the container.
+
+        //Add Cors
+        builder.Services.AddCors(options =>
+        {
+            var origins = builder.Configuration.GetSection("CorsOrigns").Get<string[]>()!;
+            options.AddDefaultPolicy(policy =>
+            {
+                policy.WithOrigins(origins).AllowCredentials().AllowAnyHeader().AllowAnyMethod();
+            });
+        });
 
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         builder.Services.AddSwaggerGen();
@@ -74,17 +85,7 @@ public class Program
 
         //Add Middlewares
         builder.Services.AddTransient<ExceptionHandlingMiddleware>();
-
-        //Add Cors
-        builder.Services.AddCors(options =>
-        {
-            var origin = builder.Configuration["CorsOrign"] ?? string.Empty;
-            options.AddPolicy("FE-endpoint", builder =>
-            {
-                builder.WithOrigins(origin).AllowCredentials().AllowAnyMethod().AllowAnyHeader();
-            });
-        });
-
+        
         // Use remove cycle object's data in json respone
         builder.Services.AddControllers().AddJsonOptions(options =>
         {

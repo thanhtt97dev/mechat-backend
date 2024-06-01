@@ -32,6 +32,9 @@ public class ExceptionHandlingMiddleware : IMiddleware
         httpContext.Response.ContentType = "application/json";
 
         httpContext.Response.StatusCode = statusCode;
+        var y = response.GetType().Name;
+
+        var x = JsonSerializer.Serialize(response);
 
         await httpContext.Response.WriteAsync(JsonSerializer.Serialize(response));
     }

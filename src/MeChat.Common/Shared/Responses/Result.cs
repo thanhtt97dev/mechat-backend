@@ -48,9 +48,7 @@ public class Result
     => new(code, message, oke, data);
 
     public static Result<TData> ValidationError<TData>(TData data)
-    {
-        return new Result<TData>(ResponseCodes.ValidationError, "Validation error!", false, data);
-    }
+        => new(ResponseCodes.ValidationError, "Validation error!", false, data);
 
 }
 
