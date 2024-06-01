@@ -1,9 +1,6 @@
 ﻿using FluentValidation;
-using FluentValidation.Results;
-using MeChat.Common.Shared;
 using MeChat.Common.Shared.Response;
 using MediatR;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace MeChat.Application.Behaviors;
 public class ValidationPipelineBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
@@ -22,13 +19,11 @@ public class ValidationPipelineBehavior<TRequest, TResponse> : IPipelineBehavior
         if (!validators.Any())
             return await next();
 
-        Common.Shared.Error[] errors = validators
+        string[] errors = validators
             .Select(validator => validator.Validate(request))
             .SelectMany(validationResult => validationResult.Errors)
             .Where(validationFailure => validationFailure is not null)
-            .Select(failure => new Common.Shared.Error(
-                failure.PropertyName,
-                failure.ErrorMessage))
+            .Select(failure => new string(failure.ErrorMessage))
             .Distinct()
             .ToArray();
 
@@ -40,18 +35,18 @@ public class ValidationPipelineBehavior<TRequest, TResponse> : IPipelineBehavior
         return await next();
     }
 
-    private static TResult CreateValidationResult<TResult>(Common.Shared.Error[] errors)
-        where TResult : Result
+    private static TResult CreateValidationResult<TResult>(string[] errors)
+    where TResult : Result
     {
         if (typeof(TResult) == typeof(Result))
         {
-            return (ValidationResult.WithErrors(errors) as TResult)!;
+            return (Result.ValidationError<string[]>(errors) as TResult)!;
         }
 
-        object validationResult = typeof(ValidationResult<>)
+        object validationResult = typeof(Result<string[]>)
             .GetGenericTypeDefinition()
             .MakeGenericType(typeof(TResult).GenericTypeArguments[0])
-            .GetMethod(nameof(ValidationResult.WithErrors))!
+            .GetMethod(nameof(Result.ValidationError))!
             .Invoke(null, new object?[] { errors })!;
 
         return (TResult)validationResult;
