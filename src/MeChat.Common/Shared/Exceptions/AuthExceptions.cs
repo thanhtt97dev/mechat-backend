@@ -3,12 +3,12 @@
 namespace MeChat.Common.Shared.Exceptions;
 public class AuthExceptions
 {
-    public class AccessTokenInValid : BadRequestException
+    public class AccessTokenInValid : UnAuthenticationException
     {
         public AccessTokenInValid() :base($"Access token invalid!") { }
     }
 
-    public class UserNotHavePermission : BadRequestException
+    public class UserNotHavePermission : UnAuthorizedException
     {
         public UserNotHavePermission() : base($"User not have permission!") { }
     }

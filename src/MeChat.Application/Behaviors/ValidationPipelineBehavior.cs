@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using FluentValidation.Results;
 using MeChat.Common.Shared.Response;
 using MediatR;
 
@@ -27,28 +28,23 @@ public class ValidationPipelineBehavior<TRequest, TResponse> : IPipelineBehavior
             .Distinct()
             .ToArray();
 
+        IEnumerable<ValidationFailure> errorForResultT = validators
+            .Select(validator => validator.Validate(request))
+            .SelectMany(validationResult => validationResult.Errors)
+            .Where(validationFailure => validationFailure is not null)
+            .Select(failure => new ValidationFailure() { PropertyName = failure.PropertyName, ErrorMessage = failure.ErrorMessage })
+            .Distinct()
+            .ToArray();
+
         if (errors.Any())
         {
-            return CreateValidationResult<TResponse>(errors);
+            if(typeof(TResponse) != typeof(Result))
+            {
+                throw new FluentValidation.ValidationException("Validation errors", errorForResultT);
+            }
+            return (Result.ValidationError<string[]>(errors) as TResponse)!;
         }
 
         return await next();
-    }
-
-    private static TResult CreateValidationResult<TResult>(string[] errors)
-    where TResult : Result
-    {
-        if (typeof(TResult) == typeof(Result))
-        {
-            return (Result.ValidationError<string[]>(errors) as TResult)!;
-        }
-
-        object validationResult = typeof(Result<string[]>)
-            .GetGenericTypeDefinition()
-            .MakeGenericType(typeof(TResult).GenericTypeArguments[0])
-            .GetMethod(nameof(Result.ValidationError))!
-            .Invoke(null, new object?[] { errors })!;
-
-        return (TResult)validationResult;
     }
 }

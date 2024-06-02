@@ -1,6 +1,9 @@
 ﻿using MeChat.Common.Shared.Response;
 using MeChat.Common.Shared.Exceptions.Base;
 using System.Text.Json;
+using System.Text.Json.Serialization;
+using MeChat.Common.Shared.Commons;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace MeChat.API.Middlewares;
 
@@ -27,29 +30,27 @@ public class ExceptionHandlingMiddleware : IMiddleware
     private static async Task HandleExceptionAsync(HttpContext httpContext, Exception exception)
     {
         var statusCode = GetStatusCode(exception);
-        var response = GetResultException(exception);
+        var result = GetException(exception);
 
         httpContext.Response.ContentType = "application/json";
-
         httpContext.Response.StatusCode = statusCode;
-        var y = response.GetType().Name;
-
-        var x = JsonSerializer.Serialize(response);
-
-        await httpContext.Response.WriteAsync(JsonSerializer.Serialize(response));
+        await httpContext.Response.WriteAsync(result);
     }
 
-    private static Result GetResultException(Exception exception) 
+
+    private static string GetException(Exception exception) 
     {
-        Result result = exception switch
+        object data = exception switch
         {
-            BadRequestException => Result.Failure(exception.Message),
+            BadRequestException => Result.Failure("Failure", exception.Message),
             NotFoundException => Result.NotFound(exception.Message),
-            FluentValidation.ValidationException => Result.ValidationError(exception.Message),
             UnAuthorizedException => Result.UnAuthorized(exception.Message),
-            FormatException => Result.ValidationError(exception.Message),
-            _ => Result.Failure(exception.Message),
+            UnAuthenticationException => Result.UnAuthentication(exception.Message),
+            FluentValidation.ValidationException => GetValidationError(((FluentValidation.ValidationException)exception).Errors),
+            _ => Result.Failure("Server errors", exception.Message),
         };
+
+        var result = JsonSerializer.Serialize(data);
         return result;
     }
 
@@ -61,7 +62,18 @@ public class ExceptionHandlingMiddleware : IMiddleware
             NotFoundException => StatusCodes.Status404NotFound,
             FluentValidation.ValidationException => StatusCodes.Status422UnprocessableEntity,
             UnAuthorizedException => StatusCodes.Status403Forbidden,
+            UnAuthenticationException => StatusCodes.Status401Unauthorized,
             FormatException => StatusCodes.Status422UnprocessableEntity,
             _ => StatusCodes.Status500InternalServerError
         };
+
+    public static object GetValidationError(IEnumerable<FluentValidation.Results.ValidationFailure> errors)
+    {
+        List<ValidationErorr> validationErorrs = new List<ValidationErorr>();
+        foreach (var error in errors)
+        {
+            validationErorrs.Add(new ValidationErorr(error.PropertyName, error.ErrorMessage));
+        }
+        return Result.ValidationError(validationErorrs);
+    }
 }
