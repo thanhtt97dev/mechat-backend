@@ -86,7 +86,8 @@ public class SignInByGoogleQueryHandler : IQueryHandler<Query.SignInByGoogle, Re
         {
             AccessToken = accessToken,
             RefreshToken = refreshToken,
-            RefreshTokenExpiryTime = DateTime.Now.AddMinutes(sessionTime)
+            RefreshTokenExpiryTime = DateTime.Now.AddMinutes(sessionTime),
+            UserId = id.ToString(),
         };
 
         //save refresh token into cache

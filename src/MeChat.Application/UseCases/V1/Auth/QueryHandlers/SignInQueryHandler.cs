@@ -53,7 +53,8 @@ public class SignInQueryHandler : IQueryHandler<Query.SignIn, Response.Authentic
         {
             AccessToken = accessToken,
             RefreshToken = refreshToken,
-            RefreshTokenExpiryTime = DateTime.Now.AddMinutes(sessionTime)
+            RefreshTokenExpiryTime = DateTime.Now.AddMinutes(sessionTime),
+            UserId = user.Id.ToString(),
         };
 
         //save refresh token into cache

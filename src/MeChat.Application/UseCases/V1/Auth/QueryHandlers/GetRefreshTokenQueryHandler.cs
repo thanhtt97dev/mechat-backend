@@ -1,5 +1,4 @@
-﻿using Azure.Core;
-using MeChat.Common.Abstractions.Data.Dapper;
+﻿using MeChat.Common.Abstractions.Data.Dapper;
 using MeChat.Common.Abstractions.Messages;
 using MeChat.Common.Abstractions.Services;
 using MeChat.Common.Constants;
