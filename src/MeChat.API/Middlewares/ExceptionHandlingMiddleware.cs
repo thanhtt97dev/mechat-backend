@@ -42,12 +42,12 @@ public class ExceptionHandlingMiddleware : IMiddleware
     {
         object data = exception switch
         {
-            BadRequestException => Result.Failure("Failure", exception.Message),
+            BadRequestException => Result.Failure(exception.Message, "Failure"),
             NotFoundException => Result.NotFound(exception.Message),
             UnAuthorizedException => Result.UnAuthorized(exception.Message),
             UnAuthenticationException => Result.UnAuthentication(exception.Message),
             FluentValidation.ValidationException => GetValidationError(((FluentValidation.ValidationException)exception).Errors),
-            _ => Result.Failure("Server errors", exception.Message),
+            _ => Result.Failure(exception.Message,"Server errors"),
         };
 
         var result = JsonSerializer.Serialize(data);

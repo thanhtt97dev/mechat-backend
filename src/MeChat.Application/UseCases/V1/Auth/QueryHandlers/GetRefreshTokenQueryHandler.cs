@@ -1,4 +1,5 @@
-﻿using MeChat.Common.Abstractions.Data.Dapper;
+﻿using Azure.Core;
+using MeChat.Common.Abstractions.Data.Dapper;
 using MeChat.Common.Abstractions.Messages;
 using MeChat.Common.Abstractions.Services;
 using MeChat.Common.Constants;
@@ -7,6 +8,7 @@ using MeChat.Common.Shared.Response;
 using MeChat.Common.UseCases.V1.Auth;
 using MeChat.Infrastucture.Jwt.DependencyInjection.Options;
 using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
 using System.Security.Claims;
 
@@ -28,10 +30,15 @@ public class GetRefreshTokenQueryHandler : IQueryHandler<Query.RefreshToken, Res
 
     public async Task<Result<Response.Authenticated>> Handle(Query.RefreshToken request, CancellationToken cancellationToken)
     {
-        //Get userId in access token
-        var principal = jwtTokenService.GetClaimsPrincipal(request.AccessToken);
-        var userIdFromAccessToken = principal.Claims.FirstOrDefault(claim => claim.Type == ClaimTypes.Name) ?? throw new AuthExceptions.AccessTokenInValid();
-        var userId = new Guid(userIdFromAccessToken.Value);
+        //check request is valid
+        if(request.UserId == null || request.AccessToken == null)
+            throw new AuthExceptions.AccessTokenInValid();
+
+        Guid userId = GetUserIdByAccessToken(request.AccessToken);
+
+        //check userId in request header with userId in accessToken is match
+        if (userId.ToString() != request.UserId)
+            throw new AuthExceptions.AccessTokenInValid();
 
         //Check user's permitssion
         var user = await unitOfWork.Users.FindByIdAsync(userId) ?? throw new AuthExceptions.UserNotHavePermission();
@@ -40,7 +47,7 @@ public class GetRefreshTokenQueryHandler : IQueryHandler<Query.RefreshToken, Res
             return Result.Initialization<Response.Authenticated>(ResponseCodes.UserBanned, "User has been banned!", false, null);
 
         //Check refesh token
-        var rawUserIdFromCacheWithRefreshToken = await cacheService.GetCache(request.Refresh) ?? string.Empty;
+        var rawUserIdFromCacheWithRefreshToken = await cacheService.GetCache(request.Refresh!) ?? string.Empty;
         if(string.IsNullOrEmpty(rawUserIdFromCacheWithRefreshToken))
             return Result.Failure<Response.Authenticated>(null, "Refresh token has been expried!");
 
@@ -77,5 +84,24 @@ public class GetRefreshTokenQueryHandler : IQueryHandler<Query.RefreshToken, Res
         await cacheService.SetCache(user.Id.ToString(), refreshToken, TimeSpan.FromMinutes(sessionTime));
 
         return Result.Success(result);
+    }
+
+    private Guid GetUserIdByAccessToken(string accessToken)
+    {
+        //Get userId in access token
+        try
+        {
+            var principal = jwtTokenService.GetClaimsPrincipal(accessToken);
+            var userIdFromAccessToken = principal.Claims.FirstOrDefault(claim => claim.Type == ClaimTypes.Name) ?? throw new AuthExceptions.AccessTokenInValid();
+            return new Guid(userIdFromAccessToken.Value);
+        }
+        catch (SecurityTokenInvalidLifetimeException)
+        {
+            throw new AuthExceptions.AccessTokenExpried();
+        }
+        catch (SecurityTokenException)
+        {
+            throw new AuthExceptions.AccessTokenInValid();
+        }
     }
 }
