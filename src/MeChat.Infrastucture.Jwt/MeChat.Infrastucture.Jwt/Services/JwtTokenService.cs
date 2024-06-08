@@ -17,6 +17,7 @@ public class JwtTokenService : IJwtTokenService
         configuration.GetSection(nameof(JwtOption)).Bind(jwtOption);
     }
 
+    #region Generate Accsess Token
     public string GenerateAccessToken(IEnumerable<Claim> claims)
     {
         var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtOption.SecretKey));
@@ -32,12 +33,16 @@ public class JwtTokenService : IJwtTokenService
         var token = new JwtSecurityTokenHandler().WriteToken(tokeOptions);
         return token;
     }
+    #endregion
 
+    #region Generate Refresh Token
     public string GenerateRefreshToken()
     {
         return Guid.NewGuid().ToString();
     }
+    #endregion
 
+    #region Get Claims Principal
     public ClaimsPrincipal GetClaimsPrincipal(string? token)
     {
         try
@@ -68,4 +73,16 @@ public class JwtTokenService : IJwtTokenService
             throw new SecurityTokenInvalidLifetimeException("Invalid token");
         }
     }
+    #endregion
+
+    #region Get Claim
+    public object? GetClaim(string? claimType, string? token)
+    {
+        if (claimType is null || token is null)
+            return null;
+        var principal = GetClaimsPrincipal(token);
+        var result = principal.Claims.FirstOrDefault(claim => claim.Type == claimType);
+        return result;
+    }
+    #endregion
 }

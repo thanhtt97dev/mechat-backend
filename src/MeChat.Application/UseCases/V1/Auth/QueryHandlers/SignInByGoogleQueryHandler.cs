@@ -9,6 +9,7 @@ using MeChat.Common.Shared.Response;
 using MeChat.Common.UseCases.V1.Auth;
 using MeChat.Infrastucture.Jwt.DependencyInjection.Options;
 using Microsoft.Extensions.Configuration;
+using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 
 namespace MeChat.Application.UseCases.V1.Auth.QueryHandlers;
@@ -67,20 +68,22 @@ public class SignInByGoogleQueryHandler : IQueryHandler<Query.SignInByGoogle, Re
 
     private async Task<Result<Response.Authenticated>> SignIn(Guid id, int role, string? email)
     {
+        JwtOption jwtOption = new();
+        configuration.GetSection(nameof(JwtOption)).Bind(jwtOption);
+        var sessionTime = jwtOption.ExpireMinute + jwtOption.RefreshTokenExpireMinute;
+
+        var refreshToken = jwtTokenService.GenerateRefreshToken();
+
         var clamims = new List<Claim>
         {
-            new Claim(ClaimTypes.Name, id.ToString()),
+            new Claim(JwtRegisteredClaimNames.Sub, id.ToString()),
             new Claim(ClaimTypes.Role, role.ToString()),
             new Claim(ClaimTypes.Email, email??string.Empty),
+            new Claim(JwtRegisteredClaimNames.Jti, refreshToken),
+            new Claim(ClaimTypes.Expired, DateTime.Now.AddMinutes(jwtOption.ExpireMinute).ToString()),
         };
 
         var accessToken = jwtTokenService.GenerateAccessToken(clamims);
-        var refreshToken = jwtTokenService.GenerateRefreshToken();
-
-        JwtOption jwtOption = new();
-        configuration.GetSection(nameof(JwtOption)).Bind(jwtOption);
-
-        var sessionTime = jwtOption.ExpireMinute + jwtOption.RefreshTokenExpireMinute;
 
         var result = new Response.Authenticated
         {

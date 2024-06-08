@@ -3,13 +3,16 @@ using MeChat.Common.Abstractions.Messages;
 using MeChat.Common.Abstractions.Services;
 using MeChat.Common.Constants;
 using MeChat.Common.Shared.Exceptions;
+using MeChat.Common.Shared.Exceptions.Base;
 using MeChat.Common.Shared.Response;
 using MeChat.Common.UseCases.V1.Auth;
 using MeChat.Infrastucture.Jwt.DependencyInjection.Options;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
+using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using static MeChat.Common.Shared.Exceptions.AuthExceptions;
 
 namespace MeChat.Application.UseCases.V1.Auth.QueryHandlers;
 public class GetRefreshTokenQueryHandler : IQueryHandler<Query.RefreshToken, Response.Authenticated>
@@ -31,16 +34,28 @@ public class GetRefreshTokenQueryHandler : IQueryHandler<Query.RefreshToken, Res
     {
         //check request is valid
         if(request.UserId == null || request.AccessToken == null)
-            throw new AuthExceptions.AccessTokenInValid();
+            throw new AccessTokenInValid();
 
-        Guid userId = GetUserIdByAccessToken(request.AccessToken);
+        //get user Id in acces token
+        var rawUserId = jwtTokenService.GetClaim(JwtRegisteredClaimNames.Sub, request.AccessToken);
+        if (rawUserId == null) throw new AccessTokenInValid();
+        Guid userId = (Guid)rawUserId; ;
 
         //check userId in request header with userId in accessToken is match
         if (userId.ToString() != request.UserId)
-            throw new AuthExceptions.AccessTokenInValid();
+            throw new AccessTokenInValid();
+
+        //get refresh token in access token
+        var rawRefreshToken = jwtTokenService.GetClaim(JwtRegisteredClaimNames.Jti, request.Refresh);
+        if (rawRefreshToken == null) throw new AccessTokenInValid();
+        var refreshTokenInAccessToken = (string)rawRefreshToken;
+
+        //check refresh token in request match with refresh token in access token
+        if(request.Refresh != refreshTokenInAccessToken)
+            throw new AccessTokenInValid();
 
         //Check user's permitssion
-        var user = await unitOfWork.Users.FindByIdAsync(userId) ?? throw new AuthExceptions.UserNotHavePermission();
+        var user = await unitOfWork.Users.FindByIdAsync(userId) ?? throw new UserNotHavePermission();
 
         if (user.Status != Common.Constants.UserConstant.Status.Activate)
             return Result.Initialization<Response.Authenticated>(ResponseCodes.UserBanned, "User has been banned!", false, null);
@@ -55,22 +70,22 @@ public class GetRefreshTokenQueryHandler : IQueryHandler<Query.RefreshToken, Res
             return Result.Failure<Response.Authenticated>(null, "Invalid refresh token!");
 
         //Remove old refresh token from cache
-        await cacheService.RemoveCache(request.Refresh);
+        await cacheService.RemoveCache(request.Refresh!);
 
         //Generate new access token
-        var clamims = new List<Claim>
-        {
-            new Claim(ClaimTypes.Name, user.Id.ToString()),
-            new Claim(ClaimTypes.Role, "Admin"),
-        };
-
-        var accessToken = jwtTokenService.GenerateAccessToken(clamims);
-        var refreshToken = jwtTokenService.GenerateRefreshToken();
-
         JwtOption jwtOption = new();
         configuration.GetSection(nameof(JwtOption)).Bind(jwtOption);
-
         var sessionTime = jwtOption.ExpireMinute + jwtOption.RefreshTokenExpireMinute;
+        var refreshToken = jwtTokenService.GenerateRefreshToken();
+        var clamims = new List<Claim>
+        {
+            new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
+            new Claim(ClaimTypes.Role, user.RoldeId.ToString()),
+            new Claim(ClaimTypes.Email, user.Email??string.Empty),
+            new Claim(JwtRegisteredClaimNames.Jti, refreshToken),
+            new Claim(ClaimTypes.Expired, DateTime.Now.AddMinutes(jwtOption.ExpireMinute).ToString()),
+        };
+        var accessToken = jwtTokenService.GenerateAccessToken(clamims);
 
         var result = new Response.Authenticated
         {
@@ -85,22 +100,4 @@ public class GetRefreshTokenQueryHandler : IQueryHandler<Query.RefreshToken, Res
         return Result.Success(result);
     }
 
-    private Guid GetUserIdByAccessToken(string accessToken)
-    {
-        //Get userId in access token
-        try
-        {
-            var principal = jwtTokenService.GetClaimsPrincipal(accessToken);
-            var userIdFromAccessToken = principal.Claims.FirstOrDefault(claim => claim.Type == ClaimTypes.Name) ?? throw new AuthExceptions.AccessTokenInValid();
-            return new Guid(userIdFromAccessToken.Value);
-        }
-        catch (SecurityTokenInvalidLifetimeException)
-        {
-            throw new AuthExceptions.AccessTokenExpried();
-        }
-        catch (SecurityTokenException)
-        {
-            throw new AuthExceptions.AccessTokenInValid();
-        }
-    }
 }

@@ -6,6 +6,7 @@ using MeChat.Common.Shared.Response;
 using MeChat.Common.UseCases.V1.Auth;
 using MeChat.Infrastucture.Jwt.DependencyInjection.Options;
 using Microsoft.Extensions.Configuration;
+using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 
 namespace MeChat.Application.UseCases.V1.Auth.QueryHandlers;
@@ -34,20 +35,22 @@ public class SignInQueryHandler : IQueryHandler<Query.SignIn, Response.Authentic
         if (user.Status != Common.Constants.UserConstant.Status.Activate)
             return Result.Initialization<Response.Authenticated>(ResponseCodes.UserBanned, "User has been banned!", false, null);
 
-        var clamims = new List<Claim>
-        {
-            new Claim(ClaimTypes.Name, user.Id.ToString()),
-            new Claim(ClaimTypes.Role, user.RoldeId.ToString()),
-            new Claim(ClaimTypes.Email, user.Email??string.Empty),
-        };
-
-        var accessToken = jwtTokenService.GenerateAccessToken(clamims);
-        var refreshToken = jwtTokenService.GenerateRefreshToken();
-
         JwtOption jwtOption = new();
         configuration.GetSection(nameof(JwtOption)).Bind(jwtOption);
-
         var sessionTime = jwtOption.ExpireMinute + jwtOption.RefreshTokenExpireMinute;
+
+        var refreshToken = jwtTokenService.GenerateRefreshToken();
+
+        var clamims = new List<Claim>
+        {
+            new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
+            new Claim(ClaimTypes.Role, user.RoldeId.ToString()),
+            new Claim(ClaimTypes.Email, user.Email??string.Empty),
+            new Claim(JwtRegisteredClaimNames.Jti, refreshToken),
+            new Claim(ClaimTypes.Expired, DateTime.Now.AddMinutes(jwtOption.ExpireMinute).ToString()),
+        };
+        
+        var accessToken = jwtTokenService.GenerateAccessToken(clamims);
 
         var result = new Response.Authenticated
         {
