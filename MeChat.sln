@@ -30,11 +30,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MeChat.Infrastucture.Redis"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MeChat.Architecture.Tests", "test\MeChat.Architecture.Tests\MeChat.Architecture.Tests.csproj", "{FC1337F3-3EAE-4490-A880-7745E22D0E14}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MeChat.Infrastucture.Jwt", "src\MeChat.Infrastucture.Jwt\MeChat.Infrastucture.Jwt\MeChat.Infrastucture.Jwt.csproj", "{C73BAA82-64EE-4419-9EE6-6559F34E1765}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MeChat.Infrastucture.Mail", "src\MeChat.Infrastucture.Mail\MeChat.Infrastucture.Mail.csproj", "{D147A0BB-5C49-4022-A2DC-CADACC08A3D7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MeChat.Infrastucture.AWS.S3", "src\MeChat.Infrastucture.AWS.S3\MeChat.Infrastucture.AWS.S3.csproj", "{B4B15067-A611-474F-88CD-2AAA3D79C5DD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MeChat.Infrastucture.AWS.S3", "src\MeChat.Infrastucture.AWS.S3\MeChat.Infrastucture.AWS.S3.csproj", "{B4B15067-A611-474F-88CD-2AAA3D79C5DD}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MeChat.Infrastucture.Jwt", "src\MeChat.Infrastucture.Jwt\MeChat.Infrastucture.Jwt.csproj", "{49BEFCBA-6218-482B-AEFF-420B0DC637C1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -78,10 +78,6 @@ Global
 		{FC1337F3-3EAE-4490-A880-7745E22D0E14}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FC1337F3-3EAE-4490-A880-7745E22D0E14}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FC1337F3-3EAE-4490-A880-7745E22D0E14}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C73BAA82-64EE-4419-9EE6-6559F34E1765}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C73BAA82-64EE-4419-9EE6-6559F34E1765}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C73BAA82-64EE-4419-9EE6-6559F34E1765}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C73BAA82-64EE-4419-9EE6-6559F34E1765}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D147A0BB-5C49-4022-A2DC-CADACC08A3D7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D147A0BB-5C49-4022-A2DC-CADACC08A3D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D147A0BB-5C49-4022-A2DC-CADACC08A3D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -90,6 +86,10 @@ Global
 		{B4B15067-A611-474F-88CD-2AAA3D79C5DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B4B15067-A611-474F-88CD-2AAA3D79C5DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B4B15067-A611-474F-88CD-2AAA3D79C5DD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{49BEFCBA-6218-482B-AEFF-420B0DC637C1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{49BEFCBA-6218-482B-AEFF-420B0DC637C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{49BEFCBA-6218-482B-AEFF-420B0DC637C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{49BEFCBA-6218-482B-AEFF-420B0DC637C1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -104,9 +104,9 @@ Global
 		{0041E65C-F147-4423-A090-ED7D34910674} = {1366F6BD-0107-407B-ADCE-8D176E2D41E3}
 		{35801E1B-11DE-4822-87A7-1E9B06A197F2} = {1366F6BD-0107-407B-ADCE-8D176E2D41E3}
 		{FC1337F3-3EAE-4490-A880-7745E22D0E14} = {3B15E549-960E-422E-B4BD-F0314471C61A}
-		{C73BAA82-64EE-4419-9EE6-6559F34E1765} = {1366F6BD-0107-407B-ADCE-8D176E2D41E3}
 		{D147A0BB-5C49-4022-A2DC-CADACC08A3D7} = {1366F6BD-0107-407B-ADCE-8D176E2D41E3}
 		{B4B15067-A611-474F-88CD-2AAA3D79C5DD} = {1366F6BD-0107-407B-ADCE-8D176E2D41E3}
+		{49BEFCBA-6218-482B-AEFF-420B0DC637C1} = {1366F6BD-0107-407B-ADCE-8D176E2D41E3}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {AB641A2F-8F72-43FE-9A01-864452A31FB7}
