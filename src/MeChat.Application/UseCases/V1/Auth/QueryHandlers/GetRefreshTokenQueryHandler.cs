@@ -79,13 +79,14 @@ public class GetRefreshTokenQueryHandler : IQueryHandler<Query.RefreshToken, Res
         configuration.GetSection(nameof(JwtOption)).Bind(jwtOption);
         var sessionTime = jwtOption.ExpireMinute + jwtOption.RefreshTokenExpireMinute;
         var refreshToken = jwtTokenService.GenerateRefreshToken();
+
         var clamims = new List<Claim>
         {
-            new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
-            new Claim(ClaimTypes.Role, user.RoldeId.ToString()),
-            new Claim(ClaimTypes.Email, user.Email??string.Empty),
-            new Claim(JwtRegisteredClaimNames.Jti, refreshToken),
-            new Claim(ClaimTypes.Expired, DateTime.Now.AddMinutes(jwtOption.ExpireMinute).ToString()),
+            new Claim(AppConfiguration.Jwt.ID, user.Id.ToString()),
+            new Claim(AppConfiguration.Jwt.ROLE, user.RoldeId.ToString()),
+            new Claim(AppConfiguration.Jwt.EMAIL, user.Email??string.Empty),
+            new Claim(AppConfiguration.Jwt.JTI, refreshToken),
+            new Claim(AppConfiguration.Jwt.EXPIRED, DateTime.Now.AddMinutes(jwtOption.ExpireMinute).ToString()),
         };
         var accessToken = jwtTokenService.GenerateAccessToken(clamims);
 

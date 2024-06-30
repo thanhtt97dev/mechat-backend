@@ -80,7 +80,7 @@ public class SignInByGoogleQueryHandler : IQueryHandler<Query.SignInByGoogle, Re
             new Claim(AppConfiguration.Jwt.ROLE, role.ToString()),
             new Claim(AppConfiguration.Jwt.EMAIL, email??string.Empty),
             new Claim(AppConfiguration.Jwt.JTI, refreshToken),
-            new Claim(ClaimTypes.Expired, DateTime.Now.AddMinutes(jwtOption.ExpireMinute).ToString()),
+            new Claim(AppConfiguration.Jwt.EXPIRED, DateTime.Now.AddMinutes(jwtOption.ExpireMinute).ToString()),
         };
 
         var accessToken = jwtTokenService.GenerateAccessToken(clamims);

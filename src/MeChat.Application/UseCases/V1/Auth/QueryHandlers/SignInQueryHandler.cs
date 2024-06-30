@@ -46,7 +46,7 @@ public class SignInQueryHandler : IQueryHandler<Query.SignIn, Response.Authentic
             new Claim(AppConfiguration.Jwt.ROLE, user.RoldeId.ToString()),
             new Claim(AppConfiguration.Jwt.EMAIL, user.Email??string.Empty),
             new Claim(AppConfiguration.Jwt.JTI, refreshToken),
-            new Claim(ClaimTypes.Expired, DateTime.Now.AddMinutes(jwtOption.ExpireMinute).ToString()),
+            new Claim(AppConfiguration.Jwt.EXPIRED, DateTime.Now.AddMinutes(jwtOption.ExpireMinute).ToString()),
         };
         
         var accessToken = jwtTokenService.GenerateAccessToken(clamims);
