@@ -6,7 +6,6 @@ using MeChat.Common.Shared.Response;
 using MeChat.Common.UseCases.V1.Auth;
 using MeChat.Infrastucture.Jwt.DependencyInjection.Options;
 using Microsoft.Extensions.Configuration;
-using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 
 namespace MeChat.Application.UseCases.V1.Auth.QueryHandlers;
@@ -43,10 +42,10 @@ public class SignInQueryHandler : IQueryHandler<Query.SignIn, Response.Authentic
 
         var clamims = new List<Claim>
         {
-            new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
-            new Claim(ClaimTypes.Role, user.RoldeId.ToString()),
-            new Claim(ClaimTypes.Email, user.Email??string.Empty),
-            new Claim(JwtRegisteredClaimNames.Jti, refreshToken),
+            new Claim(AppConfiguration.Jwt.ID, user.Id.ToString()),
+            new Claim(AppConfiguration.Jwt.ROLE, user.RoldeId.ToString()),
+            new Claim(AppConfiguration.Jwt.EMAIL, user.Email??string.Empty),
+            new Claim(AppConfiguration.Jwt.JTI, refreshToken),
             new Claim(ClaimTypes.Expired, DateTime.Now.AddMinutes(jwtOption.ExpireMinute).ToString()),
         };
         

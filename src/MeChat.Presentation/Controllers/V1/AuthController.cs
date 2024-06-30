@@ -26,13 +26,13 @@ public class AuthController : ApiControllerBase
     {
         var result = await sender.Send(signInByGoogle);
         return Ok(result);
-    }
+    } 
 
     [HttpPost("refreshToken")]
     public async Task<IActionResult> RefreshToken([FromBody]RequestBodyModel.RefreshTokenRequest request)
     {
         var accessToken = HttpContext.Request.Headers.Authorization.ToString().Replace(JwtBearerDefaults.AuthenticationScheme, string.Empty).Trim();
-        var userId = HttpContext.Request.Headers.GetCommaSeparatedValues(AppConfiguration.USER_ID_REQUEST_HEADER).FirstOrDefault();
+        var userId = HttpContext.Request.Headers.GetCommaSeparatedValues(AppConfiguration.RequestHeader.USER_ID).FirstOrDefault();
         Query.RefreshToken query = new (accessToken, request.RefreshToken, userId);
         var result = await sender.Send(query);
         return Ok(result);

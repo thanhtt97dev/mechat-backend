@@ -37,16 +37,18 @@ public class GetRefreshTokenQueryHandler : IQueryHandler<Query.RefreshToken, Res
             throw new AccessTokenInValid();
 
         //get user Id in acces token
-        var rawUserId = jwtTokenService.GetClaim(JwtRegisteredClaimNames.Sub, request.AccessToken);
+        var rawUserId = jwtTokenService.GetClaim(AppConfiguration.Jwt.ID, request.AccessToken);
         if (rawUserId == null) throw new AccessTokenInValid();
-        Guid userId = (Guid)rawUserId; ;
+#pragma warning disable CS8604 // Possible null reference argument.
+        Guid userId = Guid.Parse(rawUserId.ToString());
+#pragma warning restore CS8604 // Possible null reference argument.
 
         //check userId in request header with userId in accessToken is match
         if (userId.ToString() != request.UserId)
             throw new AccessTokenInValid();
 
         //get refresh token in access token
-        var rawRefreshToken = jwtTokenService.GetClaim(JwtRegisteredClaimNames.Jti, request.Refresh);
+        var rawRefreshToken = jwtTokenService.GetClaim(AppConfiguration.Jwt.JTI, request.AccessToken);
         if (rawRefreshToken == null) throw new AccessTokenInValid();
         var refreshTokenInAccessToken = (string)rawRefreshToken;
 
@@ -91,11 +93,12 @@ public class GetRefreshTokenQueryHandler : IQueryHandler<Query.RefreshToken, Res
         {
             AccessToken = accessToken,
             RefreshToken = refreshToken,
-            RefreshTokenExpiryTime = DateTime.Now.AddMinutes(sessionTime)
+            RefreshTokenExpiryTime = DateTime.Now.AddMinutes(sessionTime),
+            UserId = userId.ToString()
         };
 
         //save refresh token into cache
-        await cacheService.SetCache(user.Id.ToString(), refreshToken, TimeSpan.FromMinutes(sessionTime));
+        await cacheService.SetCache(refreshToken, user.Id.ToString(), TimeSpan.FromMinutes(sessionTime));
 
         return Result.Success(result);
     }

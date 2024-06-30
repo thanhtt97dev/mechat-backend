@@ -76,10 +76,10 @@ public class SignInByGoogleQueryHandler : IQueryHandler<Query.SignInByGoogle, Re
 
         var clamims = new List<Claim>
         {
-            new Claim(JwtRegisteredClaimNames.Sub, id.ToString()),
-            new Claim(ClaimTypes.Role, role.ToString()),
-            new Claim(ClaimTypes.Email, email??string.Empty),
-            new Claim(JwtRegisteredClaimNames.Jti, refreshToken),
+            new Claim(AppConfiguration.Jwt.ID, id.ToString()),
+            new Claim(AppConfiguration.Jwt.ROLE, role.ToString()),
+            new Claim(AppConfiguration.Jwt.EMAIL, email??string.Empty),
+            new Claim(AppConfiguration.Jwt.JTI, refreshToken),
             new Claim(ClaimTypes.Expired, DateTime.Now.AddMinutes(jwtOption.ExpireMinute).ToString()),
         };
 
