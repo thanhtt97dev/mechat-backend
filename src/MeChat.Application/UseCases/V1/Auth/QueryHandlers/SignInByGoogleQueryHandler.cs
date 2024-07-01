@@ -51,9 +51,10 @@ public class SignInByGoogleQueryHandler : IQueryHandler<Query.SignInByGoogle, Re
         {
             Username = null,
             Password = null,
+            Fullname = payload.Name,
             RoldeId = RoleConstant.User,
             Email = payload.Email,
-            Avatar = null,
+            Avatar = payload.Picture,
             OAuth2Status = UserConstant.OAuth2.Google,
             Status = UserConstant.Status.Activate,
             DateCreated = DateTime.Now,
