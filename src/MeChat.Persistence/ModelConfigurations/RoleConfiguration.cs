@@ -1,7 +1,6 @@
 ﻿using MeChat.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MeChat.Persistence.ModelConfigurations;
 public class RoleConfiguration : IEntityTypeConfiguration<Role>

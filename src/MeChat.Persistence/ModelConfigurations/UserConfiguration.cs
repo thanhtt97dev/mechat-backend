@@ -18,7 +18,6 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         builder.Property(x => x.DateCreated);
         builder.Property(x => x.DateUpdated);
         builder.Property(x => x.Status);
-        builder.Property(x => x.OAuth2Status);
 
         builder
             .HasOne(x => x.Role)

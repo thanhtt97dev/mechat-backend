@@ -11,6 +11,6 @@ public class User : DomainEntity<Guid>
     public string? Avatar { get; set; }
     public int Status { get; set; }
 
-    public int OAuth2Status { get; set; }
     public virtual Role? Role { get; set; }
+    public virtual ICollection<UserSocial>? UserSocials { get; set; }
 }
