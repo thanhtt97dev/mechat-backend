@@ -1,4 +1,5 @@
 ﻿using MeChat.Common.Abstractions.Data.EntityFramework;
+using MeChat.Common.Abstractions.Middlewares;
 using MediatR;
 using System.Transactions;
 
@@ -27,7 +28,8 @@ public sealed class TransactionPipelineBehavior<TRequest, TResponse> : IPipeline
 
     private static bool IsCommand()
     {
-        string? fullName = typeof(TRequest).FullName??string.Empty;
-        return fullName.Contains("Command");
+        var isRequestNeedDbTranasction = typeof(TRequest).GetInterfaces().FirstOrDefault(x => x.Name == nameof(IDbTransactionMiddleware)) != null;
+        return isRequestNeedDbTranasction;
+
     }
 }
