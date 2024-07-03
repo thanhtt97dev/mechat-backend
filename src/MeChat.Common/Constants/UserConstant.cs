@@ -10,13 +10,4 @@ public class UserConstant
     }
     #endregion
 
-    #region OAuth2
-    public static class OAuth2 
-    {
-        public const int Deactive = 0;
-        public const int Google = 1;
-        public const int Facebook = 2;
-    }
-    #endregion
-
 }

@@ -1,15 +1,13 @@
 ﻿using Google.Apis.Auth;
-using MeChat.Common.Abstractions.Data.Dapper;
-using MeChat.Common.Abstractions.Data.EntityFramework;
 using MeChat.Common.Abstractions.Data.EntityFramework.Repositories;
 using MeChat.Common.Abstractions.Messages;
 using MeChat.Common.Abstractions.Services;
 using MeChat.Common.Constants;
 using MeChat.Common.Shared.Response;
 using MeChat.Common.UseCases.V1.Auth;
+using MeChat.Infrastucture.Dapper.Repositories;
 using MeChat.Infrastucture.Jwt.DependencyInjection.Options;
 using Microsoft.Extensions.Configuration;
-using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 
 namespace MeChat.Application.UseCases.V1.Auth.QueryHandlers;
@@ -20,11 +18,12 @@ public class SignInByGoogleQueryHandler : IQueryHandler<Query.SignInByGoogle, Re
     private readonly Common.Abstractions.Data.EntityFramework.IUnitOfWork unitOfWorkEF;
     private readonly IJwtTokenService jwtTokenService;
     private readonly ICacheService cacheService;
-    private readonly IRepositoryBase<Domain.Entities.User, Guid> userRepository;
+    private readonly IRepositoryEnitityBase<Domain.Entities.User, Guid> userRepository;
+    private readonly IRepositoryBase<Domain.Entities.UserSocial> userSocialRepository;
 
     public SignInByGoogleQueryHandler(IConfiguration configuration, Common.Abstractions.Data.Dapper.IUnitOfWork unitOfWorkDapper,
         Common.Abstractions.Data.EntityFramework.IUnitOfWork unitOfWorkEF, IJwtTokenService jwtTokenService, ICacheService cacheService, 
-        IRepositoryBase<Domain.Entities.User, Guid> userRepository)
+        IRepositoryEnitityBase<Domain.Entities.User, Guid> userRepository, IRepositoryBase<Domain.Entities.UserSocial> userSocialRepository)
     {
         this.configuration = configuration;
         this.unitOfWorkDapper = unitOfWorkDapper;
@@ -32,6 +31,7 @@ public class SignInByGoogleQueryHandler : IQueryHandler<Query.SignInByGoogle, Re
         this.jwtTokenService = jwtTokenService;
         this.cacheService = cacheService;
         this.userRepository = userRepository;
+        this.userSocialRepository = userSocialRepository;
     }
 
     public async Task<Result<Response.Authenticated>> Handle(Query.SignInByGoogle request, CancellationToken cancellationToken)
@@ -42,11 +42,13 @@ public class SignInByGoogleQueryHandler : IQueryHandler<Query.SignInByGoogle, Re
             return Result.Failure<Response.Authenticated>(null, "Invalid google token!");
 
         //Check user's email existed
-        var user = await unitOfWorkDapper.Users.GetUserByEmail(payload.Email);
+        var user = await unitOfWorkDapper.Users.GetUserByAccountSocial(payload.Subject, SocialConstants.Google);
         if(user != null)
+        {
             return await SignIn(user.Id, user.RoldeId, user.Email);
-
-        //New user
+        }
+            
+        //New User
         Domain.Entities.User newUser = new Domain.Entities.User
         {
             Username = null,
@@ -55,13 +57,23 @@ public class SignInByGoogleQueryHandler : IQueryHandler<Query.SignInByGoogle, Re
             RoldeId = RoleConstant.User,
             Email = payload.Email,
             Avatar = payload.Picture,
-            OAuth2Status = UserConstant.OAuth2.Google,
             Status = UserConstant.Status.Activate,
             DateCreated = DateTime.Now,
             DateUpdated = DateTime.Now,
         };
-
         userRepository.Add(newUser);
+        await unitOfWorkEF.SaveChangeAsync();
+
+        //New UserSocial
+        Domain.Entities.UserSocial userSocial = new Domain.Entities.UserSocial
+        {
+            UserId = newUser.Id,
+            SocialId = SocialConstants.Google,
+            AccountSocialId = payload.Subject,
+            DateCreated = DateTime.Now,
+            DateUpdated = DateTime.Now,
+        };
+        userSocialRepository.Add(userSocial);
         await unitOfWorkEF.SaveChangeAsync();
 
         return await SignIn(newUser.Id, newUser.RoldeId, newUser.Email);

@@ -5,8 +5,12 @@ namespace MeChat.Infrastucture.Dapper;
 public class UnitOfWork : IUnitOfWork
 {
     public IUserRepository Users { get;}
-    public UnitOfWork(IUserRepository users)
+
+    public IUserSocialRepository UsersSocials { get; }
+
+    public UnitOfWork(IUserRepository users, IUserSocialRepository usersSocials)
     {
         Users = users;
+        UsersSocials = usersSocials;
     }
 }

@@ -196,4 +196,19 @@ WHERE [Email] = @Email";
     }
     #endregion
 
+    #region Get user by accout socialId
+    public async Task<User?> GetUserByAccountSocial(string accountSocialId, int socialId)
+    {
+        var sql =
+@$"SELECT * 
+FROM [User]
+JOIN UserSocial ON [User].Id = UserSocial.UserId
+WHERE UserSocial.AccountSocialId = '{accountSocialId}' AND UserSocial.SocialId = '{socialId}'";
+        using SqlConnection connection = context.CreateConnection();
+        await connection.OpenAsync();
+        var result = await connection.QuerySingleOrDefaultAsync<Domain.Entities.User>(sql);
+        await connection.DisposeAsync();
+        return result;
+    }
+    #endregion
 }

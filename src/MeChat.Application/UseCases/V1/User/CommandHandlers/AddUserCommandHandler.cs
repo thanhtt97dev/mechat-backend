@@ -9,10 +9,10 @@ using System.Threading.Tasks;
 namespace MeChat.Application.UseCases.V1.User.CommandHandlers;
 public class AddUserCommandHandler : ICommandHandler<Command.AddUser>
 {
-    private readonly IRepositoryBase<Domain.Entities.User, Guid> userRepository;
+    private readonly IRepositoryEnitityBase<Domain.Entities.User, Guid> userRepository;
     private readonly IMapper mapper;
 
-    public AddUserCommandHandler(IRepositoryBase<Domain.Entities.User, Guid> userRepository, IMapper mapper)
+    public AddUserCommandHandler(IRepositoryEnitityBase<Domain.Entities.User, Guid> userRepository, IMapper mapper)
     {
         this.userRepository = userRepository;
         this.mapper = mapper;
@@ -26,7 +26,6 @@ public class AddUserCommandHandler : ICommandHandler<Command.AddUser>
         user.DateCreated = DateTime.Now;
         user.DateUpdated = DateTime.Now;
         user.Status = UserConstant.Status.Activate;
-        user.OAuth2Status = UserConstant.OAuth2.Deactive;
         user.RoldeId = RoleConstant.User;
 
         userRepository.Add(user);

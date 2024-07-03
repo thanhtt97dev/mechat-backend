@@ -4,4 +4,5 @@ namespace MeChat.Common.Abstractions.Data.Dapper;
 public interface IUnitOfWork
 {
     public IUserRepository Users { get; }
+    public IUserSocialRepository UsersSocials { get; }
 }

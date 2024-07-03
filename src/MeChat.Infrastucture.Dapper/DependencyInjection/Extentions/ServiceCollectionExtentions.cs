@@ -12,5 +12,6 @@ public static class ServiceCollectionExtentions
         services.AddTransient<ApplicationDbContext>();
 
         services.AddTransient<IUserRepository, UserRepository>();
+        services.AddTransient<IUserSocialRepository, UserSocialRepository>();
     }
 }
