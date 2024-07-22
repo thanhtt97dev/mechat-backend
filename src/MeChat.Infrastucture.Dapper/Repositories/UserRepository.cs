@@ -28,7 +28,7 @@ public class UserRepository : IUserRepository
            ,@Username>
            ,@Password)";
 
-        using SqlConnection connection = context.CreateConnection();
+        using SqlConnection connection = context.GetConnection();
         await connection.OpenAsync();
 
         var result = await connection.ExecuteAsync(sql, entity);
@@ -44,7 +44,7 @@ public class UserRepository : IUserRepository
         var sql =
 @"DELETE FROM [dbo].[User]
       WHERE Id = @Id";
-        using SqlConnection connection = context.CreateConnection();
+        using SqlConnection connection = context.GetConnection();
         await connection.OpenAsync();
 
         var result = await connection.ExecuteAsync(sql, new { Id = id });
@@ -61,7 +61,7 @@ public class UserRepository : IUserRepository
 @"SELECT * 
 FROM [dbo].[User]
 WHERE Id = @Id";
-        using SqlConnection connection = context.CreateConnection();
+        using SqlConnection connection = context.GetConnection();
         await connection.OpenAsync();
 
         var result = await connection.QuerySingleOrDefaultAsync<Domain.Entities.User>(sql, new { Id = id });
@@ -106,7 +106,7 @@ ORDER BY ";
         query += $"\nOFFSET {(pageIndex - 1) * pageSize} ROWS FETCH NEXT {pageSize} ROWS ONLY";
 
 
-        using SqlConnection connection = context.CreateConnection();
+        using SqlConnection connection = context.GetConnection();
         await connection.OpenAsync();
 
         var result = await connection.QueryAsync<Domain.Entities.User>(query);
@@ -132,7 +132,7 @@ ORDER BY ";
         var sql =
 @"SELECT COUNT(*) 
 FROM [dbo].[User]";
-        using SqlConnection connection = context.CreateConnection();
+        using SqlConnection connection = context.GetConnection();
         await connection.OpenAsync();
 
         var result = await connection.QueryFirstAsync<int>(sql);
@@ -150,7 +150,7 @@ FROM [dbo].[User]";
   FROM [dbo].[User]
 WHERE [Username] = @Username AND [Password] = @Password";
 
-        using SqlConnection connection = context.CreateConnection();
+        using SqlConnection connection = context.GetConnection();
         await connection.OpenAsync();
 
         var result = await connection.QuerySingleOrDefaultAsync<Domain.Entities.User>(query, new { Username = username, Password = password});
@@ -167,7 +167,7 @@ WHERE [Username] = @Username AND [Password] = @Password";
 @"SELECT *
 FROM [dbo].[User]
 WHERE [Email] = @Email";
-        using SqlConnection connection = context.CreateConnection();
+        using SqlConnection connection = context.GetConnection();
         await connection.OpenAsync();
 
         var result = await connection.QuerySingleOrDefaultAsync<Domain.Entities.User>(sql, new { Email = email });
@@ -186,7 +186,7 @@ WHERE [Email] = @Email";
       ,[Username] = @Username
       ,[Password] = @Password
  WHERE [Id] = @Id";
-        using SqlConnection connection = context.CreateConnection();
+        using SqlConnection connection = context.GetConnection();
         await connection.OpenAsync();
 
         var result = await connection.ExecuteAsync(sql, entity);
@@ -204,7 +204,7 @@ WHERE [Email] = @Email";
 FROM [User]
 JOIN UserSocial ON [User].Id = UserSocial.UserId
 WHERE UserSocial.AccountSocialId = '{accountSocialId}' AND UserSocial.SocialId = '{socialId}'";
-        using SqlConnection connection = context.CreateConnection();
+        using SqlConnection connection = context.GetConnection();
         await connection.OpenAsync();
         var result = await connection.QuerySingleOrDefaultAsync<Domain.Entities.User>(sql);
         await connection.DisposeAsync();

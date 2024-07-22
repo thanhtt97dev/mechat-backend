@@ -19,7 +19,7 @@ public class UserSocialRepository : IUserSocialRepository
 @$"SELECT * FROM UserSocial
 WHERE UserId = '{userId}' AND SocialId = '{socialId}' AND AccountSocialId = '{accountSocialId}'";
 
-        using SqlConnection connection = context.CreateConnection();
+        using SqlConnection connection = context.GetConnection();
         await connection.OpenAsync();
         var result = await connection.QuerySingleOrDefaultAsync<Domain.Entities.UserSocial>(query);
         await connection.DisposeAsync();

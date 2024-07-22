@@ -1,16 +1,31 @@
 ﻿using MeChat.Common.Abstractions.Data.Dapper;
 using MeChat.Common.Abstractions.Data.Dapper.Repositories;
+using MeChat.Infrastucture.Dapper.Repositories;
 
 namespace MeChat.Infrastucture.Dapper;
 public class UnitOfWork : IUnitOfWork
 {
-    public IUserRepository Users { get;}
+    private readonly ApplicationDbContext context;
 
-    public IUserSocialRepository UsersSocials { get; }
+    public IUserRepository Users { get; private set; }
 
-    public UnitOfWork(IUserRepository users, IUserSocialRepository usersSocials)
+    public IUserSocialRepository UsersSocials { get; private set; }
+
+    public UnitOfWork(ApplicationDbContext context)
     {
-        Users = users;
-        UsersSocials = usersSocials;
+        this.context = context;
+        Users = new UserRepository(context);
+        UsersSocials = new UserSocialRepository(context);
     }
+
+    public Task BeginTransactionAsync(CancellationToken cancellationToken)
+        => context.BeginTransactionAsync(cancellationToken);
+    public Task CommitTransactionAsync(CancellationToken cancellationToken)
+        => context.CommitTransactionAsync(cancellationToken);
+
+    public Task RollbackTransactionAsync(CancellationToken cancellationToken)
+        => context.RollbackTransactionAsync(cancellationToken);
+
+    public async ValueTask DisposeAsync()
+        => await context.DisposeAsync();
 }
