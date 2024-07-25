@@ -5,7 +5,6 @@ using MeChat.Common.Abstractions.Services;
 using MeChat.Common.Constants;
 using MeChat.Common.Shared.Response;
 using MeChat.Common.UseCases.V1.Auth;
-using MeChat.Infrastucture.Dapper.Repositories;
 using MeChat.Infrastucture.Jwt.DependencyInjection.Options;
 using Microsoft.Extensions.Configuration;
 using System.Security.Claims;
