@@ -51,6 +51,9 @@ public class Program
                 options.SubstituteApiVersionInUrl = true;
             });
 
+        //Add application utils
+        builder.Services.AddApplicationUtils();
+
         //Add configuration MediatR(Application)
         builder.Services.AddMediatR();
 

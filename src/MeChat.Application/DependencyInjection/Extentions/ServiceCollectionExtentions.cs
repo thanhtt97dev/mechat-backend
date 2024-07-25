@@ -1,6 +1,7 @@
 ﻿using FluentValidation;
 using MeChat.Application.Behaviors;
 using MeChat.Application.Mapper;
+using MeChat.Application.UseCases.V1.Auth.Utils;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -27,6 +28,11 @@ public static class ServiceCollectionExtentions
     public static void AddAutoMapper(this IServiceCollection services) 
     {
         services.AddAutoMapper(typeof(ServiceProfile));
+    }
+
+    public static void AddApplicationUtils(this IServiceCollection services) 
+    {
+        services.AddTransient<AuthUtil>();
     }
 
 }

@@ -1,17 +1,12 @@
-﻿using MeChat.Common.Abstractions.Data.Dapper;
+﻿using MeChat.Application.UseCases.V1.Auth.Utils;
+using MeChat.Common.Abstractions.Data.Dapper;
 using MeChat.Common.Abstractions.Messages;
 using MeChat.Common.Abstractions.Services;
 using MeChat.Common.Constants;
-using MeChat.Common.Shared.Exceptions;
-using MeChat.Common.Shared.Exceptions.Base;
 using MeChat.Common.Shared.Response;
 using MeChat.Common.UseCases.V1.Auth;
-using MeChat.Infrastucture.Jwt.DependencyInjection.Options;
 using Microsoft.Extensions.Configuration;
-using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
 using static MeChat.Common.Shared.Exceptions.AuthExceptions;
 
 namespace MeChat.Application.UseCases.V1.Auth.QueryHandlers;
@@ -20,14 +15,18 @@ public class GetRefreshTokenQueryHandler : IQueryHandler<Query.RefreshToken, Res
     private readonly ICacheService cacheService;
     private readonly IJwtTokenService jwtTokenService;
     private readonly IUnitOfWork unitOfWork;
-    private readonly IConfiguration configuration;
+    private readonly AuthUtil authUtil;
 
-    public GetRefreshTokenQueryHandler(ICacheService cacheService, IJwtTokenService jwtTokenService, IUnitOfWork unitOfWork, IConfiguration configuration)
+    public GetRefreshTokenQueryHandler(
+        ICacheService cacheService, 
+        IJwtTokenService jwtTokenService, 
+        IUnitOfWork unitOfWork, 
+        AuthUtil authUtil)
     {
         this.cacheService = cacheService;
         this.jwtTokenService = jwtTokenService;
         this.unitOfWork = unitOfWork;
-        this.configuration = configuration;
+        this.authUtil = authUtil;
     }
 
     public async Task<Result<Response.Authenticated>> Handle(Query.RefreshToken request, CancellationToken cancellationToken)
@@ -74,34 +73,7 @@ public class GetRefreshTokenQueryHandler : IQueryHandler<Query.RefreshToken, Res
         //Remove old refresh token from cache
         await cacheService.RemoveCache(request.Refresh!);
 
-        //Generate new access token
-        JwtOption jwtOption = new();
-        configuration.GetSection(nameof(JwtOption)).Bind(jwtOption);
-        var sessionTime = jwtOption.ExpireMinute + jwtOption.RefreshTokenExpireMinute;
-        var refreshToken = jwtTokenService.GenerateRefreshToken();
-
-        var clamims = new List<Claim>
-        {
-            new Claim(AppConfiguration.Jwt.ID, user.Id.ToString()),
-            new Claim(AppConfiguration.Jwt.ROLE, user.RoldeId.ToString()),
-            new Claim(AppConfiguration.Jwt.EMAIL, user.Email??string.Empty),
-            new Claim(AppConfiguration.Jwt.JTI, refreshToken),
-            new Claim(AppConfiguration.Jwt.EXPIRED, DateTime.Now.AddMinutes(jwtOption.ExpireMinute).ToString()),
-        };
-        var accessToken = jwtTokenService.GenerateAccessToken(clamims);
-
-        var result = new Response.Authenticated
-        {
-            AccessToken = accessToken,
-            RefreshToken = refreshToken,
-            RefreshTokenExpiryTime = DateTime.Now.AddMinutes(sessionTime),
-            UserId = userId.ToString()
-        };
-
-        //save refresh token into cache
-        await cacheService.SetCache(refreshToken, user.Id.ToString(), TimeSpan.FromMinutes(sessionTime));
-
-        return Result.Success(result);
+        return await authUtil.GenerateToken(user.Id, user.RoldeId, user.Email);
     }
 
 }
