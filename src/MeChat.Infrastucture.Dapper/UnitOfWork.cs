@@ -20,6 +20,7 @@ public class UnitOfWork : IUnitOfWork
 
     public Task BeginTransactionAsync(CancellationToken cancellationToken)
         => context.BeginTransactionAsync(cancellationToken);
+
     public Task CommitTransactionAsync(CancellationToken cancellationToken)
         => context.CommitTransactionAsync(cancellationToken);
 

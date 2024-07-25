@@ -8,6 +8,7 @@ public static class ServiceCollectionExtentions
 {
     public static void AddSqlServerDapper(this IServiceCollection services)
     {
+        services.AddTransient<ApplicationDbContext>();
         services.AddTransient<IUnitOfWork, UnitOfWork>();
 
         services.AddTransient<IUserRepository, UserRepository>();
