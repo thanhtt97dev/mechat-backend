@@ -1,7 +1,7 @@
 ﻿using MeChat.Domain.Abstractions;
 
 namespace MeChat.Domain.Entities;
-public class UserSocial : EntityMultiplePrimaryKey
+public class UserSocial : EntityAudit
 {
     public Guid UserId { get; set; }    
     public int SocialId { get; set; }

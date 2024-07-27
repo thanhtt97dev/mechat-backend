@@ -1,7 +1,7 @@
 ﻿using MeChat.Domain.Abstractions;
 
 namespace MeChat.Domain.Entities;
-public class User : DomainEntity<Guid>
+public class User : EntityAuditBase<Guid>
 {
     public string? Username { get; set; }
     public string? Password { get; set; }

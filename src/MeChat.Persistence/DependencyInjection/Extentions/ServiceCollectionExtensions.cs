@@ -30,7 +30,7 @@ public static class ServiceCollectionExtensions
 
         //add DI
         services.AddTransient(typeof(IUnitOfWork), typeof(UnitOfWork));
-        services.AddTransient(typeof(IRepositoryEnitityBase<,>), typeof(RepositoryEntityBase<,>));
-        services.AddTransient(typeof(IRepositoryBase<>), typeof(RepositoryBase<>));
+        services.AddTransient(typeof(IRepositoryBase<,>), typeof(RepositoryBase<,>));
+        services.AddTransient(typeof(IRepository<>), typeof(Repository<>));
     }
 }

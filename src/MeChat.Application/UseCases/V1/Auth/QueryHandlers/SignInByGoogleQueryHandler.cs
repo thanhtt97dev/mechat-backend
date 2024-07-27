@@ -15,8 +15,8 @@ public class SignInByGoogleQueryHandler : IQueryHandler<Query.SignInByGoogle, Re
     private readonly IConfiguration configuration;
     private readonly Common.Abstractions.Data.Dapper.IUnitOfWork unitOfWorkDapper;
     private readonly Common.Abstractions.Data.EntityFramework.IUnitOfWork unitOfWorkEF;
-    private readonly IRepositoryEnitityBase<Domain.Entities.User, Guid> userRepository;
-    private readonly IRepositoryBase<UserSocial> userSocialRepository;
+    private readonly IRepositoryBase<Domain.Entities.User, Guid> userRepository;
+    private readonly IRepository<UserSocial> userSocialRepository;
     private readonly AuthUtil authUtil;
 
     public SignInByGoogleQueryHandler(
@@ -24,8 +24,8 @@ public class SignInByGoogleQueryHandler : IQueryHandler<Query.SignInByGoogle, Re
         Common.Abstractions.Data.Dapper.IUnitOfWork unitOfWorkDapper, 
         Common.Abstractions.Data.EntityFramework.IUnitOfWork unitOfWorkEF, 
         IJwtTokenService jwtTokenService, ICacheService cacheService, 
-        IRepositoryEnitityBase<Domain.Entities.User, Guid> userRepository, 
-        IRepositoryBase<UserSocial> userSocialRepository,
+        IRepositoryBase<Domain.Entities.User, Guid> userRepository, 
+        IRepository<UserSocial> userSocialRepository,
         AuthUtil authUtil)
     {
         this.configuration = configuration;
@@ -60,8 +60,8 @@ public class SignInByGoogleQueryHandler : IQueryHandler<Query.SignInByGoogle, Re
             Email = payload.Email,
             Avatar = payload.Picture,
             Status = UserConstant.Status.Activate,
-            DateCreated = DateTime.Now,
-            DateUpdated = DateTime.Now,
+            CreatedDate = DateTime.Now,
+            ModifiledDate = DateTime.Now,
         };
         userRepository.Add(newUser);
         await unitOfWorkEF.SaveChangeAsync();
@@ -72,8 +72,8 @@ public class SignInByGoogleQueryHandler : IQueryHandler<Query.SignInByGoogle, Re
             UserId = newUser.Id,
             SocialId = SocialConstants.Google,
             AccountSocialId = payload.Subject,
-            DateCreated = DateTime.Now,
-            DateUpdated = DateTime.Now,
+            CreatedDate = DateTime.Now,
+            ModifiledDate = DateTime.Now,
         };
         userSocialRepository.Add(userSocial);
         await unitOfWorkEF.SaveChangeAsync();

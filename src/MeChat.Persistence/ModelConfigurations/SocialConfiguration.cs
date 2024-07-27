@@ -14,14 +14,14 @@ public class SocialConfiguration : IEntityTypeConfiguration<Social>
         builder.Property(x => x.Id).UseIdentityColumn(seed: 1, increment: 1);
 
         builder.Property(x => x.Name).IsRequired();
-        builder.Property(x => x.DateCreated);
-        builder.Property(x => x.DateUpdated);
+        builder.Property(x => x.CreatedDate);
+        builder.Property(x => x.ModifiledDate);
 
         builder.HasData(new Social[]
         {
-            new Social { Id = SocialConstants.Google, Name = "Google", DateCreated = DateTime.Now, DateUpdated = DateTime.Now },
-            new Social { Id = SocialConstants.Facebook, Name = "Facebook", DateCreated = DateTime.Now, DateUpdated = DateTime.Now },
-            new Social { Id = SocialConstants.Git, Name = "Git", DateCreated = DateTime.Now, DateUpdated = DateTime.Now },
+            new Social { Id = SocialConstants.Google, Name = "Google", CreatedDate = DateTime.Now, ModifiledDate = DateTime.Now },
+            new Social { Id = SocialConstants.Facebook, Name = "Facebook", CreatedDate = DateTime.Now, ModifiledDate = DateTime.Now },
+            new Social { Id = SocialConstants.Git, Name = "Git", CreatedDate = DateTime.Now, ModifiledDate = DateTime.Now },
         });
     }
 }

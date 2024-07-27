@@ -15,8 +15,8 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         builder.Property(x => x.Username).HasMaxLength(50);
         builder.Property(x => x.Password).HasMaxLength(50);
         builder.Property(x => x.Email);
-        builder.Property(x => x.DateCreated);
-        builder.Property(x => x.DateUpdated);
+        builder.Property(x => x.CreatedDate);
+        builder.Property(x => x.ModifiledDate);
         builder.Property(x => x.Status);
 
         builder

@@ -7,9 +7,9 @@ using MeChat.Common.UseCases.V1.User;
 namespace MeChat.Application.UseCases.V1.User.CommandHandlers;
 public class UpdateUserCommandHandler : ICommandHandler<Command.UpdateUser>
 {
-    private readonly IRepositoryEnitityBase<Domain.Entities.User, Guid> userRepository;
+    private readonly IRepositoryBase<Domain.Entities.User, Guid> userRepository;
 
-    public UpdateUserCommandHandler(IRepositoryEnitityBase<Domain.Entities.User, Guid> userRepository)
+    public UpdateUserCommandHandler(IRepositoryBase<Domain.Entities.User, Guid> userRepository)
     {
         this.userRepository = userRepository;
     }

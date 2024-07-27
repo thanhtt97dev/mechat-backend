@@ -13,13 +13,13 @@ public class RoleConfiguration : IEntityTypeConfiguration<Role>
         builder.Property(x => x.Id).UseIdentityColumn(seed: 1, increment: 1);
 
         builder.Property(x => x.RoleName).HasMaxLength(100).IsRequired(true);
-        builder.Property(x => x.DateCreated);
-        builder.Property(x => x.DateUpdated);
+        builder.Property(x => x.CreatedDate);
+        builder.Property(x => x.ModifiledDate);
 
         builder.HasData(new Role[]
         {
-            new Role { Id = 1, RoleName = "Admin", DateCreated = DateTime.Now, DateUpdated = DateTime.Now },
-            new Role { Id = 2, RoleName = "User", DateCreated = DateTime.Now, DateUpdated = DateTime.Now },
+            new Role { Id = 1, RoleName = "Admin", CreatedDate = DateTime.Now, ModifiledDate = DateTime.Now },
+            new Role { Id = 2, RoleName = "User", CreatedDate = DateTime.Now, ModifiledDate = DateTime.Now },
         });
     }
 }

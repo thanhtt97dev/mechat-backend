@@ -12,8 +12,8 @@ public class UserSocialConfigutaion : IEntityTypeConfiguration<UserSocial>
         builder.HasKey(x => new { x.UserId, x.SocialId});
 
         builder.Property(x => x.AccountSocialId);
-        builder.Property(x => x.DateCreated);
-        builder.Property(x => x.DateUpdated);
+        builder.Property(x => x.CreatedDate);
+        builder.Property(x => x.ModifiledDate);
 
         builder
             .HasOne(x => x.User)

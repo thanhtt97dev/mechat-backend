@@ -7,9 +7,9 @@ using MeChat.Common.UseCases.V1.User;
 namespace MeChat.Application.UseCases.V1.User.CommandHandlers;
 public class DeleteUserCommandHandler : ICommandHandler<Command.DeleteUser>
 {
-    private readonly IRepositoryEnitityBase<Domain.Entities.User, Guid> userRepository;
+    private readonly IRepositoryBase<Domain.Entities.User, Guid> userRepository;
 
-    public DeleteUserCommandHandler(IRepositoryEnitityBase<Domain.Entities.User, Guid> userRepository)
+    public DeleteUserCommandHandler(IRepositoryBase<Domain.Entities.User, Guid> userRepository)
     {
         this.userRepository = userRepository;
     }
