@@ -22,9 +22,6 @@ public class Program
 
         // Add services to the container.
 
-        //Add DI for httpContextAccessor
-        builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-
         //Add Cors
         builder.Services.AddCors(options =>
         {
