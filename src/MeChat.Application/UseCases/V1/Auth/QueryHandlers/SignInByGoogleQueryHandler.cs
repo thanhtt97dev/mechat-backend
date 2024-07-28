@@ -23,7 +23,6 @@ public class SignInByGoogleQueryHandler : IQueryHandler<Query.SignInByGoogle, Re
         IConfiguration configuration, 
         Common.Abstractions.Data.Dapper.IUnitOfWork unitOfWorkDapper, 
         Common.Abstractions.Data.EntityFramework.IUnitOfWork unitOfWorkEF, 
-        IJwtTokenService jwtTokenService, ICacheService cacheService, 
         IRepositoryBase<Domain.Entities.User, Guid> userRepository, 
         IRepository<UserSocial> userSocialRepository,
         AuthUtil authUtil)
@@ -60,11 +59,9 @@ public class SignInByGoogleQueryHandler : IQueryHandler<Query.SignInByGoogle, Re
             Email = payload.Email,
             Avatar = payload.Picture,
             Status = UserConstant.Status.Activate,
-            CreatedDate = DateTime.Now,
-            ModifiledDate = DateTime.Now,
         };
         userRepository.Add(newUser);
-        await unitOfWorkEF.SaveChangeAsync();
+        await unitOfWorkEF.SaveChangeUserTrackingAsync(newUser.Id);
 
         //New UserSocial
         UserSocial userSocial = new UserSocial
@@ -72,11 +69,9 @@ public class SignInByGoogleQueryHandler : IQueryHandler<Query.SignInByGoogle, Re
             UserId = newUser.Id,
             SocialId = SocialConstants.Google,
             AccountSocialId = payload.Subject,
-            CreatedDate = DateTime.Now,
-            ModifiledDate = DateTime.Now,
         };
         userSocialRepository.Add(userSocial);
-        await unitOfWorkEF.SaveChangeAsync();
+        await unitOfWorkEF.SaveChangeUserTrackingAsync(newUser.Id);
 
         return await authUtil.GenerateToken(newUser.Id, newUser.RoldeId, newUser.Email);
     }

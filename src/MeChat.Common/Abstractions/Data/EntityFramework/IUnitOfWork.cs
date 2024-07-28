@@ -2,4 +2,6 @@
 public interface IUnitOfWork : IAsyncDisposable
 {
     Task SaveChangeAsync(CancellationToken cancellationToken = default);
+
+    Task SaveChangeUserTrackingAsync(Guid userId, CancellationToken cancellationToken = default);
 }

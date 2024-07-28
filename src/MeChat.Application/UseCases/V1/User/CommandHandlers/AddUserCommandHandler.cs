@@ -23,8 +23,6 @@ public class AddUserCommandHandler : ICommandHandler<Command.AddUser>
         var user = mapper.Map<Domain.Entities.User>(request);
         user.Avatar = null;
         user.Email = null;
-        user.CreatedDate = DateTime.Now;
-        user.ModifiledDate = DateTime.Now;
         user.Status = UserConstant.Status.Activate;
         user.RoldeId = RoleConstant.User;
 

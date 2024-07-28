@@ -1,7 +1,7 @@
 ﻿using MeChat.Domain.Abstractions;
 
 namespace MeChat.Domain.Entities;
-public class Social : EntityAuditBase<int>
+public class Social : EntityBase<int>
 {
     public string Name { get; set; } = string.Empty;
 

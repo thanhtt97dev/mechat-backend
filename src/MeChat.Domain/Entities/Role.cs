@@ -1,7 +1,7 @@
 ﻿using MeChat.Domain.Abstractions;
 
 namespace MeChat.Domain.Entities;
-public class Role : EntityAuditBase<int>
+public class Role : EntityBase<int>
 {
     public string? RoleName { get; set; }
     

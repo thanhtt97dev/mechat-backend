@@ -10,18 +10,20 @@ public class SocialConfiguration : IEntityTypeConfiguration<Social>
     {
         builder.ToTable(nameof(Social));
 
+        #region Main properties
         builder.HasKey(x => x.Id);
         builder.Property(x => x.Id).UseIdentityColumn(seed: 1, increment: 1);
-
         builder.Property(x => x.Name).IsRequired();
-        builder.Property(x => x.CreatedDate);
-        builder.Property(x => x.ModifiledDate);
+        #endregion
 
+        #region Initial data
         builder.HasData(new Social[]
         {
-            new Social { Id = SocialConstants.Google, Name = "Google", CreatedDate = DateTime.Now, ModifiledDate = DateTime.Now },
-            new Social { Id = SocialConstants.Facebook, Name = "Facebook", CreatedDate = DateTime.Now, ModifiledDate = DateTime.Now },
-            new Social { Id = SocialConstants.Git, Name = "Git", CreatedDate = DateTime.Now, ModifiledDate = DateTime.Now },
+            new Social {Id = SocialConstants.Google, Name = "Google"},
+            new Social {Id = SocialConstants.Facebook, Name = "Facebook"},
+            new Social {Id = SocialConstants.Git, Name = "Git"},
         });
+        #endregion
+
     }
 }

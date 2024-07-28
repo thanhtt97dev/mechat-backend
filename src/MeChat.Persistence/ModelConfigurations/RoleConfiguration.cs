@@ -8,18 +8,20 @@ public class RoleConfiguration : IEntityTypeConfiguration<Role>
     public void Configure(EntityTypeBuilder<Role> builder)
     {
         builder.ToTable(nameof(Role));
-
+        #region Main properties
         builder.HasKey(x => x.Id);
         builder.Property(x => x.Id).UseIdentityColumn(seed: 1, increment: 1);
 
         builder.Property(x => x.RoleName).HasMaxLength(100).IsRequired(true);
-        builder.Property(x => x.CreatedDate);
-        builder.Property(x => x.ModifiledDate);
+        #endregion
 
+        #region Initial data
         builder.HasData(new Role[]
         {
-            new Role { Id = 1, RoleName = "Admin", CreatedDate = DateTime.Now, ModifiledDate = DateTime.Now },
-            new Role { Id = 2, RoleName = "User", CreatedDate = DateTime.Now, ModifiledDate = DateTime.Now },
+            new Role { Id = 1, RoleName = "Admin"},
+            new Role {Id = 2, RoleName = "User"},
         });
+        #endregion
+
     }
 }

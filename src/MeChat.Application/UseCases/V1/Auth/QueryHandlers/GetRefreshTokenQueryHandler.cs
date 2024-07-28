@@ -5,7 +5,6 @@ using MeChat.Common.Abstractions.Services;
 using MeChat.Common.Constants;
 using MeChat.Common.Shared.Response;
 using MeChat.Common.UseCases.V1.Auth;
-using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using static MeChat.Common.Shared.Exceptions.AuthExceptions;
 
