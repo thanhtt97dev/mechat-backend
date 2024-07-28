@@ -2,8 +2,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
-using Microsoft.AspNetCore.Http;
-using MeChat.Common.Constants;
 using MeChat.Persistence.Services.Helpers;
 
 namespace MeChat.Persistence.Interceptors;
@@ -17,6 +15,8 @@ public class AuditTableEntitiesInterceptor : SaveChangesInterceptor
             return base.SavingChangesAsync(eventData, result, cancellationToken);
 
         IEnumerable<EntityEntry<IAuditTable>> entries = dbContext.ChangeTracker.Entries<IAuditTable>();
+        if(entries.Count() == 0) return base.SavingChangesAsync(eventData, result, cancellationToken);
+
         bool isUserTracking = true;
         var userId = UserTrackingAditTableHelper.UserId;
         if (userId == null) isUserTracking = false;
