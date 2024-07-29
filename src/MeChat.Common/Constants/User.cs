@@ -2,7 +2,7 @@
 
 public partial class AppConstants
 {
-    public class Users
+    public class User
     {
         public class Status
         {

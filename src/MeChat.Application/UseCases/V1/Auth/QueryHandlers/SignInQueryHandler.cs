@@ -23,11 +23,11 @@ public class SignInQueryHandler : IQueryHandler<Query.SignIn, Response.Authentic
     {
         var user = await unitOfWork.Users.GetUserByUsernameAndPassword(request.Username, request.Password);
         if (user == null)
-            return Result.Failure<Response.Authenticated>(null, "Username or Password incorrect!");
+            return Result.NotFound<Response.Authenticated>(null, "Username or Password incorrect!");
 
         //Check User
-        if (user.Status != AppConstants.Users.Status.Activate)
-            return Result.Initialization<Response.Authenticated>(AppConstants.ResponseCodes.UserBanned, "User has been banned!", false, null);
+        if (user.Status != AppConstants.User.Status.Activate)
+            return Result.Initialization<Response.Authenticated>(AppConstants.ResponseCodes.User.Banned, "User has been banned!", false, null);
 
         return await authUtil.GenerateToken(user.Id, user.RoldeId, user.Email);
     }

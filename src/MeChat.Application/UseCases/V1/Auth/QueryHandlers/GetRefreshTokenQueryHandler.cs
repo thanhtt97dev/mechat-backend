@@ -57,8 +57,8 @@ public class GetRefreshTokenQueryHandler : IQueryHandler<Query.RefreshToken, Res
         //Check user's permitssion
         var user = await unitOfWork.Users.FindByIdAsync(userId) ?? throw new UserNotHavePermission();
 
-        if (user.Status != AppConstants.Users.Status.Activate)
-            return Result.Initialization<Response.Authenticated>(AppConstants.ResponseCodes.UserBanned, "User has been banned!", false, null);
+        if (user.Status != AppConstants.User.Status.Activate)
+            return Result.Initialization<Response.Authenticated>(AppConstants.ResponseCodes.User.Banned, "User has been banned!", false, null);
 
         //Check refesh token
         var rawUserIdFromCacheWithRefreshToken = await cacheService.GetCache(request.Refresh!) ?? string.Empty;

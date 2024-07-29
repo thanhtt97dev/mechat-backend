@@ -36,18 +36,28 @@ public class Result
         => new(AppConstants.ResponseCodes.Failure, message, false, data);
 
     public static Result<string> NotFound(string message)
-        => new(AppConstants.ResponseCodes.NotFound, "NotFound" , false, message);
+        => new(AppConstants.ResponseCodes.NotFound, message, false, null);
+
+    public static Result<TData> NotFound<TData>(TData? data, string message)
+        => new(AppConstants.ResponseCodes.NotFound, message, false, data);
 
     public static Result<string> UnAuthorized(string message)
-        => new(AppConstants.ResponseCodes.UnAuthorized, "UnAuthorized", false, message);
+        => new(AppConstants.ResponseCodes.UnAuthorized, message, false, null);
+
+    public static Result<TData> UnAuthorized<TData>(TData? data, string message)
+        => new(AppConstants.ResponseCodes.UnAuthorized, message, false, data);
+
     public static Result<string> UnAuthentication(string message)
-    => new(AppConstants.ResponseCodes.UnAuthentication, "UnAuthentication", false, message);
+        => new(AppConstants.ResponseCodes.UnAuthentication, message, false, null);
+
+    public static Result<TData> UnAuthentication<TData>(TData? data, string message)
+        => new(AppConstants.ResponseCodes.UnAuthentication, message, false, data);
 
     public static Result Initialization(string code, string message, bool oke)
         => new(code,message, oke);
 
     public static Result<TData> Initialization<TData>(string code, string message, bool oke, TData? data)
-    => new(code, message, oke, data);
+        => new(code, message, oke, data);
 
     public static Result<TData> ValidationError<TData>(TData data)
     {
@@ -59,6 +69,7 @@ public class Result
 public class Result<TValue> : Result
 {
     [JsonPropertyOrder(4)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public TValue? Value { get; set; }
     protected internal Result(string code, string message,bool oke, TValue? value)
          : base(code, message, oke)

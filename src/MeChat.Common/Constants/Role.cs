@@ -2,7 +2,7 @@
 
 public partial class AppConstants
 {
-    public class Roles
+    public class Role
     {
         public const int Admin = 1;
         public const int User = 2;

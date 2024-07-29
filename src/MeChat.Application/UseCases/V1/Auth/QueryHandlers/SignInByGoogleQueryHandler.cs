@@ -40,10 +40,10 @@ public class SignInByGoogleQueryHandler : IQueryHandler<Query.SignInByGoogle, Re
         //Check Google token
         GoogleJsonWebSignature.Payload payload = await GoogleJsonWebSignature.ValidateAsync(request.GoogleToken);
         if(payload == null) 
-            return Result.Failure<Response.Authenticated>(null, "Invalid google token!");
+            return Result.UnAuthentication<Response.Authenticated>(null, "Invalid google token!");
 
         //Check user's email existed
-        var user = await unitOfWorkDapper.Users.GetUserByAccountSocial(payload.Subject, AppConstants.Socials.Google);
+        var user = await unitOfWorkDapper.Users.GetUserByAccountSocial(payload.Subject, AppConstants.Social.Google);
         if(user != null)
         {
             return await authUtil.GenerateToken(user.Id, user.RoldeId, user.Email);
@@ -55,10 +55,10 @@ public class SignInByGoogleQueryHandler : IQueryHandler<Query.SignInByGoogle, Re
             Username = null,
             Password = null,
             Fullname = payload.Name,
-            RoldeId = AppConstants.Roles.User,
+            RoldeId = AppConstants.Role.User,
             Email = payload.Email,
             Avatar = payload.Picture,
-            Status = AppConstants.Users.Status.Activate,
+            Status = AppConstants.User.Status.Activate,
         };
         userRepository.Add(newUser);
         await unitOfWorkEF.SaveChangeUserTrackingAsync(newUser.Id);
@@ -67,7 +67,7 @@ public class SignInByGoogleQueryHandler : IQueryHandler<Query.SignInByGoogle, Re
         UserSocial userSocial = new UserSocial
         {
             UserId = newUser.Id,
-            SocialId = AppConstants.Socials.Google,
+            SocialId = AppConstants.Social.Google,
             AccountSocialId = payload.Subject,
         };
         userSocialRepository.Add(userSocial);

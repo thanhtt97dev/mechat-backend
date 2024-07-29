@@ -2,7 +2,7 @@
 
 public partial class AppConstants
 {
-    public class Socials
+    public class Social
     {
         public const int Google = 1;
         public const int Facebook = 2;

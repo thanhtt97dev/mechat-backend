@@ -23,8 +23,8 @@ public class AddUserCommandHandler : ICommandHandler<Command.AddUser>
         var user = mapper.Map<Domain.Entities.User>(request);
         user.Avatar = null;
         user.Email = null;
-        user.Status = AppConstants.Users.Status.Activate;
-        user.RoldeId = AppConstants.Roles.User;
+        user.Status = AppConstants.User.Status.Activate;
+        user.RoldeId = AppConstants.Role.User;
 
         userRepository.Add(user);
         return Task.FromResult<Result>(Result.Success());

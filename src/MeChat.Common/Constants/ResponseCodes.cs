@@ -13,9 +13,10 @@ public partial class AppConstants
         public const string UnAuthentication = "05";
         #endregion
 
-        #region User
-        public const string UserBanned = "1001";
-        #endregion
+        public class User
+        {
+            public const string Banned = "1001";
+        }
     }
 }
 
