@@ -30,11 +30,11 @@ public class AuthUtil
 
         var clamims = new List<Claim>
         {
-            new Claim(AppConfiguration.Jwt.ID, id.ToString()),
-            new Claim(AppConfiguration.Jwt.ROLE, role.ToString()),
-            new Claim(AppConfiguration.Jwt.EMAIL, email??string.Empty),
-            new Claim(AppConfiguration.Jwt.JTI, refreshToken),
-            new Claim(AppConfiguration.Jwt.EXPIRED, DateTime.Now.AddMinutes(jwtOption.ExpireMinute).ToString()),
+            new Claim(AppConstants.AppConfigs.Jwt.ID, id.ToString()),
+            new Claim(AppConstants.AppConfigs.Jwt.ROLE, role.ToString()),
+            new Claim(AppConstants.AppConfigs.Jwt.EMAIL, email??string.Empty),
+            new Claim(AppConstants.AppConfigs.Jwt.JTI, refreshToken),
+            new Claim(AppConstants.AppConfigs.Jwt.EXPIRED, DateTime.Now.AddMinutes(jwtOption.ExpireMinute).ToString()),
         };
 
         var accessToken = jwtTokenService.GenerateAccessToken(clamims);

@@ -19,9 +19,9 @@ public class SocialConfiguration : IEntityTypeConfiguration<Social>
         #region Initial data
         builder.HasData(new Social[]
         {
-            new Social {Id = SocialConstants.Google, Name = "Google"},
-            new Social {Id = SocialConstants.Facebook, Name = "Facebook"},
-            new Social {Id = SocialConstants.Git, Name = "Git"},
+            new Social {Id = AppConstants.Socials.Google, Name = "Google"},
+            new Social {Id = AppConstants.Socials.Facebook, Name = "Facebook"},
+            new Social {Id = AppConstants.Socials.Git, Name = "Git"},
         });
         #endregion
 

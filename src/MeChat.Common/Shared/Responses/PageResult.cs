@@ -18,13 +18,13 @@ public class PageResult<TData>
         Total = total;
     }
 
-    public static async Task<PageResult<TData>> CreateAsync(IQueryable<TData> query , int pageIndex = Page.IndexDefault, int pageSize = Page.SizeDefault)
+    public static async Task<PageResult<TData>> CreateAsync(IQueryable<TData> query , int pageIndex = AppConstants.Page.IndexDefault, int pageSize = AppConstants.Page.SizeDefault)
     {
         if(pageIndex <= 0)
-            pageIndex = Page.IndexDefault;
+            pageIndex = AppConstants.Page.IndexDefault;
 
-        if(pageSize > Page.SizeMaximun)
-            pageSize = Page.SizeMaximun;
+        if(pageSize > AppConstants.Page.SizeMaximun)
+            pageSize = AppConstants.Page.SizeMaximun;
 
         var totalCount = await query.CountAsync();
         var items = await query.Skip((pageIndex - 1) * pageSize).Take(pageSize).ToListAsync();

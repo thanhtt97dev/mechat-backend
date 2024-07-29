@@ -72,13 +72,15 @@ WHERE Id = @Id";
     #endregion
 
     #region Get many async
-    public async Task<List<Domain.Entities.User>?> GetManyAsync(string? searchTerm, IDictionary<string, Common.Enumerations.SortOrderSql> sortColumnWithOrders, int pageIndex = Page.IndexDefault, int pageSize = Page.SizeDefault)
+    public async Task<List<Domain.Entities.User>?> GetManyAsync
+        (string? searchTerm, IDictionary<string, Common.Enumerations.SortOrderSql> sortColumnWithOrders,
+        int pageIndex = AppConstants.Page.IndexDefault, int pageSize = AppConstants.Page.SizeDefault)
     {
         if (pageIndex <= 0)
-            pageIndex = Page.IndexDefault;
+            pageIndex = AppConstants.Page.IndexDefault;
 
-        if (pageSize > Page.SizeMaximun)
-            pageSize = Page.SizeMaximun;
+        if (pageSize > AppConstants.Page.SizeMaximun)
+            pageSize = AppConstants.Page.SizeMaximun;
 
         var query =
 @$"SELECT * FROM [User]

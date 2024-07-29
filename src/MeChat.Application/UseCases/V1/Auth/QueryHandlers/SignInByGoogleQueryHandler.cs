@@ -43,7 +43,7 @@ public class SignInByGoogleQueryHandler : IQueryHandler<Query.SignInByGoogle, Re
             return Result.Failure<Response.Authenticated>(null, "Invalid google token!");
 
         //Check user's email existed
-        var user = await unitOfWorkDapper.Users.GetUserByAccountSocial(payload.Subject, SocialConstants.Google);
+        var user = await unitOfWorkDapper.Users.GetUserByAccountSocial(payload.Subject, AppConstants.Socials.Google);
         if(user != null)
         {
             return await authUtil.GenerateToken(user.Id, user.RoldeId, user.Email);
@@ -55,10 +55,10 @@ public class SignInByGoogleQueryHandler : IQueryHandler<Query.SignInByGoogle, Re
             Username = null,
             Password = null,
             Fullname = payload.Name,
-            RoldeId = RoleConstant.User,
+            RoldeId = AppConstants.Roles.User,
             Email = payload.Email,
             Avatar = payload.Picture,
-            Status = UserConstant.Status.Activate,
+            Status = AppConstants.Users.Status.Activate,
         };
         userRepository.Add(newUser);
         await unitOfWorkEF.SaveChangeUserTrackingAsync(newUser.Id);
@@ -67,7 +67,7 @@ public class SignInByGoogleQueryHandler : IQueryHandler<Query.SignInByGoogle, Re
         UserSocial userSocial = new UserSocial
         {
             UserId = newUser.Id,
-            SocialId = SocialConstants.Google,
+            SocialId = AppConstants.Socials.Google,
             AccountSocialId = payload.Subject,
         };
         userSocialRepository.Add(userSocial);

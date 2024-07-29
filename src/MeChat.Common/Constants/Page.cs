@@ -1,7 +1,13 @@
 ﻿namespace MeChat.Common.Constants;
-public static class Page
+
+public partial class AppConstants
 {
-    public const int IndexDefault = 10;
-    public const int SizeDefault = 10;
-    public const int SizeMaximun = 100;
+    public class Page
+    {
+        public const int IndexDefault = 10;
+        public const int SizeDefault = 10;
+        public const int SizeMaximun = 100;
+    }
 }
+
+

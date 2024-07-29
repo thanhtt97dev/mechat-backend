@@ -35,7 +35,7 @@ public class GetRefreshTokenQueryHandler : IQueryHandler<Query.RefreshToken, Res
             throw new AccessTokenInValid();
 
         //get user Id in acces token
-        var rawUserId = jwtTokenService.GetClaim(AppConfiguration.Jwt.ID, request.AccessToken);
+        var rawUserId = jwtTokenService.GetClaim(AppConstants.AppConfigs.Jwt.ID, request.AccessToken);
         if (rawUserId == null) throw new AccessTokenInValid();
 #pragma warning disable CS8604 // Possible null reference argument.
         Guid userId = Guid.Parse(rawUserId.ToString());
@@ -46,7 +46,7 @@ public class GetRefreshTokenQueryHandler : IQueryHandler<Query.RefreshToken, Res
             throw new AccessTokenInValid();
 
         //get refresh token in access token
-        var rawRefreshToken = jwtTokenService.GetClaim(AppConfiguration.Jwt.JTI, request.AccessToken);
+        var rawRefreshToken = jwtTokenService.GetClaim(AppConstants.AppConfigs.Jwt.JTI, request.AccessToken);
         if (rawRefreshToken == null) throw new AccessTokenInValid();
         var refreshTokenInAccessToken = (string)rawRefreshToken;
 
@@ -57,8 +57,8 @@ public class GetRefreshTokenQueryHandler : IQueryHandler<Query.RefreshToken, Res
         //Check user's permitssion
         var user = await unitOfWork.Users.FindByIdAsync(userId) ?? throw new UserNotHavePermission();
 
-        if (user.Status != Common.Constants.UserConstant.Status.Activate)
-            return Result.Initialization<Response.Authenticated>(ResponseCodes.UserBanned, "User has been banned!", false, null);
+        if (user.Status != AppConstants.Users.Status.Activate)
+            return Result.Initialization<Response.Authenticated>(AppConstants.ResponseCodes.UserBanned, "User has been banned!", false, null);
 
         //Check refesh token
         var rawUserIdFromCacheWithRefreshToken = await cacheService.GetCache(request.Refresh!) ?? string.Empty;

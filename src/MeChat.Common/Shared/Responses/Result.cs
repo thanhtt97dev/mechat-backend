@@ -13,9 +13,9 @@ public class Result
 
     public Result(string? code, string? message, bool ok)
     {
-        if (code == ResponseCodes.Success && !ok)
+        if (code == AppConstants.ResponseCodes.Success && !ok)
             throw new InvalidOperationException();
-        if (code != ResponseCodes.Success && ok)
+        if (code != AppConstants.ResponseCodes.Success && ok)
             throw new InvalidOperationException();
 
         Code = code;
@@ -24,24 +24,24 @@ public class Result
     }
 
     public static Result Success()
-        =>new (ResponseCodes.Success, "Success!", true);
+        =>new (AppConstants.ResponseCodes.Success, "Success!", true);
 
     public static Result<TData> Success<TData>(TData data)
-        => new(ResponseCodes.Success, "Success!", true, data);
+        => new(AppConstants.ResponseCodes.Success, "Success!", true, data);
 
     public static Result Failure(string message) 
-        => new(ResponseCodes.Failure, message, false);
+        => new(AppConstants.ResponseCodes.Failure, message, false);
 
     public static Result<TData> Failure<TData>(TData? data, string message)
-        => new(ResponseCodes.Failure, message, false, data);
+        => new(AppConstants.ResponseCodes.Failure, message, false, data);
 
     public static Result<string> NotFound(string message)
-        => new(ResponseCodes.NotFound, "NotFound" , false, message);
+        => new(AppConstants.ResponseCodes.NotFound, "NotFound" , false, message);
 
     public static Result<string> UnAuthorized(string message)
-        => new(ResponseCodes.UnAuthorized, "UnAuthorized", false, message);
+        => new(AppConstants.ResponseCodes.UnAuthorized, "UnAuthorized", false, message);
     public static Result<string> UnAuthentication(string message)
-    => new(ResponseCodes.UnAuthentication, "UnAuthentication", false, message);
+    => new(AppConstants.ResponseCodes.UnAuthentication, "UnAuthentication", false, message);
 
     public static Result Initialization(string code, string message, bool oke)
         => new(code,message, oke);
@@ -51,7 +51,7 @@ public class Result
 
     public static Result<TData> ValidationError<TData>(TData data)
     {
-        return new(ResponseCodes.ValidationError, "Validation error!", false, data);
+        return new(AppConstants.ResponseCodes.ValidationError, "Validation error!", false, data);
     }
 
 }
