@@ -21,6 +21,13 @@ public class MailService : IMailService
         await SendAsync(message);
     }
 
+    public async Task SendMailAsync(string email, string subject, string content)
+    {
+        var emails = new List<string>() { email };
+        var message = CreateEmailMessage(emails, subject, content);
+        await SendAsync(message);
+    }
+
     private MimeMessage CreateEmailMessage(IEnumerable<string> emails, string subject, string content)
     {
         var message = new MimeMessage();

@@ -10,7 +10,18 @@ public class RepositoryBase<TEntity, TKey> : Repository<TEntity>, IRepositoryBas
     {
     }
 
-    public IQueryable<TEntity> FindAll(Expression<Func<TEntity, bool>>? predicate = null, params Expression<Func<TEntity, object>>[] includeProperties)
+    public async Task<bool> Any(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken = default, params Expression<Func<TEntity, object?>>[] includeProperties)
+    {
+        if(predicate == null) throw new ArgumentNullException(nameof(predicate));
+        IQueryable<TEntity> items = context.Set<TEntity>().AsNoTracking(); // Importance Always include AsNoTracking for Query Side
+        if (includeProperties != null)
+            foreach (var includeProperty in includeProperties)
+                items = items.Include(includeProperty);
+        bool result = await items.AnyAsync(predicate, cancellationToken);
+        return result;
+    }
+
+    public IQueryable<TEntity> FindAll(Expression<Func<TEntity, bool>>? predicate = null, params Expression<Func<TEntity, object?>>[] includeProperties)
     {
         IQueryable<TEntity> items = context.Set<TEntity>().AsNoTracking(); // Importance Always include AsNoTracking for Query Side
         if (includeProperties != null)
@@ -23,17 +34,13 @@ public class RepositoryBase<TEntity, TKey> : Repository<TEntity>, IRepositoryBas
         return items;
     }
 
-    public async Task<TEntity> FindByIdAsync(TKey id, CancellationToken cancellationToken = default, params Expression<Func<TEntity, object>>[] includeProperties)
+    public async Task<TEntity> FindByIdAsync(TKey id, CancellationToken cancellationToken = default, params Expression<Func<TEntity, object?>>[] includeProperties)
     {
-#pragma warning disable CS8603 // Possible null reference return.
-#pragma warning disable CS8602 // Dereference of a possibly null reference.
-        return await FindAll(null, includeProperties).AsTracking().SingleOrDefaultAsync(x => x.Id.Equals(id), cancellationToken);
-#pragma warning restore CS8602 // Dereference of a possibly null reference.
-#pragma warning restore CS8603 // Possible null reference return.
+        return await FindAll(null, includeProperties).AsNoTracking().SingleOrDefaultAsync(x => x.Id.Equals(id), cancellationToken);
     }
         
 
-    public async Task<TEntity> FindSingleAsync(Expression<Func<TEntity, bool>>? predicate = null, CancellationToken cancellationToken = default, params Expression<Func<TEntity, object>>[] includeProperties)
+    public async Task<TEntity> FindSingleAsync(Expression<Func<TEntity, bool>>? predicate = null, CancellationToken cancellationToken = default, params Expression<Func<TEntity, object?>>[] includeProperties)
     {
 #pragma warning disable CS8603 // Possible null reference return.
 #pragma warning disable CS8604 // Possible null reference argument.

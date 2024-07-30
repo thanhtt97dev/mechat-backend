@@ -52,4 +52,20 @@ public class AuthUtil
 
         return Result.Success(result);
     }
+
+    public string GenerateTokenForSignUp(string email)
+    {
+        JwtOption jwtOption = new();
+        configuration.GetSection(nameof(JwtOption)).Bind(jwtOption);
+
+        var clamims = new List<Claim>
+        {
+            new Claim(AppConstants.AppConfigs.Jwt.EMAIL, email??string.Empty),
+            new Claim(AppConstants.AppConfigs.Jwt.EXPIRED, DateTime.Now.AddDays(30).ToString()),
+        };
+
+        var accessToken = jwtTokenService.GenerateAccessToken(clamims);
+
+        return accessToken;
+    }
 }
