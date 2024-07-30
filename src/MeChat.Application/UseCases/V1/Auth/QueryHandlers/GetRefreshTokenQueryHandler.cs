@@ -1,4 +1,4 @@
-﻿using MeChat.Application.UseCases.V1.Auth.Utils;
+using MeChat.Application.UseCases.V1.Auth.Utils;
 using MeChat.Common.Abstractions.Data.Dapper;
 using MeChat.Common.Abstractions.Messages;
 using MeChat.Common.Abstractions.Services;
@@ -31,15 +31,14 @@ public class GetRefreshTokenQueryHandler : IQueryHandler<Query.RefreshToken, Res
     public async Task<Result<Response.Authenticated>> Handle(Query.RefreshToken request, CancellationToken cancellationToken)
     {
         //check request is valid
-        if(request.UserId == null || request.AccessToken == null)
+        if (request.UserId == null || request.AccessToken == null)
             throw new AccessTokenInValid();
 
         //get user Id in acces token
         var rawUserId = jwtTokenService.GetClaim(AppConstants.AppConfigs.Jwt.ID, request.AccessToken);
         if (rawUserId == null) throw new AccessTokenInValid();
-#pragma warning disable CS8604 // Possible null reference argument.
-        Guid userId = Guid.Parse(rawUserId.ToString());
-#pragma warning restore CS8604 // Possible null reference argument.
+
+        Guid userId = Guid.Parse(rawUserId.ToString()!);
 
         //check userId in request header with userId in accessToken is match
         if (userId.ToString() != request.UserId)
@@ -63,11 +62,11 @@ public class GetRefreshTokenQueryHandler : IQueryHandler<Query.RefreshToken, Res
         //Check refesh token
         var rawUserIdFromCacheWithRefreshToken = await cacheService.GetCache(request.Refresh!) ?? string.Empty;
         if(string.IsNullOrEmpty(rawUserIdFromCacheWithRefreshToken))
-            return Result.Failure<Response.Authenticated>(null, "Refresh token has been expried!");
+            return Result.Failure<Response.Authenticated>("Refresh token has been expried!");
 
         var userIdFromCacheWithRefreshToken = JsonConvert.DeserializeObject<string>(rawUserIdFromCacheWithRefreshToken);
         if (userIdFromCacheWithRefreshToken != user.Id.ToString())
-            return Result.Failure<Response.Authenticated>(null, "Invalid refresh token!");
+            return Result.Failure<Response.Authenticated>("Invalid refresh token!");
 
         //Remove old refresh token from cache
         await cacheService.RemoveCache(request.Refresh!);
