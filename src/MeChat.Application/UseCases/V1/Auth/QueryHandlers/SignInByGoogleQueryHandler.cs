@@ -40,7 +40,7 @@ public class SignInByGoogleQueryHandler : IQueryHandler<Query.SignInByGoogle, Re
         //Check Google token
         GoogleJsonWebSignature.Payload payload = await GoogleJsonWebSignature.ValidateAsync(request.GoogleToken);
         if(payload == null) 
-            return Result.UnAuthentication<Response.Authenticated>(null, "Invalid google token!");
+            return Result.UnAuthentication<Response.Authenticated>("Invalid google token!");
 
         //Check user's email existed
         var user = await unitOfWorkDapper.Users.GetUserByAccountSocial(payload.Subject, AppConstants.Social.Google);
