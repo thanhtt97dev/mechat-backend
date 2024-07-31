@@ -33,9 +33,9 @@ public class ValidationPipelineBehavior<TRequest, TResponse> : IPipelineBehavior
             .SelectMany(validationResult => validationResult.Errors)
             .Where(validationFailure => validationFailure is not null)
             .Select(failure => new ValidationFailure() { PropertyName = failure.PropertyName, ErrorMessage = failure.ErrorMessage })
-            .Distinct()
+            .DistinctBy(x => x.PropertyName)
             .ToArray();
-
+    
         if (errors.Any())
         {
             throw new FluentValidation.ValidationException("Validation errors", validationErrorDetails);
