@@ -28,7 +28,7 @@ public class ValidationPipelineBehavior<TRequest, TResponse> : IPipelineBehavior
             .Distinct()
             .ToArray();
 
-        IEnumerable<ValidationFailure> errorForResultT = validators
+        IEnumerable<ValidationFailure> validationErrorDetails = validators
             .Select(validator => validator.Validate(request))
             .SelectMany(validationResult => validationResult.Errors)
             .Where(validationFailure => validationFailure is not null)
@@ -38,11 +38,7 @@ public class ValidationPipelineBehavior<TRequest, TResponse> : IPipelineBehavior
 
         if (errors.Any())
         {
-            if(typeof(TResponse) != typeof(Result))
-            {
-                throw new FluentValidation.ValidationException("Validation errors", errorForResultT);
-            }
-            return (Result.ValidationError<string[]>(errors) as TResponse)!;
+            throw new FluentValidation.ValidationException("Validation errors", validationErrorDetails);
         }
 
         return await next();
