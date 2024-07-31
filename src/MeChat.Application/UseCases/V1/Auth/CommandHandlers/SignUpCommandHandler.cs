@@ -1,4 +1,5 @@
 ﻿using MeChat.Application.UseCases.V1.Auth.Utils;
+using MeChat.Common.Abstractions.Data.EntityFramework;
 using MeChat.Common.Abstractions.Data.EntityFramework.Repositories;
 using MeChat.Common.Abstractions.Messages;
 using MeChat.Common.Abstractions.Services;
@@ -12,14 +13,20 @@ public class SignUpCommandHandler : ICommandHandler<Command.SignUp>
 {
     private readonly IConfiguration configuration;
     private readonly IRepositoryBase<Domain.Entities.User, Guid> userReposiory;
+    private readonly IUnitOfWork unitOfWorkEF;
     private readonly IMailService mailService;
 
     private readonly AuthUtil authUtil;
 
-    public SignUpCommandHandler(IConfiguration configuration, IRepositoryBase<Domain.Entities.User, Guid> userReposiory, IMailService mailService, AuthUtil authUtil)
+    public SignUpCommandHandler
+        (IConfiguration configuration,
+        IRepositoryBase<Domain.Entities.User, Guid> userReposiory,
+        IUnitOfWork unitOfWorkEF, IMailService mailService,
+        AuthUtil authUtil)
     {
         this.configuration = configuration;
         this.userReposiory = userReposiory;
+        this.unitOfWorkEF = unitOfWorkEF;
         this.mailService = mailService;
         this.authUtil = authUtil;
     }
@@ -36,6 +43,7 @@ public class SignUpCommandHandler : ICommandHandler<Command.SignUp>
 
         Domain.Entities.User user = new Domain.Entities.User()
         {
+            Id = Guid.NewGuid(),
             Username = request.Username,
             Password = request.Password,
             RoldeId = AppConstants.Role.User,
@@ -45,6 +53,7 @@ public class SignUpCommandHandler : ICommandHandler<Command.SignUp>
         };
 
         userReposiory.Add(user);
+        await unitOfWorkEF.SaveChangeUserTrackingAsync(user.Id);
 
         //send mail
         string subject = "MeChat - Confirm Sign up account";
