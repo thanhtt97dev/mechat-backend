@@ -57,11 +57,14 @@ public class SignUpCommandHandler : ICommandHandler<Command.SignUp>
 
         //send mail
         string subject = "MeChat - Confirm Sign up account";
-        string enpoint = configuration["Endpoint"]??string.Empty;
+        string enpoint = $"{configuration["FrontEnd:Endpoint"] ?? string.Empty}/confirm";
         string accessToken = authUtil.GenerateTokenForSignUp(request.Email);
         string content =
-$@"<p>Please click to link below to confirm!</p><br/>
-<a href='{enpoint}&accessToken={accessToken}'>click hear</a>";
+$@"
+<div>
+    <p>Please click to link below to confirm!</p><br/>
+    <a href='{enpoint}?accessToken={accessToken}'>click here</a>
+</div>";
         await mailService.SendMailAsync(request.Email, subject, content);
 
         return Result.Success();
