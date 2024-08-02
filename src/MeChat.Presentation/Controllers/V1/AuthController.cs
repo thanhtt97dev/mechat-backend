@@ -53,4 +53,15 @@ public class AuthController : ApiControllerBase
     }
     #endregion
 
+    #region Confirm sign up
+    [HttpPost("confirmSignUp")]
+    public async Task<IActionResult> ConfirmSignUp()
+    {
+        var accessToken = HttpContext.Request.Headers.Authorization.ToString().Replace(JwtBearerDefaults.AuthenticationScheme, string.Empty).Trim();
+        var confirmSignUp = new Command.ConfirmSignUp(accessToken);
+        var result = await sender.Send(confirmSignUp);
+        return Ok(result);
+    }
+    #endregion
+
 }

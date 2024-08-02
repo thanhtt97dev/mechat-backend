@@ -61,7 +61,6 @@ public class AuthUtil
         var clamims = new List<Claim>
         {
             new Claim(AppConstants.AppConfigs.Jwt.EMAIL, email??string.Empty),
-            new Claim(AppConstants.AppConfigs.Jwt.EXPIRED, DateTime.Now.AddDays(30).ToString()),
         };
 
         var accessToken = jwtTokenService.GenerateAccessToken(clamims);

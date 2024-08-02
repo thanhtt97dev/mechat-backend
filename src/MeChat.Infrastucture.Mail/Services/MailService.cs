@@ -34,7 +34,7 @@ public class MailService : IMailService
         message.From.Add(new MailboxAddress("email", emailOption.Email));
         message.To.AddRange(emails.Select(x => new MailboxAddress("mail", x)));
         message.Subject = subject;
-        message.Body = new TextPart(MimeKit.Text.TextFormat.Text) { Text = content };
+        message.Body = new TextPart(MimeKit.Text.TextFormat.Html) { Text = content };
         return message;
     }
 

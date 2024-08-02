@@ -46,7 +46,7 @@ public class JwtTokenService : IJwtTokenService
     #endregion
 
     #region Get Claims Principal
-    private ClaimsPrincipal GetClaimsPrincipal(string? token)
+    private ClaimsPrincipal GetClaimsPrincipal(string? token, bool validateLifetime)
     {
         try
         {
@@ -59,7 +59,7 @@ public class JwtTokenService : IJwtTokenService
             {
                 ValidateAudience = false, //you might want to validate the audience and issuer depending on your use case
                 ValidateIssuer = false,
-                ValidateLifetime = true, //here we are saying that we don't care about the token's expiration date
+                ValidateLifetime = validateLifetime, //here we are saying that we don't care about the token's expiration date
                 ValidateIssuerSigningKey = true,
                 IssuerSigningKey = key,
                 ClockSkew = TimeSpan.Zero
@@ -83,9 +83,43 @@ public class JwtTokenService : IJwtTokenService
     {
         if (claimType is null || token is null)
             return null;
-        var principal = GetClaimsPrincipal(token);
+        var principal = GetClaimsPrincipal(token, true);
+        var result = principal.Claims.FirstOrDefault(x => x.Type == claimType)?.Value;
+        return result;
+    }
+
+    public object? GetClaim(string? claimType, string? token, bool validateLifetime)
+    {
+        if (claimType is null || token is null)
+            return null;
+        var principal = GetClaimsPrincipal(token, validateLifetime);
         var result = principal.Claims.FirstOrDefault(x => x.Type == claimType)?.Value;
         return result;
     }
     #endregion
+
+    public bool ValidateAccessToken(string accessToken, bool validateLifetime)
+    {
+        if (string.IsNullOrEmpty(accessToken))
+            throw new AuthExceptions.AccessTokenInValid();
+
+        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtOption.SecretKey));
+
+        var tokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateAudience = false, //you might want to validate the audience and issuer depending on your use case
+            ValidateIssuer = false,
+            ValidateLifetime = validateLifetime, //here we are saying that we don't care about the token's expiration date
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = key,
+            ClockSkew = TimeSpan.Zero
+        };
+
+        var tokenHandler = new JwtSecurityTokenHandler();
+        tokenHandler.ValidateToken(accessToken, tokenValidationParameters, out SecurityToken securityToken);
+        if (securityToken is not JwtSecurityToken jwtSecurityToken || !jwtSecurityToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256, StringComparison.InvariantCultureIgnoreCase))
+            return false;
+
+        return true;
+    }
 }

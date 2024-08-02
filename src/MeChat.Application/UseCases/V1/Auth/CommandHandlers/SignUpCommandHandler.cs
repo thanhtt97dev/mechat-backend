@@ -57,7 +57,7 @@ public class SignUpCommandHandler : ICommandHandler<Command.SignUp>
 
         //send mail
         string subject = "MeChat - Confirm Sign up account";
-        string enpoint = $"{configuration["FrontEnd:Endpoint"] ?? string.Empty}/confirmAccount";
+        string enpoint = $"{configuration["FrontEnd:Endpoint"] ?? string.Empty}/confirmSignUp";
         string accessToken = authUtil.GenerateTokenForSignUp(request.Email);
         string content =
 $@"
