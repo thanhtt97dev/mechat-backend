@@ -226,4 +226,6 @@ AppPackages/
 #####
 
 #MeChat
-src\MeChat.Persistence\Migrations/
+
+#ignore backup data redis docker container
+data/
