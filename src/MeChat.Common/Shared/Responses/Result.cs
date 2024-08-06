@@ -11,7 +11,7 @@ public class Result
     [JsonPropertyOrder(3)]
     public bool Ok { get; set; }
 
-    public Result(string? code, string? message, bool ok)
+    protected internal Result(string? code, string? message, bool ok)
     {
         if (code == AppConstants.ResponseCodes.Success && !ok)
             throw new InvalidOperationException();
@@ -35,14 +35,14 @@ public class Result
     public static Result Failure(string message)
         => new(AppConstants.ResponseCodes.Failure, message, false);
     public static Result<TData> Failure<TData>(string message)
-    => new(AppConstants.ResponseCodes.Failure, message, false);
+        => new(AppConstants.ResponseCodes.Failure, message, false);
     public static Result<TData> Failure<TData>(TData? data, string message)
         => new(AppConstants.ResponseCodes.Failure, message, false, data);
     #endregion
 
     #region NotFound
     public static Result<string> NotFound(string message)
-        => new(AppConstants.ResponseCodes.NotFound, message, false, null);
+        => new(AppConstants.ResponseCodes.NotFound, message, false);
 
     public static Result<TData> NotFound<TData>(string message)
         => new(AppConstants.ResponseCodes.NotFound, message, false);
@@ -53,7 +53,7 @@ public class Result
 
     #region UnAuthorized
     public static Result<string> UnAuthorized(string message)
-        => new(AppConstants.ResponseCodes.UnAuthorized, message, false, null);
+        => new(AppConstants.ResponseCodes.UnAuthorized, message, false);
 
     public static Result<TData> UnAuthorized<TData>(string message)
         => new(AppConstants.ResponseCodes.UnAuthorized, message, false);
@@ -64,7 +64,7 @@ public class Result
 
     #region UnAuthentication
     public static Result<string> UnAuthentication(string message)
-        => new(AppConstants.ResponseCodes.UnAuthentication, message, false, null);
+        => new(AppConstants.ResponseCodes.UnAuthentication, message, false);
 
     public static Result<TData> UnAuthentication<TData>(string message)
         => new(AppConstants.ResponseCodes.UnAuthentication, message, false);
@@ -86,9 +86,7 @@ public class Result
 
     #region ValidationError
     public static Result<TData> ValidationError<TData>(TData data)
-    {
-        return new(AppConstants.ResponseCodes.ValidationError, "Validation error!", false, data);
-    }
+        => new(AppConstants.ResponseCodes.ValidationError, "Validation error!", false, data);
     #endregion
 }
 
@@ -103,7 +101,7 @@ public class Result<TValue> : Result
         this.Value = value;
     }
 
-    public Result(string? code, string? message, bool ok, object? value = null) : base(code, message, ok)
+    protected internal Result(string? code, string? message, bool ok, object? value = null) : base(code, message, ok)
     {
         if (value is not null) throw new Exception("Invalid constructor");
     }
