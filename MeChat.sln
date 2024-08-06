@@ -6,6 +6,8 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{67B1F4C8-5C0A-43FC-8C63-1CEA57876C38}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
+		docker-compose.develop.yml = docker-compose.develop.yml
+		docker-compose.production.yml = docker-compose.production.yml
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{1366F6BD-0107-407B-ADCE-8D176E2D41E3}"
@@ -30,7 +32,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MeChat.Infrastucture.Redis"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MeChat.Architecture.Tests", "test\MeChat.Architecture.Tests\MeChat.Architecture.Tests.csproj", "{FC1337F3-3EAE-4490-A880-7745E22D0E14}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MeChat.Infrastucture.Mail", "src\MeChat.Infrastucture.Mail\MeChat.Infrastucture.Mail.csproj", "{D147A0BB-5C49-4022-A2DC-CADACC08A3D7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MeChat.Infrastucture.Service.Email", "src\MeChat.Infrastucture.Mail\MeChat.Infrastucture.Service.Email.csproj", "{D147A0BB-5C49-4022-A2DC-CADACC08A3D7}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MeChat.Infrastucture.AWS.S3", "src\MeChat.Infrastucture.AWS.S3\MeChat.Infrastucture.AWS.S3.csproj", "{B4B15067-A611-474F-88CD-2AAA3D79C5DD}"
 EndProject

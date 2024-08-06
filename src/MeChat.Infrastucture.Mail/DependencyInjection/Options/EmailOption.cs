@@ -1,4 +1,4 @@
-﻿namespace MeChat.Infrastucture.Mail.DependencyInjection.Options;
+﻿namespace MeChat.Infrastucture.Service.Email.Options;
 public class EmailOption
 {
     public string? Email { get; set; }

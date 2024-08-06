@@ -1,10 +1,10 @@
 ﻿using MailKit.Net.Smtp;
 using MeChat.Common.Abstractions.Services;
-using MeChat.Infrastucture.Mail.DependencyInjection.Options;
+using MeChat.Infrastucture.Service.Email.Options;
 using Microsoft.Extensions.Configuration;
 using MimeKit;
 
-namespace MeChat.Infrastucture.Mail.Services;
+namespace MeChat.Infrastucture.Service.Email.Services;
 
 public class MailService : IMailService
 {

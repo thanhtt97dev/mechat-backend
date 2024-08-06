@@ -6,11 +6,9 @@ using MeChat.Application.DependencyInjection.Extentions;
 using MeChat.API.Middlewares;
 using MeChat.Infrastucture.Redis.DependencyInjection.Extentions;
 using System.Text.Json.Serialization;
-using MeChat.Infrastucture.Mail.DependencyInjection.Extentions;
+using MeChat.Infrastucture.Service.Email.DependencyInjection.Extentions;
 using MeChat.Infrastucture.Jwt.DependencyInjection.Extentions;
-using MeChat.Infrastucture.AWS.S3;
 using MeChat.Infrastucture.AWS.S3.DependencyInjection.Extentions;
-using Amazon.Auth.AccessControlPolicy;
 
 namespace MeChat.API;
 
@@ -72,14 +70,14 @@ public class Program
         //Add configuration Jwt Service (Infrastucture.Jwt)
         builder.Services.AddJwtService();
 
-        //Add configuration Mail service(Infrastucture.Mail)
-        builder.Services.AddMailService();
-
         //Add configuration Redis(Infrastucture.Redis)
         builder.Services.AddCacheRedis(builder.Configuration);
         
         //Add configuration connect SQL Server with EF(Infrastucture.Persistence)
         builder.Services.AddSqlServerEntityFramwork();
+
+        //Add configuration Email service(Infrastucture.Service.Email)
+        builder.Services.AddEmailService();
 
         //Add controller API (Infrastucture.Presentation)
         builder.Services
