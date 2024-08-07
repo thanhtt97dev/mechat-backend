@@ -1,4 +1,4 @@
-﻿using MeChat.Common.Enumerations;
+﻿using MeChat.Common.Shared.Enumerations;
 
 namespace MeChat.Common.Abstractions.Data.Dapper.Repositories;
 public interface IRepositoryBase<T> where T : class

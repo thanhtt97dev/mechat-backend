@@ -1,5 +1,5 @@
 ﻿using MeChat.Common.Abstractions.Data.EntityFramework;
-using MeChat.Common.Abstractions.Middlewares;
+using MeChat.Common.Abstractions.Messages.DomainEvents.Annotations;
 using MediatR;
 using System.Transactions;
 

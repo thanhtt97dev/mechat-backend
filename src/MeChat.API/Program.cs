@@ -9,6 +9,7 @@ using System.Text.Json.Serialization;
 using MeChat.Infrastucture.Service.Email.DependencyInjection.Extentions;
 using MeChat.Infrastucture.Jwt.DependencyInjection.Extentions;
 using MeChat.Infrastucture.AWS.S3.DependencyInjection.Extentions;
+using MeChat.Infrastucture.MessageBroker.Producer.Email.DependencyInjection.Extentions;
 
 namespace MeChat.API;
 
@@ -52,6 +53,9 @@ public class Program
         //Add application utils
         builder.Services.AddApplicationUtils();
 
+        //Add messagebroker
+        builder.Services.AddMessageBrokerMasstransitRabbitMq(builder.Configuration);
+
         //Add configuration MediatR(Application)
         builder.Services.AddMediatR();
 
@@ -69,6 +73,9 @@ public class Program
 
         //Add configuration Jwt Service (Infrastucture.Jwt)
         builder.Services.AddJwtService();
+
+        // Add Message broker producer for email //Infrastucture.MessageBroker.Producer.Email
+        builder.Services.AddMessageBrokerProducerEmail();
 
         //Add configuration Redis(Infrastucture.Redis)
         builder.Services.AddCacheRedis(builder.Configuration);

@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using MeChat.Common.Abstractions.Data.EntityFramework.Repositories;
-using MeChat.Common.Abstractions.Messages;
+using MeChat.Common.Abstractions.Messages.DomainEvents;
 using MeChat.Common.Constants;
 using MeChat.Common.Shared.Response;
 using MeChat.Common.UseCases.V1.User;

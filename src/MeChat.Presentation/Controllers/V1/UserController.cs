@@ -1,6 +1,6 @@
 ﻿using Asp.Versioning;
-using MeChat.Common.Enumerations;
-using MeChat.Common.Extentions;
+using MeChat.Common.Shared.Enumerations;
+using MeChat.Common.Shared.Extentions;
 using MeChat.Common.Shared.Response;
 using MeChat.Common.UseCases.V1.User;
 using MeChat.Presentation.Abstractions;

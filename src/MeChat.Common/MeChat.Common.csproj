@@ -8,18 +8,21 @@
 
   <ItemGroup>
     <Compile Remove="DependencyInjection\**" />
+    <Compile Remove="Shared\Mails\**" />
     <EmbeddedResource Remove="DependencyInjection\**" />
+    <EmbeddedResource Remove="Shared\Mails\**" />
     <None Remove="DependencyInjection\**" />
+    <None Remove="Shared\Mails\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Shared\Mails\" />
     <Folder Include="UseCases\V1\Storage\Validators\" />
     <Folder Include="UseCases\V2\" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="FluentValidation" Version="11.9.0" />
+    <PackageReference Include="MassTransit" Version="8.2.3" />
     <PackageReference Include="MediatR" Version="12.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="5.0.17" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.18" />

@@ -1,6 +1,6 @@
 using MeChat.Application.UseCases.V1.Auth.Utils;
 using MeChat.Common.Abstractions.Data.Dapper;
-using MeChat.Common.Abstractions.Messages;
+using MeChat.Common.Abstractions.Messages.DomainEvents;
 using MeChat.Common.Abstractions.Services;
 using MeChat.Common.Constants;
 using MeChat.Common.Shared.Response;

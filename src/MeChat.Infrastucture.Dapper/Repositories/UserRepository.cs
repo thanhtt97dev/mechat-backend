@@ -1,7 +1,7 @@
 ﻿using Dapper;
 using MeChat.Common.Abstractions.Data.Dapper.Repositories;
 using MeChat.Common.Constants;
-using MeChat.Common.Enumerations;
+using MeChat.Common.Shared.Enumerations;
 using MeChat.Domain.Entities;
 using Microsoft.Data.SqlClient;
 
@@ -73,7 +73,7 @@ WHERE Id = @Id";
 
     #region Get many async
     public async Task<List<Domain.Entities.User>?> GetManyAsync
-        (string? searchTerm, IDictionary<string, Common.Enumerations.SortOrderSql> sortColumnWithOrders,
+        (string? searchTerm, IDictionary<string, SortOrderSql> sortColumnWithOrders,
         int pageIndex = AppConstants.Page.IndexDefault, int pageSize = AppConstants.Page.SizeDefault)
     {
         if (pageIndex <= 0)

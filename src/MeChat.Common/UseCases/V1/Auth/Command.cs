@@ -1,4 +1,4 @@
-﻿using MeChat.Common.Abstractions.Messages;
+﻿using MeChat.Common.Abstractions.Messages.DomainEvents;
 
 namespace MeChat.Common.UseCases.V1.Auth;
 public class Command

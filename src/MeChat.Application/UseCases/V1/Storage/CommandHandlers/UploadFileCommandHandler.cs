@@ -1,4 +1,4 @@
-﻿using MeChat.Common.Abstractions.Messages;
+﻿using MeChat.Common.Abstractions.Messages.DomainEvents;
 using MeChat.Common.Abstractions.Services;
 using MeChat.Common.Shared.Response;
 using MeChat.Common.UseCases.V1.Storage;

@@ -1,7 +1,7 @@
 ﻿using MeChat.Application.UseCases.V1.Auth.Utils;
 using MeChat.Common.Abstractions.Data.EntityFramework;
 using MeChat.Common.Abstractions.Data.EntityFramework.Repositories;
-using MeChat.Common.Abstractions.Messages;
+using MeChat.Common.Abstractions.Messages.DomainEvents;
 using MeChat.Common.Abstractions.Services;
 using MeChat.Common.Constants;
 using MeChat.Common.Shared.Response;
@@ -15,6 +15,7 @@ public class SignUpCommandHandler : ICommandHandler<Command.SignUp>
     private readonly IRepositoryBase<Domain.Entities.User, Guid> userReposiory;
     private readonly IUnitOfWork unitOfWorkEF;
     private readonly IMailService mailService;
+    private readonly IMessageBrokerProducerEmail messageBrokerProducerEmail;
 
     private readonly AuthUtil authUtil;
 
@@ -22,6 +23,7 @@ public class SignUpCommandHandler : ICommandHandler<Command.SignUp>
         (IConfiguration configuration,
         IRepositoryBase<Domain.Entities.User, Guid> userReposiory,
         IUnitOfWork unitOfWorkEF, IMailService mailService,
+        IMessageBrokerProducerEmail messageBrokerProducerEmail,
         AuthUtil authUtil)
     {
         this.configuration = configuration;
@@ -29,6 +31,8 @@ public class SignUpCommandHandler : ICommandHandler<Command.SignUp>
         this.unitOfWorkEF = unitOfWorkEF;
         this.mailService = mailService;
         this.authUtil = authUtil;
+        this.messageBrokerProducerEmail = messageBrokerProducerEmail;
+
     }
 
     public async Task<Result> Handle(Command.SignUp request, CancellationToken cancellationToken)
@@ -65,7 +69,10 @@ $@"
     <p>Please click to link below to confirm!</p><br/>
     <a href='{enpoint}?accessToken={accessToken}'>click here</a>
 </div>";
-        await mailService.SendMailAsync(request.Email, subject, content);
+
+        await messageBrokerProducerEmail.SendMailAsync(request.Email, subject, content);
+
+        //await mailService.SendMailAsync(request.Email, subject, content);
 
         return Result.Success();
     }

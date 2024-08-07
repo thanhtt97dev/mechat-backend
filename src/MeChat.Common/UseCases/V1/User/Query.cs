@@ -1,5 +1,5 @@
-﻿using MeChat.Common.Abstractions.Messages;
-using MeChat.Common.Enumerations;
+﻿using MeChat.Common.Abstractions.Messages.DomainEvents;
+using MeChat.Common.Shared.Enumerations;
 using MeChat.Common.Shared.Response;
 
 namespace MeChat.Common.UseCases.V1.User;

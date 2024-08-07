@@ -1,4 +1,4 @@
-﻿namespace MeChat.Common.Enumerations;
+﻿namespace MeChat.Common.Shared.Enumerations;
 public enum SortOrderSql
 {
     Ascending,

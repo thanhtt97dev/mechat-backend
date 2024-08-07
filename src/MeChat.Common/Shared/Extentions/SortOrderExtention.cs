@@ -1,6 +1,6 @@
-﻿using MeChat.Common.Enumerations;
+﻿using MeChat.Common.Shared.Enumerations;
 
-namespace MeChat.Common.Extentions;
+namespace MeChat.Common.Shared.Extentions;
 public class SortOrderExtention
 {
     /// <summary>
@@ -15,12 +15,12 @@ public class SortOrderExtention
 
         var columnWithOrders = sortColumnWithOrders.Split(',');
 
-        if(columnWithOrders.Length == 0 )
+        if (columnWithOrders.Length == 0)
             return result;
 
-        if(columnWithOrders.Length == 1)
+        if (columnWithOrders.Length == 1)
         {
-            if(!sortColumnWithOrders.Contains('-'))
+            if (!sortColumnWithOrders.Contains('-'))
                 throw new FormatException("Sort condition should be follow by format: Column1-ASC, Column2-DESC,..");
 
             var property = sortColumnWithOrders.Trim().Split('-');
@@ -49,7 +49,7 @@ public class SortOrderExtention
         if (string.IsNullOrEmpty(order))
             return SortOrderSql.Descending;
 
-        if(order.ToUpper().Equals("ASC"))
+        if (order.ToUpper().Equals("ASC"))
             return SortOrderSql.Ascending;
 
         return SortOrderSql.Descending;

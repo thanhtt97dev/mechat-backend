@@ -38,6 +38,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MeChat.Infrastucture.AWS.S3
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MeChat.Infrastucture.Jwt", "src\MeChat.Infrastucture.Jwt\MeChat.Infrastucture.Jwt.csproj", "{49BEFCBA-6218-482B-AEFF-420B0DC637C1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MeChat.Infrastucture.MessageBroker.Producer.Email", "src\MeChat.Infrastucture.MessageBroker.Producer.Email\MeChat.Infrastucture.MessageBroker.Producer.Email.csproj", "{6BEB1053-15AA-466C-8B94-B7E068517E0D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MeChat.Infrastucture.MessageBroker.Consumer.Email", "src\MeChat.Infrastucture.MessageBroker.Consumer.Email\MeChat.Infrastucture.MessageBroker.Consumer.Email.csproj", "{AFCA8915-B41D-49D1-8CB0-466D08B81C56}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -92,6 +96,14 @@ Global
 		{49BEFCBA-6218-482B-AEFF-420B0DC637C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{49BEFCBA-6218-482B-AEFF-420B0DC637C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{49BEFCBA-6218-482B-AEFF-420B0DC637C1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6BEB1053-15AA-466C-8B94-B7E068517E0D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6BEB1053-15AA-466C-8B94-B7E068517E0D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6BEB1053-15AA-466C-8B94-B7E068517E0D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6BEB1053-15AA-466C-8B94-B7E068517E0D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AFCA8915-B41D-49D1-8CB0-466D08B81C56}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AFCA8915-B41D-49D1-8CB0-466D08B81C56}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AFCA8915-B41D-49D1-8CB0-466D08B81C56}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AFCA8915-B41D-49D1-8CB0-466D08B81C56}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -109,6 +121,8 @@ Global
 		{D147A0BB-5C49-4022-A2DC-CADACC08A3D7} = {1366F6BD-0107-407B-ADCE-8D176E2D41E3}
 		{B4B15067-A611-474F-88CD-2AAA3D79C5DD} = {1366F6BD-0107-407B-ADCE-8D176E2D41E3}
 		{49BEFCBA-6218-482B-AEFF-420B0DC637C1} = {1366F6BD-0107-407B-ADCE-8D176E2D41E3}
+		{6BEB1053-15AA-466C-8B94-B7E068517E0D} = {1366F6BD-0107-407B-ADCE-8D176E2D41E3}
+		{AFCA8915-B41D-49D1-8CB0-466D08B81C56} = {1366F6BD-0107-407B-ADCE-8D176E2D41E3}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {AB641A2F-8F72-43FE-9A01-864452A31FB7}
