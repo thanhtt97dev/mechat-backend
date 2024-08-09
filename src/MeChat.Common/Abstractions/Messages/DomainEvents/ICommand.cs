@@ -3,5 +3,5 @@ using MeChat.Common.Shared.Response;
 using MediatR;
 
 namespace MeChat.Common.Abstractions.Messages.DomainEvents;
-public interface ICommand : IRequest<Result>, IDbTransactionMiddleware { }
-public interface ICommand<TResponse> : IRequest<Result<TResponse>>, IDbTransactionMiddleware { }
+public interface ICommand : IRequest<Result>, IDbTransactionAnnotation { }
+public interface ICommand<TResponse> : IRequest<Result<TResponse>>, IDbTransactionAnnotation { }

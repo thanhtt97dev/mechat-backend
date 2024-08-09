@@ -6,7 +6,7 @@ public class Query
 {
     public record SignIn(string Username, string Password) : IQuery<Response.Authenticated>;
 
-    public record SignInByGoogle(string GoogleToken) : IQuery<Response.Authenticated>, IDbTransactionMiddleware;
+    public record SignInByGoogle(string GoogleToken) : IQuery<Response.Authenticated>, IDbTransactionAnnotation;
 
     public record RefreshToken(string? AccessToken, string? Refresh, string? UserId) : IQuery<Response.Authenticated>;
 }

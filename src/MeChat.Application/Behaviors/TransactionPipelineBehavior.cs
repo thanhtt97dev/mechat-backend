@@ -28,7 +28,7 @@ public sealed class TransactionPipelineBehavior<TRequest, TResponse> : IPipeline
 
     private static bool IsCommand()
     {
-        var isRequestNeedDbTranasction = typeof(TRequest).GetInterfaces().FirstOrDefault(x => x.Name == nameof(IDbTransactionMiddleware)) != null;
+        var isRequestNeedDbTranasction = typeof(TRequest).GetInterfaces().FirstOrDefault(x => x.Name == nameof(IDbTransactionAnnotation)) != null;
         return isRequestNeedDbTranasction;
 
     }
