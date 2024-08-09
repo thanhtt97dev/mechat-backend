@@ -56,10 +56,10 @@ public class Program
         builder.Services.AddMessageBrokerMasstransitRabbitMq(builder.Configuration);
 
         //Add configuration MediatR(Application)
-        builder.Services.AddMediatR();
+        builder.Services.AddConfigMediatR();
 
         //Add configuration AutoMapper(Application)
-        builder.Services.AddAutoMapper();
+        builder.Services.AddConfigAutoMapper();
 
         //Add configuration storage with Amazon S3
         builder.Services.AddAmazonS3();
@@ -77,7 +77,7 @@ public class Program
         builder.Services.AddMessageBrokerProducerEmail();
 
         //Add configuration Redis(Infrastucture.Redis)
-        builder.Services.AddCacheRedis(builder.Configuration);
+        builder.Services.AddDistributedCacheRedis(builder.Configuration);
         
         //Add configuration connect SQL Server with EF(Infrastucture.Persistence)
         builder.Services.AddSqlServerEntityFramwork();

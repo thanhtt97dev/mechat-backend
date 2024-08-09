@@ -8,11 +8,11 @@ namespace MeChat.Infrastucture.Service.Email.Services;
 
 public class MailService : IMailService
 {
-    private readonly EmailOption emailOption = new();
+    private readonly EmailConfiguration emailOption = new();
 
     public MailService(IConfiguration configuration)
     {
-        configuration.GetSection(nameof(EmailOption)).Bind(emailOption);
+        configuration.GetSection(nameof(EmailConfiguration)).Bind(emailOption);
     }
 
     public async Task SendMailAsync(IEnumerable<string> emails, string subject, string content)

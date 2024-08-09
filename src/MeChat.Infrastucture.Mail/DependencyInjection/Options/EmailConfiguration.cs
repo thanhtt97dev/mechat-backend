@@ -1,5 +1,5 @@
 ﻿namespace MeChat.Infrastucture.Service.Email.Options;
-public class EmailOption
+public class EmailConfiguration
 {
     public string? Email { get; set; }
     public string? Password { get; set; }

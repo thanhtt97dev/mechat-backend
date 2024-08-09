@@ -4,12 +4,12 @@ using MediatR;
 
 namespace MeChat.Infrastucture.MessageBroker.Consumer.Email.Abtractions.Messages;
 
-public abstract class Consumer<TMessage> : IConsumer<TMessage>
+public abstract class BaseConsumer<TMessage> : IConsumer<TMessage>
     where TMessage : class, INotificationEvent
 {
     private readonly ISender sender;
 
-    protected Consumer(ISender sender)
+    protected BaseConsumer(ISender sender)
     {
         this.sender = sender;
     }

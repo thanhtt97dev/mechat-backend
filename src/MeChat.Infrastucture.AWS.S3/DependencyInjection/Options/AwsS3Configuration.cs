@@ -1,5 +1,5 @@
 ﻿namespace MeChat.Infrastucture.AWS.S3.DependencyInjection.Options;
-public class AwsS3Option
+public class AwsS3Configuration
 {
     public string? BucketName { get; set; }
     public string? Region { get; set; }

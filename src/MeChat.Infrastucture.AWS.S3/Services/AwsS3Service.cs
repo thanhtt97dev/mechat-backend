@@ -4,30 +4,30 @@ using Amazon.S3.Model;
 using Amazon.S3.Transfer;
 using MeChat.Common.Abstractions.Services;
 using MeChat.Common.Shared.Exceptions;
-using MeChat.Infrastucture.AWS.S3.DependencyInjection.Options;
+using MeChat.Infrastucture.Storage.DependencyInjection.Options;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 
 namespace MeChat.Infrastucture.AWS.S3.Services;
 public class AwsS3Service : IStorageService
 {
-    private readonly AwsS3Option awsS3Option = new();
+    private readonly DistributedStorageConfiguraion distributedStorage = new();
     private readonly IAmazonS3 awsS3Client;
 
     public AwsS3Service(IConfiguration configuration)
     {
-        configuration.GetSection(nameof(AwsS3Option)).Bind(awsS3Option);
+        configuration.GetSection(nameof(DistributedStorageConfiguraion)).Bind(distributedStorage);
         this.awsS3Client = new AmazonS3Client(
-            awsAccessKeyId: awsS3Option.AwsAccessKeyId,
-            awsSecretAccessKey: awsS3Option.AwsSecretAccessKey,
-            region: RegionEndpoint.GetBySystemName(awsS3Option.Region));
+            awsAccessKeyId: distributedStorage.AwsS3Configuration.AwsAccessKeyId,
+            awsSecretAccessKey: distributedStorage.AwsS3Configuration.AwsSecretAccessKey,
+            region: RegionEndpoint.GetBySystemName(distributedStorage.AwsS3Configuration.Region));
     }
 
     public async Task DeleteFileAsync(string filename, string? versionId = "")
     {
         DeleteObjectRequest request = new DeleteObjectRequest()
         {
-            BucketName = awsS3Option.BucketName,
+            BucketName = distributedStorage.AwsS3Configuration.BucketName,
             Key = filename
         };
 
@@ -43,7 +43,7 @@ public class AwsS3Service : IStorageService
 
         GetObjectRequest getObjectRequest = new GetObjectRequest()
         {
-            BucketName = awsS3Option.BucketName,
+            BucketName = distributedStorage.AwsS3Configuration.BucketName,
             Key = file,
         };
 
@@ -73,7 +73,7 @@ public class AwsS3Service : IStorageService
             {
                 InputStream = memoryStream,
                 Key = fileName,
-                BucketName = awsS3Option.BucketName,
+                BucketName = distributedStorage.AwsS3Configuration.BucketName,
                 ContentType = file.ContentType
             };
 

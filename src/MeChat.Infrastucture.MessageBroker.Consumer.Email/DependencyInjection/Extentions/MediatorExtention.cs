@@ -1,6 +1,6 @@
 ﻿namespace MeChat.Infrastucture.MessageBroker.Consumer.Email.DependencyInjection.Extentions;
 
-public static class MediatrExtention
+public static class MediatorExtention
 {
     public static void AddConfigurationMediatR(this IServiceCollection services)
     {

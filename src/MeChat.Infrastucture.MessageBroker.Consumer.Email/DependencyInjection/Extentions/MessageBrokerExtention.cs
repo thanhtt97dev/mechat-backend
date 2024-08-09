@@ -8,8 +8,8 @@ public static class MessageBrokerExtention
 {
     public static void AddMessageBrokerMasstransitRabbitMq(this IServiceCollection services, IConfiguration configuration)
     {
-        var masstransitOption = new MasstransitOption();
-        configuration.GetSection(nameof(MasstransitOption)).Bind(masstransitOption);
+        var masstransitOption = new MasstransitConfiguration();
+        configuration.GetSection(nameof(MasstransitConfiguration)).Bind(masstransitOption);
 
         services.AddMassTransit(configuration =>
         {

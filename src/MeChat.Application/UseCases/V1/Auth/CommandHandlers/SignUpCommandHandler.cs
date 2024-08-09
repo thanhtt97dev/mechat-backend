@@ -21,7 +21,7 @@ public class SignUpCommandHandler : ICommandHandler<Command.SignUp>
     public SignUpCommandHandler
         (IConfiguration configuration,
         IRepositoryBase<Domain.Entities.User, Guid> userReposiory,
-        IUnitOfWork unitOfWorkEF, IMailService mailService,
+        IUnitOfWork unitOfWorkEF,
         IMessageBrokerProducerEmail messageBrokerProducerEmail,
         AuthUtil authUtil)
     {
