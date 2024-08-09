@@ -4,10 +4,10 @@ using MicroElements.Swashbuckle.FluentValidation.AspNetCore;
 using MeChat.API.DependencyInjection.Extentions;
 using MeChat.Application.DependencyInjection.Extentions;
 using MeChat.API.Middlewares;
-using MeChat.Infrastucture.Redis.DependencyInjection.Extentions;
+using MeChat.Infrastucture.DistributedCache.DependencyInjection.Extentions;
 using System.Text.Json.Serialization;
-using MeChat.Infrastucture.Jwt.DependencyInjection.Extentions;
-using MeChat.Infrastucture.AWS.S3.DependencyInjection.Extentions;
+using MeChat.Infrastucture.Service.Jwt.DependencyInjection.Extentions;
+using MeChat.Infrastucture.Storage.DependencyInjection.Extentions;
 using MeChat.Infrastucture.MessageBroker.Producer.Email.DependencyInjection.Extentions;
 
 namespace MeChat.API;

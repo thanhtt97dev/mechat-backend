@@ -2,7 +2,7 @@
 using MeChat.Common.Constants;
 using MeChat.Common.Shared.Response;
 using MeChat.Common.UseCases.V1.Auth;
-using MeChat.Infrastucture.Jwt.DependencyInjection.Options;
+using MeChat.Infrastucture.Service.Jwt.DependencyInjection.Options;
 using Microsoft.Extensions.Configuration;
 using System.Security.Claims;
 
