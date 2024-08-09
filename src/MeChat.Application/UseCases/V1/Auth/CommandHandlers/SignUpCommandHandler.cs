@@ -14,7 +14,6 @@ public class SignUpCommandHandler : ICommandHandler<Command.SignUp>
     private readonly IConfiguration configuration;
     private readonly IRepositoryBase<Domain.Entities.User, Guid> userReposiory;
     private readonly IUnitOfWork unitOfWorkEF;
-    private readonly IMailService mailService;
     private readonly IMessageBrokerProducerEmail messageBrokerProducerEmail;
 
     private readonly AuthUtil authUtil;
@@ -29,7 +28,6 @@ public class SignUpCommandHandler : ICommandHandler<Command.SignUp>
         this.configuration = configuration;
         this.userReposiory = userReposiory;
         this.unitOfWorkEF = unitOfWorkEF;
-        this.mailService = mailService;
         this.authUtil = authUtil;
         this.messageBrokerProducerEmail = messageBrokerProducerEmail;
 
@@ -71,8 +69,6 @@ $@"
 </div>";
 
         await messageBrokerProducerEmail.SendMailAsync(request.Email, subject, content);
-
-        //await mailService.SendMailAsync(request.Email, subject, content);
 
         return Result.Success();
     }

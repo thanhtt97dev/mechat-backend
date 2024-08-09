@@ -13,6 +13,6 @@ public static class ServiceCollectionExtentions
 
         services.AddSingleton<IConnectionMultiplexer>(_ => ConnectionMultiplexer.Connect(connectionStrings));
         services.AddStackExchangeRedisCache(options => options.Configuration = connectionStrings);
-        services.AddSingleton<ICacheService, CacheService>();
+        services.AddSingleton<ICacheService, RedisCacheService>();
     }
 }

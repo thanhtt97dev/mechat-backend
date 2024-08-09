@@ -6,7 +6,6 @@ using MeChat.Application.DependencyInjection.Extentions;
 using MeChat.API.Middlewares;
 using MeChat.Infrastucture.Redis.DependencyInjection.Extentions;
 using System.Text.Json.Serialization;
-using MeChat.Infrastucture.Service.Email.DependencyInjection.Extentions;
 using MeChat.Infrastucture.Jwt.DependencyInjection.Extentions;
 using MeChat.Infrastucture.AWS.S3.DependencyInjection.Extentions;
 using MeChat.Infrastucture.MessageBroker.Producer.Email.DependencyInjection.Extentions;
@@ -82,9 +81,6 @@ public class Program
         
         //Add configuration connect SQL Server with EF(Infrastucture.Persistence)
         builder.Services.AddSqlServerEntityFramwork();
-
-        //Add configuration Email service(Infrastucture.Service.Email)
-        builder.Services.AddEmailService();
 
         //Add controller API (Infrastucture.Presentation)
         builder.Services

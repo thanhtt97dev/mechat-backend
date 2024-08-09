@@ -28,19 +28,19 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MeChat.Persistence", "src\M
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MeChat.Presentation", "src\MeChat.Presentation\MeChat.Presentation.csproj", "{0041E65C-F147-4423-A090-ED7D34910674}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MeChat.Infrastucture.Redis", "src\MeChat.Infrastucture.Redis\MeChat.Infrastucture.Redis.csproj", "{35801E1B-11DE-4822-87A7-1E9B06A197F2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MeChat.Infrastucture.DistributedCache", "src\MeChat.Infrastucture.Redis\MeChat.Infrastucture.DistributedCache.csproj", "{35801E1B-11DE-4822-87A7-1E9B06A197F2}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MeChat.Architecture.Tests", "test\MeChat.Architecture.Tests\MeChat.Architecture.Tests.csproj", "{FC1337F3-3EAE-4490-A880-7745E22D0E14}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MeChat.Infrastucture.Service.Email", "src\MeChat.Infrastucture.Mail\MeChat.Infrastucture.Service.Email.csproj", "{D147A0BB-5C49-4022-A2DC-CADACC08A3D7}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MeChat.Infrastucture.AWS.S3", "src\MeChat.Infrastucture.AWS.S3\MeChat.Infrastucture.AWS.S3.csproj", "{B4B15067-A611-474F-88CD-2AAA3D79C5DD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MeChat.Infrastucture.Storage", "src\MeChat.Infrastucture.AWS.S3\MeChat.Infrastucture.Storage.csproj", "{B4B15067-A611-474F-88CD-2AAA3D79C5DD}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MeChat.Infrastucture.Jwt", "src\MeChat.Infrastucture.Jwt\MeChat.Infrastucture.Jwt.csproj", "{49BEFCBA-6218-482B-AEFF-420B0DC637C1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MeChat.Infrastucture.Service.Jwt", "src\MeChat.Infrastucture.Jwt\MeChat.Infrastucture.Service.Jwt.csproj", "{49BEFCBA-6218-482B-AEFF-420B0DC637C1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MeChat.Infrastucture.MessageBroker.Producer.Email", "src\MeChat.Infrastucture.MessageBroker.Producer.Email\MeChat.Infrastucture.MessageBroker.Producer.Email.csproj", "{6BEB1053-15AA-466C-8B94-B7E068517E0D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MeChat.Infrastucture.MessageBroker.Producer.Email", "src\MeChat.Infrastucture.MessageBroker.Producer.Email\MeChat.Infrastucture.MessageBroker.Producer.Email.csproj", "{6BEB1053-15AA-466C-8B94-B7E068517E0D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MeChat.Infrastucture.MessageBroker.Consumer.Email", "src\MeChat.Infrastucture.MessageBroker.Consumer.Email\MeChat.Infrastucture.MessageBroker.Consumer.Email.csproj", "{AFCA8915-B41D-49D1-8CB0-466D08B81C56}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MeChat.Infrastucture.MessageBroker.Consumer.Email", "src\MeChat.Infrastucture.MessageBroker.Consumer.Email\MeChat.Infrastucture.MessageBroker.Consumer.Email.csproj", "{AFCA8915-B41D-49D1-8CB0-466D08B81C56}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

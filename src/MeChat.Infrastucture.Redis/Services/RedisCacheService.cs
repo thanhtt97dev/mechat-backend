@@ -2,15 +2,14 @@
 using Microsoft.Extensions.Caching.Distributed;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
-using StackExchange.Redis;
 
 namespace MeChat.Infrastucture.Redis.Extentions;
-public class CacheService : ICacheService
+public class RedisCacheService : ICacheService
 {
     private readonly IDistributedCache distributedCache;
     //private readonly IConnectionMultiplexer connectionMultiplexer;
 
-    public CacheService(IDistributedCache distributedCache)
+    public RedisCacheService(IDistributedCache distributedCache)
     {
         this.distributedCache = distributedCache;
     }
