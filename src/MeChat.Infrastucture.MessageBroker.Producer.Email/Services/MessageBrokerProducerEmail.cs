@@ -5,11 +5,13 @@ using MeChat.Common.MessageBroker.Email;
 namespace MeChat.Infrastucture.MessageBroker.Producer.Email.Services;
 public class MessageBrokerProducerEmail : IMessageBrokerProducerEmail
 {
-    private readonly IPublishEndpoint _publishEndpoint;
+    private readonly IPublishEndpoint publishEndpoint;
+    private readonly IBus bus;
 
-    public MessageBrokerProducerEmail(IPublishEndpoint publishEndpoint)
+    public MessageBrokerProducerEmail(IPublishEndpoint publishEndpoint, IBus bus)
     {
-        _publishEndpoint = publishEndpoint;
+        this.publishEndpoint = publishEndpoint;
+        this.bus = bus;
     }
 
     public async Task SendMailAsync(string email, string subject, string content)
@@ -22,6 +24,11 @@ public class MessageBrokerProducerEmail : IMessageBrokerProducerEmail
             TimeStamp = DateTime.UtcNow,
             Type = "daw"
         };
-        await _publishEndpoint.Publish(message);
+        var endpoint = await bus.GetSendEndpoint(Address<Command.SendEmail>());
+        await endpoint.Send(message);
+        //await publishEndpoint.Publish(message);
     }
+
+    private static Uri Address<T>()
+    => new($"queue:{KebabCaseEndpointNameFormatter.Instance.SanitizeName(typeof(T).Name)}");
 }
