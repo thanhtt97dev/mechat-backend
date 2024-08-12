@@ -7,8 +7,8 @@ public static class MessageBrokerExtention
 {
     public static void AddMessageBrokerMasstransitRabbitMq(this IServiceCollection services, IConfiguration configuration)
     {
-        var masstransitOption = new MasstransitOption();
-        configuration.GetSection(nameof(MasstransitOption)).Bind(masstransitOption);
+        var masstransitConfiguration = new MasstransitConfiguration();
+        configuration.GetSection(nameof(MasstransitConfiguration)).Bind(masstransitConfiguration);
 
         services.AddMassTransit(configuration =>
         {
@@ -16,10 +16,10 @@ public static class MessageBrokerExtention
 
             configuration.UsingRabbitMq((context, busConfig) =>
             {
-                busConfig.Host(masstransitOption.Host, masstransitOption.VHost, hostConfig =>
+                busConfig.Host(masstransitConfiguration.Host, masstransitConfiguration.VHost, hostConfig =>
                 {
-                    hostConfig.Username(masstransitOption.Username);
-                    hostConfig.Password(masstransitOption.Password);    
+                    hostConfig.Username(masstransitConfiguration.Username);
+                    hostConfig.Password(masstransitConfiguration.Password);    
                 });
                 busConfig.ConfigureEndpoints(context);
             });
