@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
@@ -28,7 +28,7 @@
     <ProjectReference Include="..\MeChat.Common\MeChat.Common.csproj" />
     <ProjectReference Include="..\MeChat.Domain\MeChat.Domain.csproj" />
     <ProjectReference Include="..\MeChat.Infrastucture.Storage\MeChat.Infrastucture.Storage.csproj" />
-    <ProjectReference Include="..\MeChat.Infrastucture.Dapper\MeChat.Infrastucture.Dapper.csproj" />
+    <ProjectReference Include="..\MeChat.Infrastucture.Data.Dapper\MeChat.Infrastucture.Data.Dapper.csproj" />
     <ProjectReference Include="..\MeChat.Infrastucture.DistributedCache\MeChat.Infrastucture.DistributedCache.csproj" />
     <ProjectReference Include="..\MeChat.Infrastucture.Service.Jwt\MeChat.Infrastucture.Service.Jwt.csproj" />
     <ProjectReference Include="..\MeChat.Infrastucture.MessageBroker.Producer.Email\MeChat.Infrastucture.MessageBroker.Producer.Email.csproj" />
