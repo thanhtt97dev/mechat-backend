@@ -11,9 +11,9 @@ public class AuthUtil
 {
     private readonly IConfiguration configuration;
     private readonly ICacheService cacheService;
-    private readonly IJwtTokenService jwtTokenService;
+    private readonly IJwtService jwtTokenService;
 
-    public AuthUtil(IConfiguration configuration, ICacheService cacheService, IJwtTokenService jwtTokenService)
+    public AuthUtil(IConfiguration configuration, ICacheService cacheService, IJwtService jwtTokenService)
     {
         this.configuration = configuration;
         this.cacheService = cacheService;

@@ -12,13 +12,13 @@ namespace MeChat.Application.UseCases.V1.Auth.QueryHandlers;
 public class GetRefreshTokenQueryHandler : IQueryHandler<Query.RefreshToken, Response.Authenticated>
 {
     private readonly ICacheService cacheService;
-    private readonly IJwtTokenService jwtTokenService;
+    private readonly IJwtService jwtTokenService;
     private readonly IUnitOfWork unitOfWork;
     private readonly AuthUtil authUtil;
 
     public GetRefreshTokenQueryHandler(
         ICacheService cacheService, 
-        IJwtTokenService jwtTokenService, 
+        IJwtService jwtTokenService, 
         IUnitOfWork unitOfWork, 
         AuthUtil authUtil)
     {

@@ -42,6 +42,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MeChat.Infrastucture.Storag
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MeChat.Infrastucture.Data.Dapper", "src\MeChat.Infrastucture.Data.Dapper\MeChat.Infrastucture.Data.Dapper.csproj", "{29796B9E-F3C3-415B-8EA1-CA843950589A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MeChat.Infrastucture.Service", "src\MeChat.Infrastucture.Service\MeChat.Infrastucture.Service.csproj", "{4C3E105A-61E3-4AD8-955D-0251611395C6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -104,6 +106,10 @@ Global
 		{29796B9E-F3C3-415B-8EA1-CA843950589A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{29796B9E-F3C3-415B-8EA1-CA843950589A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{29796B9E-F3C3-415B-8EA1-CA843950589A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4C3E105A-61E3-4AD8-955D-0251611395C6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4C3E105A-61E3-4AD8-955D-0251611395C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4C3E105A-61E3-4AD8-955D-0251611395C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4C3E105A-61E3-4AD8-955D-0251611395C6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -123,6 +129,7 @@ Global
 		{F55BB892-36A8-4992-A50F-1C60840DC542} = {1366F6BD-0107-407B-ADCE-8D176E2D41E3}
 		{DC11E763-E5E4-43FA-81C9-DA34A24BBAA8} = {1366F6BD-0107-407B-ADCE-8D176E2D41E3}
 		{29796B9E-F3C3-415B-8EA1-CA843950589A} = {1366F6BD-0107-407B-ADCE-8D176E2D41E3}
+		{4C3E105A-61E3-4AD8-955D-0251611395C6} = {1366F6BD-0107-407B-ADCE-8D176E2D41E3}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {AB641A2F-8F72-43FE-9A01-864452A31FB7}

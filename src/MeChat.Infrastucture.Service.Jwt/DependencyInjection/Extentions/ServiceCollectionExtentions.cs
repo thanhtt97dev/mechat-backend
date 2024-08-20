@@ -54,6 +54,6 @@ public static class ServiceCollectionExtentions
 
     public static void AddJwtService(this IServiceCollection services)
     {
-        services.AddTransient<IJwtTokenService, JwtTokenService>();
+        services.AddTransient<IJwtService, JwtTokenService>();
     }
 }

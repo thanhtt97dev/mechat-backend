@@ -6,7 +6,7 @@ using MeChat.Application.DependencyInjection.Extentions;
 using MeChat.API.Middlewares;
 using MeChat.Infrastucture.DistributedCache.DependencyInjection.Extentions;
 using System.Text.Json.Serialization;
-using MeChat.Infrastucture.Service.Jwt.DependencyInjection.Extentions;
+using MeChat.Infrastucture.Service.DependencyInjection.Extentions;
 using MeChat.Infrastucture.Storage.DependencyInjection.Extentions;
 using MeChat.Infrastucture.MessageBroker.Producer.Email.DependencyInjection.Extentions;
 

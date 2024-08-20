@@ -13,12 +13,12 @@ public class ConfirmSignUpCommandHandler : ICommandHandler<Command.ConfirmSignUp
     private readonly IUnitOfWork unitOfWorkEF;
     private readonly IRepositoryBase<Domain.Entities.User, Guid> userRepository;
 
-    private readonly IJwtTokenService jwtTokenService;
+    private readonly IJwtService jwtTokenService;
 
     public ConfirmSignUpCommandHandler(
         IRepositoryBase<Domain.Entities.User, Guid> userRepository,
         IUnitOfWork unitOfWorkEF,
-        IJwtTokenService jwtTokenService)
+        IJwtService jwtTokenService)
     {
         this.unitOfWorkEF = unitOfWorkEF;
         this.userRepository = userRepository;

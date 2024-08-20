@@ -8,7 +8,7 @@ using System.Security.Claims;
 using System.Text;
 
 namespace MeChat.Infrastucture.Service.Jwt.Extentions;
-public class JwtTokenService : IJwtTokenService
+public class JwtTokenService : IJwtService
 {
     private readonly JwtOption jwtOption = new();
 
