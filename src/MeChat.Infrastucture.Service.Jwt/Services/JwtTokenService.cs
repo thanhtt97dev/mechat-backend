@@ -115,11 +115,17 @@ public class JwtTokenService : IJwtTokenService
             ClockSkew = TimeSpan.Zero
         };
 
-        var tokenHandler = new JwtSecurityTokenHandler();
-        tokenHandler.ValidateToken(accessToken, tokenValidationParameters, out SecurityToken securityToken);
-        if (securityToken is not JwtSecurityToken jwtSecurityToken || !jwtSecurityToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256, StringComparison.InvariantCultureIgnoreCase))
+        try
+        {
+            var tokenHandler = new JwtSecurityTokenHandler();
+            tokenHandler.ValidateToken(accessToken, tokenValidationParameters, out SecurityToken securityToken);
+            if (securityToken is not JwtSecurityToken jwtSecurityToken || !jwtSecurityToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256, StringComparison.InvariantCultureIgnoreCase))
+                return false;
+        }
+        catch(Exception) 
+        {
             return false;
-
+        }
         return true;
     }
 }
