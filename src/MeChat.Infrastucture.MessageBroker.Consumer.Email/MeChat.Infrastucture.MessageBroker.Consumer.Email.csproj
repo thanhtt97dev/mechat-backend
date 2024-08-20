@@ -16,6 +16,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\MeChat.Common\MeChat.Common.csproj" />
+    <ProjectReference Include="..\MeChat.Infrastucture.Service.Email\MeChat.Infrastucture.Service.Email.csproj" />
   </ItemGroup>
 
   <ItemGroup>

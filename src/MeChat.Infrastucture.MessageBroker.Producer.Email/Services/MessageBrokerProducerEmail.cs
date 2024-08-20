@@ -19,10 +19,10 @@ public class MessageBrokerProducerEmail : IMessageBrokerProducerEmail
         var message = new Command.SendEmail
         {
             Id = Guid.NewGuid(),
-            Name = "send email",
-            Description = subject,
             TimeStamp = DateTime.UtcNow,
-            Type = "daw"
+            Emails = new string[] { email },
+            Subject = subject,
+            Content = content
         };
         var endpoint = await bus.GetSendEndpoint(Address<Command.SendEmail>());
         await endpoint.Send(message);

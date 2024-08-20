@@ -1,5 +1,6 @@
 
 using MeChat.Infrastucture.MessageBroker.Consumer.Email.DependencyInjection.Extentions;
+using MeChat.Infrastucture.Service.Email.DependencyInjection.Extentions;
 
 namespace MeChat.Infrastucture.MessageBroker.Consumer.Email;
 
@@ -14,6 +15,9 @@ public class Program
 
         //Add messagebroker
         builder.Services.AddMessageBrokerMasstransitRabbitMq(builder.Configuration);
+
+        //Add email service
+        builder.Services.AddEmailService();
 
         var app = builder.Build();
 
