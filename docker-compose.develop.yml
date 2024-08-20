@@ -3,7 +3,6 @@ services:
   redis:
     container_name: redis
     image: redis:6.2-alpine
-    restart: always
     ports:
       - '6379:6379'
     command: redis-server --save 60 1 --loglevel warning --requirepass mechat
@@ -13,7 +12,6 @@ services:
   rabbitmq:
     container_name: rabbitmq
     image: rabbitmq:3-management-alpine
-    restart: always
     ports:
       - "5672:5672"
       - "15672:15672"
