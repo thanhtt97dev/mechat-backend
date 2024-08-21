@@ -2,7 +2,7 @@
 using MeChat.Common.Constants;
 using MeChat.Common.Shared.Response;
 using MeChat.Common.UseCases.V1.Auth;
-using MeChat.Infrastucture.Service.Jwt.DependencyInjection.Options;
+using MeChat.Infrastucture.Service.DependencyInjection.Configurations;
 using Microsoft.Extensions.Configuration;
 using System.Security.Claims;
 
@@ -22,9 +22,9 @@ public class AuthUtil
 
     public async Task<Result<Response.Authenticated>> GenerateToken(Guid id, int role, string? email)
     {
-        JwtOption jwtOption = new();
-        configuration.GetSection(nameof(JwtOption)).Bind(jwtOption);
-        var sessionTime = jwtOption.ExpireMinute + jwtOption.RefreshTokenExpireMinute;
+        JwtConfiguration jwtConfiguration = new();
+        configuration.GetSection(nameof(JwtConfiguration)).Bind(jwtConfiguration);
+        var sessionTime = jwtConfiguration.ExpireMinute + jwtConfiguration.RefreshTokenExpireMinute;
 
         var refreshToken = jwtTokenService.GenerateRefreshToken();
 
@@ -34,7 +34,7 @@ public class AuthUtil
             new Claim(AppConstants.AppConfigs.Jwt.ROLE, role.ToString()),
             new Claim(AppConstants.AppConfigs.Jwt.EMAIL, email??string.Empty),
             new Claim(AppConstants.AppConfigs.Jwt.JTI, refreshToken),
-            new Claim(AppConstants.AppConfigs.Jwt.EXPIRED, DateTime.Now.AddMinutes(jwtOption.ExpireMinute).ToString()),
+            new Claim(AppConstants.AppConfigs.Jwt.EXPIRED, DateTime.Now.AddMinutes(jwtConfiguration.ExpireMinute).ToString()),
         };
 
         var accessToken = jwtTokenService.GenerateAccessToken(clamims);
@@ -55,8 +55,8 @@ public class AuthUtil
 
     public string GenerateTokenForSignUp(string email)
     {
-        JwtOption jwtOption = new();
-        configuration.GetSection(nameof(JwtOption)).Bind(jwtOption);
+        JwtConfiguration jwtConfiguration = new();
+        configuration.GetSection(nameof(JwtConfiguration)).Bind(jwtConfiguration);
 
         var clamims = new List<Claim>
         {

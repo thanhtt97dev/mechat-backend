@@ -3,7 +3,6 @@ using MeChat.Common.UseCases.V1.Auth;
 using MeChat.Presentation.Abstractions;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 

@@ -26,7 +26,7 @@
     <ProjectReference Include="..\MeChat.Domain\MeChat.Domain.csproj" />
     <ProjectReference Include="..\MeChat.Infrastucture.Data.Dapper\MeChat.Infrastucture.Data.Dapper.csproj" />
     <ProjectReference Include="..\MeChat.Infrastucture.DistributedCache\MeChat.Infrastucture.DistributedCache.csproj" />
-    <ProjectReference Include="..\MeChat.Infrastucture.Service.Jwt\MeChat.Infrastucture.Service.Jwt.csproj" />
+    <ProjectReference Include="..\MeChat.Infrastucture.Service\MeChat.Infrastucture.Service.csproj" />
     <ProjectReference Include="..\MeChat.Persistence\MeChat.Persistence.csproj" />
   </ItemGroup>
 
