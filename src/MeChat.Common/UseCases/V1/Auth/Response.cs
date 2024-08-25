@@ -7,5 +7,7 @@ public static class Response
         public string? RefreshToken { get; set; }
         public DateTime RefreshTokenExpiryTime { get; set; }
         public string? UserId { get; set; }
+        public string? Fullname { get; set; }
+        public int RoleId { get; set; }
     }
 }

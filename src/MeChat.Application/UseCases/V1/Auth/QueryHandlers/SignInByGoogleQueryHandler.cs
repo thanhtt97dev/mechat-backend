@@ -46,7 +46,7 @@ public class SignInByGoogleQueryHandler : IQueryHandler<Query.SignInByGoogle, Re
         var user = await unitOfWorkDapper.Users.GetUserByAccountSocial(payload.Subject, AppConstants.Social.Google);
         if(user != null)
         {
-            return await authUtil.GenerateToken(user.Id, user.RoldeId, user.Email);
+            return await authUtil.GenerateToken(user.Id, user.Fullname!, user.RoldeId, user.Email);
         }
             
         //New User
@@ -73,6 +73,6 @@ public class SignInByGoogleQueryHandler : IQueryHandler<Query.SignInByGoogle, Re
         userSocialRepository.Add(userSocial);
         await unitOfWorkEF.SaveChangeUserTrackingAsync(newUser.Id);
 
-        return await authUtil.GenerateToken(newUser.Id, newUser.RoldeId, newUser.Email);
+        return await authUtil.GenerateToken(newUser.Id, user?.Fullname!, newUser.RoldeId, newUser.Email);
     }
 }
