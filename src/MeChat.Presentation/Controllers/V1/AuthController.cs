@@ -67,8 +67,9 @@ public class AuthController : ApiControllerBase
     #region User Info
     [Authorize]
     [HttpGet("User/{id}")]
-    public async Task<IActionResult> UserInfo (Query.UserInfo request)
+    public async Task<IActionResult> UserInfo (Guid id)
     {
+        var request = new Query.UserInfo(id);
         var result = await sender.Send(request);
         return Ok(result);
     }
