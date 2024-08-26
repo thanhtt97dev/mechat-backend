@@ -3,6 +3,7 @@ using MeChat.Common.UseCases.V1.Auth;
 using MeChat.Presentation.Abstractions;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -63,4 +64,13 @@ public class AuthController : ApiControllerBase
     }
     #endregion
 
+    #region User Info
+    [Authorize]
+    [HttpGet("User/{id}")]
+    public async Task<IActionResult> UserInfo (Query.UserInfo request)
+    {
+        var result = await sender.Send(request);
+        return Ok(result);
+    }
+    #endregion
 }

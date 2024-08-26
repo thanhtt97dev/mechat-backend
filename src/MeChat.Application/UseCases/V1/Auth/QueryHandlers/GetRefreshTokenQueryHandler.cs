@@ -41,7 +41,7 @@ public class GetRefreshTokenQueryHandler : IQueryHandler<Query.RefreshToken, Res
         Guid userId = Guid.Parse(rawUserId.ToString()!);
 
         //check userId in request header with userId in accessToken is match
-        if (userId.ToString() != request.UserId)
+        if (!string.Equals(userId.ToString(), request.UserId, StringComparison.InvariantCultureIgnoreCase))
             throw new AccessTokenInValid();
 
         //get refresh token in access token

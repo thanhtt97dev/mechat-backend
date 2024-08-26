@@ -9,4 +9,6 @@ public class Query
     public record SignInByGoogle(string GoogleToken) : IQuery<Response.Authenticated>, IDbTransactionAnnotation;
 
     public record RefreshToken(string? AccessToken, string? Refresh, string? UserId) : IQuery<Response.Authenticated>;
+
+    public record UserInfo(Guid UserId) : IQuery<Response.Authenticated>;
 }

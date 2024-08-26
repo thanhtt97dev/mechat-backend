@@ -1,4 +1,5 @@
-﻿using MeChat.Domain.Entities;
+﻿using MeChat.Common.Constants;
+using MeChat.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -35,6 +36,29 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
             .WithMany(x => x.Users)
             .HasForeignKey(x => x.RoldeId)
             .IsRequired();
+        #endregion
+
+        #region Initial data
+        var id = Guid.NewGuid();
+        builder.HasData(new User[]
+        {
+            new User(){
+                Id = id,
+                Username = "test",
+                Password = "test",
+                Fullname = "test",
+                RoldeId = AppConstants.Role.User,
+                Email = "mechat.mail@gmail.com",
+                Avatar = "https://cdnphoto.dantri.com.vn/YAfcu9nd4T5dX06hhpaf19_QvY8=/thumb_w/960/2021/05/15/co-gai-noi-nhu-con-vi-anh-can-cuoc-xinh-nhu-mong-nhan-sac-ngoai-doi-con-bat-ngo-hon-2-1621075314070.jpg",
+                Status = AppConstants.User.Status.Activate,
+                CreatedDate = DateTimeOffset.Now,
+                ModifiledDate = DateTimeOffset.Now,
+                CreatedBy = id,
+                ModifiedBy = id,
+                DeleteAt = DateTimeOffset.Now,
+                IsDeleted = false,
+            }
+        });
         #endregion
 
     }
