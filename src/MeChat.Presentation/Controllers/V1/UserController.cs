@@ -5,6 +5,7 @@ using MeChat.Common.Shared.Response;
 using MeChat.Common.UseCases.V1.User;
 using MeChat.Presentation.Abstractions;
 using MediatR;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,11 +18,13 @@ public class UserController : ApiControllerBase
     {
     }
 
+    [Authorize]
     [HttpGet("{id}")]
     public async Task<IActionResult> GetUser(Guid id)
     {
-        var userQuery = new Query.GetUserById(id);
-        var result = await sender.Send(userQuery);
+        var accessToken = HttpContext.Request.Headers.Authorization.ToString().Replace(JwtBearerDefaults.AuthenticationScheme, string.Empty).Trim();
+        var user = new Query.GetUserById(id, accessToken);
+        var result = await sender.Send(user);
         return Ok(result);
     }
 
