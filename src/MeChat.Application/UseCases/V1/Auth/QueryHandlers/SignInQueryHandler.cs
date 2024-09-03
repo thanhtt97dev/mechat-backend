@@ -29,6 +29,6 @@ public class SignInQueryHandler : IQueryHandler<Query.SignIn, Response.Authentic
         if (user.Status != AppConstants.User.Status.Activate)
             return Result.Initialization<Response.Authenticated>(AppConstants.ResponseCodes.User.Banned, "User has been banned!", false, null);
 
-        return await authUtil.GenerateToken(user.Id, user.Fullname!, user.RoldeId, user.Email);
+        return await authUtil.GenerateToken(user);
     }
 }

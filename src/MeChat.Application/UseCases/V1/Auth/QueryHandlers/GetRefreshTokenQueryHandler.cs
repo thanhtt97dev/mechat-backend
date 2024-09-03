@@ -71,7 +71,7 @@ public class GetRefreshTokenQueryHandler : IQueryHandler<Query.RefreshToken, Res
         //Remove old refresh token from cache
         await cacheService.RemoveCache(request.Refresh!);
 
-        return await authUtil.GenerateToken(user.Id, user.Fullname!, user.RoldeId, user.Email);
+        return await authUtil.GenerateToken(user);
     }
 
 }

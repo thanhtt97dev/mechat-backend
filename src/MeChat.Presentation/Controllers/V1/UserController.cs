@@ -18,6 +18,7 @@ public class UserController : ApiControllerBase
     {
     }
 
+    #region Test
     [Authorize]
     [HttpGet("{id}")]
     public async Task<IActionResult> GetUser(Guid id)
@@ -63,4 +64,15 @@ public class UserController : ApiControllerBase
         var result = await sender.Send(userCommand);
         return Ok(result);
     }
+    #endregion
+
+    #region Update User info
+    [HttpPut("info/${id}")]
+    public async Task<IActionResult> UpdateUserInfo(Guid id, Command.UpdateUserInfo request)
+    {
+        var updateUserInfo = new Command.UpdateUserInfo(id, request.Fullname, request.Avatar);
+        var resut = await sender.Send(updateUserInfo);
+        return Ok(resut);
+    }
+    #endregion
 }

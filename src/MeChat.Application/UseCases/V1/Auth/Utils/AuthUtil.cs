@@ -20,7 +20,7 @@ public class AuthUtil
         this.jwtTokenService = jwtTokenService;
     }
 
-    public async Task<Result<Response.Authenticated>> GenerateToken(Guid id, string fullname, int roleId, string? email)
+    public async Task<Result<Response.Authenticated>> GenerateToken(Domain.Entities.User user)
     {
         JwtConfiguration jwtConfiguration = new();
         configuration.GetSection(nameof(JwtConfiguration)).Bind(jwtConfiguration);
@@ -30,9 +30,9 @@ public class AuthUtil
 
         var clamims = new List<Claim>
         {
-            new Claim(AppConstants.AppConfigs.Jwt.ID, id.ToString()),
-            new Claim(AppConstants.AppConfigs.Jwt.ROLE, roleId.ToString()),
-            new Claim(AppConstants.AppConfigs.Jwt.EMAIL, email??string.Empty),
+            new Claim(AppConstants.AppConfigs.Jwt.ID, user.Id.ToString()),
+            new Claim(AppConstants.AppConfigs.Jwt.ROLE, user.RoldeId.ToString()),
+            new Claim(AppConstants.AppConfigs.Jwt.EMAIL, user.Email??string.Empty),
             new Claim(AppConstants.AppConfigs.Jwt.JTI, refreshToken),
             new Claim(AppConstants.AppConfigs.Jwt.EXPIRED, DateTime.Now.AddMinutes(jwtConfiguration.ExpireMinute).ToString()),
         };
@@ -44,13 +44,14 @@ public class AuthUtil
             AccessToken = accessToken,
             RefreshToken = refreshToken,
             RefreshTokenExpiryTime = DateTime.Now.AddMinutes(sessionTime),
-            UserId = id.ToString(),
-            Fullname = fullname,
-            RoleId = roleId
+            UserId = user.Id.ToString(),
+            Fullname = user.Fullname,
+            RoleId = user.RoldeId,
+            Avatar = user.Avatar ?? string.Empty
         };
 
         //save refresh token into cache
-        await cacheService.SetCache(refreshToken, id.ToString(), TimeSpan.FromMinutes(sessionTime));
+        await cacheService.SetCache(refreshToken, user.Id.ToString(), TimeSpan.FromMinutes(sessionTime));
 
         return Result.Success(result);
     }

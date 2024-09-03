@@ -27,7 +27,7 @@ public class GetUserQueryHandler : IQueryHandler<Query.GetUserById, Response.Use
         if (userIdInToken == null)
             return Result.UnAuthentication<Response.User>("Invalid user id!");
 
-        if(request.Id.ToString().ToLower() != userIdInToken.ToLower())
+        if (request.Id.ToString().ToLower() != userIdInToken.ToLower())
             return Result.UnAuthentication<Response.User>("Invalid user id!");
 
         var user = await unitOfWork.Users.FindByIdAsync(request.Id) ?? throw new UserExceptions.NotFound(request.Id);
