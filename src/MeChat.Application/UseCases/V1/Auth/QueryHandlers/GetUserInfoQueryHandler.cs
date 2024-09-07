@@ -1,4 +1,5 @@
-﻿using MeChat.Common.Abstractions.Data.EntityFramework.Repositories;
+﻿using AutoMapper;
+using MeChat.Common.Abstractions.Data.EntityFramework.Repositories;
 using MeChat.Common.Abstractions.Messages.DomainEvents;
 using MeChat.Common.Constants;
 using MeChat.Common.Shared.Response;
@@ -9,12 +10,14 @@ public class GetUserInfoQueryHandler : IQueryHandler<Query.UserInfo, Response.Us
 {
 
     private readonly IRepositoryBase<Domain.Entities.User, Guid> userRepository;
+    private readonly IMapper mapper;
 
     public GetUserInfoQueryHandler(
-        IRepositoryBase<Domain.Entities.User, Guid> userRepository
-        )
+        IRepositoryBase<Domain.Entities.User, Guid> userRepository,
+        IMapper mapper)
     {
         this.userRepository = userRepository;
+        this.mapper = mapper;
     }
 
     public async Task<Result<Response.UserInfo>> Handle(Query.UserInfo request, CancellationToken cancellationToken)
@@ -27,12 +30,7 @@ public class GetUserInfoQueryHandler : IQueryHandler<Query.UserInfo, Response.Us
         if (user.Status != AppConstants.User.Status.Activate)
             return Result.UnAuthentication<Response.UserInfo>("Unauthenticated");
 
-        var result = new Response.UserInfo
-        {
-            UserId = request.UserId.ToString(),
-            Fullname = user.Fullname,
-            RoleId = user.RoldeId
-        };
+        var result = mapper.Map<Response.UserInfo>(user);
 
         return Result.Success(result);
     }
