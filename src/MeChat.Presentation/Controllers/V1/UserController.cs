@@ -65,8 +65,8 @@ public class UserController : ApiControllerBase
     #endregion
 
     #region Update User info
-    [HttpPut("info/${id}")]
-    public async Task<IActionResult> UpdateUserInfo(Guid id, Command.UpdateUserInfo request)
+    [HttpPut("info/{id:guid}")]
+    public async Task<IActionResult> UpdateUserInfo(Guid id, [FromForm] Command.UpdateUserInfo request)
     {
         var updateUserInfo = new Command.UpdateUserInfo(id, request.Fullname, request.Avatar);
         var resut = await sender.Send(updateUserInfo);

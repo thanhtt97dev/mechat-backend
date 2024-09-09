@@ -6,4 +6,5 @@ public class AwsS3Configuration
     public string? AwsAccessKeyId { get; set; }
     public string? AwsSecretAccessKey { get; set; }
     public string? AwsSessionToken { get; set; }
+    public string? Endpoint { get; set; }
 }

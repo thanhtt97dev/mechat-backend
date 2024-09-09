@@ -8,5 +8,6 @@ public class Command
     public record AddUser(string Username, string Password) : ICommand;
     public record UpdateUser(Guid Id, string Username, string Password) : ICommand;
     public record DeleteUser(Guid Id) : ICommand;
-    public record UpdateUserInfo([Optional]Guid UserId, string Fullname, IFormFile Avatar): ICommand;
+    public record UpdateUserInfoRequestBody(string Fullname, IFormFile? Avatar);
+    public record UpdateUserInfo(Guid Id, string Fullname, IFormFile? Avatar) : UpdateUserInfoRequestBody(Fullname, Avatar), ICommand;
 }

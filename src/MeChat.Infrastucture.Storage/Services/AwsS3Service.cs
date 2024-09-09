@@ -64,7 +64,7 @@ public class AwsS3Service : IStorageService
         return memoryStream.ToArray();
     }
 
-    public async Task<bool> UploadFileAsync(IFormFile file, string fileName)
+    public async Task<string> UploadFileAsync(IFormFile file, string fileName)
     {
         using (var memoryStream = new MemoryStream())
         {
@@ -79,7 +79,10 @@ public class AwsS3Service : IStorageService
 
             var fileTransferUtility = new TransferUtility(awsS3Client);
             await fileTransferUtility.UploadAsync(uploadRequest);
-            return true;
+
+            var endpoint = distributedStorage.AwsS3Configuration.Endpoint + fileName;
+
+            return endpoint;
         }
     }
 }
