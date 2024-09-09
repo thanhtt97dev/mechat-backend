@@ -34,7 +34,7 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         builder
             .HasOne(x => x.Role)
             .WithMany(x => x.Users)
-            .HasForeignKey(x => x.RoldeId)
+            .HasForeignKey(x => x.RoleId)
             .IsRequired();
         #endregion
 
@@ -47,7 +47,7 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
                 Username = "test",
                 Password = "test",
                 Fullname = "test",
-                RoldeId = AppConstants.Role.User,
+                RoleId = AppConstants.Role.User,
                 Email = "mechat.mail@gmail.com",
                 Avatar = "https://cdnphoto.dantri.com.vn/YAfcu9nd4T5dX06hhpaf19_QvY8=/thumb_w/960/2021/05/15/co-gai-noi-nhu-con-vi-anh-can-cuoc-xinh-nhu-mong-nhan-sac-ngoai-doi-con-bat-ngo-hon-2-1621075314070.jpg",
                 Status = AppConstants.User.Status.Activate,

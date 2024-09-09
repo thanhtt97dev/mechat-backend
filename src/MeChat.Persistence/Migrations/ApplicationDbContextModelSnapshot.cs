@@ -127,7 +127,7 @@ namespace MeChat.Persistence.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<int>("RoldeId")
+                    b.Property<int>("RoleId")
                         .HasColumnType("int");
 
                     b.Property<int>("Status")
@@ -139,25 +139,25 @@ namespace MeChat.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("RoldeId");
+                    b.HasIndex("RoleId");
 
                     b.ToTable("User", (string)null);
 
                     b.HasData(
                         new
                         {
-                            Id = new Guid("fafbf4a7-032e-4286-8beb-5d8aa66f6db9"),
+                            Id = new Guid("ed003c55-0557-4885-9055-c0c47cc4f7ab"),
                             Avatar = "https://cdnphoto.dantri.com.vn/YAfcu9nd4T5dX06hhpaf19_QvY8=/thumb_w/960/2021/05/15/co-gai-noi-nhu-con-vi-anh-can-cuoc-xinh-nhu-mong-nhan-sac-ngoai-doi-con-bat-ngo-hon-2-1621075314070.jpg",
-                            CreatedBy = new Guid("fafbf4a7-032e-4286-8beb-5d8aa66f6db9"),
-                            CreatedDate = new DateTimeOffset(new DateTime(2024, 8, 26, 22, 7, 47, 126, DateTimeKind.Unspecified).AddTicks(6163), new TimeSpan(0, 7, 0, 0, 0)),
-                            DeleteAt = new DateTimeOffset(new DateTime(2024, 8, 26, 22, 7, 47, 126, DateTimeKind.Unspecified).AddTicks(6207), new TimeSpan(0, 7, 0, 0, 0)),
+                            CreatedBy = new Guid("ed003c55-0557-4885-9055-c0c47cc4f7ab"),
+                            CreatedDate = new DateTimeOffset(new DateTime(2024, 9, 9, 21, 55, 57, 363, DateTimeKind.Unspecified).AddTicks(2), new TimeSpan(0, 7, 0, 0, 0)),
+                            DeleteAt = new DateTimeOffset(new DateTime(2024, 9, 9, 21, 55, 57, 363, DateTimeKind.Unspecified).AddTicks(37), new TimeSpan(0, 7, 0, 0, 0)),
                             Email = "mechat.mail@gmail.com",
                             Fullname = "test",
                             IsDeleted = false,
-                            ModifiedBy = new Guid("fafbf4a7-032e-4286-8beb-5d8aa66f6db9"),
-                            ModifiledDate = new DateTimeOffset(new DateTime(2024, 8, 26, 22, 7, 47, 126, DateTimeKind.Unspecified).AddTicks(6199), new TimeSpan(0, 7, 0, 0, 0)),
+                            ModifiedBy = new Guid("ed003c55-0557-4885-9055-c0c47cc4f7ab"),
+                            ModifiledDate = new DateTimeOffset(new DateTime(2024, 9, 9, 21, 55, 57, 363, DateTimeKind.Unspecified).AddTicks(32), new TimeSpan(0, 7, 0, 0, 0)),
                             Password = "test",
-                            RoldeId = 2,
+                            RoleId = 2,
                             Status = 1,
                             Username = "test"
                         });
@@ -204,7 +204,7 @@ namespace MeChat.Persistence.Migrations
                 {
                     b.HasOne("MeChat.Domain.Entities.Role", "Role")
                         .WithMany("Users")
-                        .HasForeignKey("RoldeId")
+                        .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

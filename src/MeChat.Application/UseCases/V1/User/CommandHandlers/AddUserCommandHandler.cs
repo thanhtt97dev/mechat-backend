@@ -24,7 +24,7 @@ public class AddUserCommandHandler : ICommandHandler<Command.AddUser>
         user.Avatar = null;
         user.Email = null;
         user.Status = AppConstants.User.Status.Activate;
-        user.RoldeId = AppConstants.Role.User;
+        user.RoleId = AppConstants.Role.User;
 
         userRepository.Add(user);
         return Task.FromResult<Result>(Result.Success());

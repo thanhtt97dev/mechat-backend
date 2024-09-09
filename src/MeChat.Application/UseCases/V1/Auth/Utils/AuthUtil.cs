@@ -31,7 +31,7 @@ public class AuthUtil
         var clamims = new List<Claim>
         {
             new Claim(AppConstants.AppConfigs.Jwt.ID, user.Id.ToString()),
-            new Claim(AppConstants.AppConfigs.Jwt.ROLE, user.RoldeId.ToString()),
+            new Claim(AppConstants.AppConfigs.Jwt.ROLE, user.RoleId.ToString()),
             new Claim(AppConstants.AppConfigs.Jwt.EMAIL, user.Email??string.Empty),
             new Claim(AppConstants.AppConfigs.Jwt.JTI, refreshToken),
             new Claim(AppConstants.AppConfigs.Jwt.EXPIRED, DateTime.Now.AddMinutes(jwtConfiguration.ExpireMinute).ToString()),
@@ -46,7 +46,7 @@ public class AuthUtil
             RefreshTokenExpiryTime = DateTime.Now.AddMinutes(sessionTime),
             UserId = user.Id.ToString(),
             Fullname = user.Fullname,
-            RoleId = user.RoldeId,
+            RoleId = user.RoleId,
             Avatar = user.Avatar ?? string.Empty
         };
 

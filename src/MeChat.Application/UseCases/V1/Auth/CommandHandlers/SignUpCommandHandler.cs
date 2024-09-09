@@ -48,7 +48,7 @@ public class SignUpCommandHandler : ICommandHandler<Command.SignUp>
             Id = Guid.NewGuid(),
             Username = request.Username,
             Password = request.Password,
-            RoldeId = AppConstants.Role.User,
+            RoleId = AppConstants.Role.User,
             Email = request.Email,
             Fullname = request.Username,
             Status = AppConstants.User.Status.UnActivate
