@@ -17,7 +17,9 @@ public class ServiceProfile : Profile
         #endregion
 
         #region Auth
-        CreateMap<User, Common.UseCases.V1.Auth.Response.UserInfo>().ReverseMap();
+        CreateMap<User, Common.UseCases.V1.Auth.Response.UserInfo>()
+            .ForMember(des => des.UserId, atc => atc.MapFrom(src => src.Id))
+            .ReverseMap();
         #endregion
 
         #endregion
