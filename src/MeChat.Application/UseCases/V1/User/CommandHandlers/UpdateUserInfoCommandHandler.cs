@@ -35,13 +35,11 @@ public class UpdateUserInfoCommandHandler : ICommandHandler<Command.UpdateUserIn
         if (request.Avatar != null)
         {
             //remove old image
-            if (string.IsNullOrEmpty(user.Avatar))
-            {
-                _ = storageService.DeleteFileAsync(user.Avatar!.Substring(user.Avatar.LastIndexOf("/") + 1));
-            }
+            if (!string.IsNullOrEmpty(user.Avatar))
+                await storageService.DeleteFileAsync(user.Avatar!.Substring(user.Avatar.LastIndexOf("/") + 1));
 
             //upload new image
-            DateTime now  = new();
+            DateTime now  = DateTime.Now;
             var fileName = string.Format("{0}_{1}{2}{3}{4}{5}{6}{7}{8}", request.Id.ToString(), now.Year, now.Month,
                     now.Day, now.Millisecond, now.Second, now.Minute, now.Hour,
                     request.Avatar.FileName.Substring(request.Avatar.FileName.LastIndexOf(".")));

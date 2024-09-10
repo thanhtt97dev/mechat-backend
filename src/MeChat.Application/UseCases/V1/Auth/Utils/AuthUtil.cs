@@ -43,8 +43,9 @@ public class AuthUtil
         {
             AccessToken = accessToken,
             RefreshToken = refreshToken,
-            RefreshTokenExpiryTime = DateTime.Now.AddMinutes(sessionTime),
+            //RefreshTokenExpiryTime = DateTime.Now.AddMinutes(sessionTime),
             UserId = user.Id.ToString(),
+            UserName = user.Username,
             Fullname = user.Fullname,
             RoleId = user.RoleId,
             Avatar = user.Avatar ?? string.Empty

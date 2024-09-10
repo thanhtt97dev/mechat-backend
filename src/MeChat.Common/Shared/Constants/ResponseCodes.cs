@@ -16,6 +16,7 @@ public partial class AppConstants
         public class User
         {
             public const string Banned = "1001";
+            public const string WrongPassword = "2001";
         }
     }
 }

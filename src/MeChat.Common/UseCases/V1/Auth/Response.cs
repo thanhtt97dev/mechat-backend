@@ -5,13 +5,14 @@ public static class Response
     {
         public string? AccessToken { get; set; }
         public string? RefreshToken { get; set; }
-        public DateTime RefreshTokenExpiryTime { get; set; }
+        //public DateTime RefreshTokenExpiryTime { get; set; }
 
     }
 
     public class UserInfo
     {
         public string? UserId { get; set; }
+        public string? UserName { get; set; }
         public string? Fullname { get; set; }
         public int RoleId { get; set; }
         public string Avatar { get; set; } = string.Empty;

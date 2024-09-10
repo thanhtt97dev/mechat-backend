@@ -73,4 +73,14 @@ public class UserController : ApiControllerBase
         return Ok(resut);
     }
     #endregion
+
+    #region Update user's password
+    [HttpPut("password/{id:guid}")]
+    public async Task<IActionResult> UpdateUserPassword(Guid id, Command.UpdateUserPasswordRequestBody request)
+    {
+        var updateUserPassword = new Command.UpdateUserPassword(id, request.Username, request.OldPassword, request.NewPassword);
+        var result = await sender.Send(updateUserPassword);
+        return Ok(result);
+    }
+    #endregion
 }

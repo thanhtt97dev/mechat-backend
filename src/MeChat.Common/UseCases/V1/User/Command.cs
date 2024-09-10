@@ -10,4 +10,6 @@ public class Command
     public record DeleteUser(Guid Id) : ICommand;
     public record UpdateUserInfoRequestBody(string Fullname, IFormFile? Avatar);
     public record UpdateUserInfo(Guid Id, string Fullname, IFormFile? Avatar) : UpdateUserInfoRequestBody(Fullname, Avatar), ICommand;
+    public record UpdateUserPasswordRequestBody(string Username, string? OldPassword, string NewPassword);
+    public record UpdateUserPassword(Guid Id, string Username, string? OldPassword, string NewPassword): UpdateUserPasswordRequestBody(Username, OldPassword, NewPassword), ICommand;
 }
