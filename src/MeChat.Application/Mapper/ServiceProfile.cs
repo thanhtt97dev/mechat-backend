@@ -14,6 +14,7 @@ public class ServiceProfile : Profile
         CreateMap<User, Common.UseCases.V1.User.Command.UpdateUser>().ReverseMap();
         CreateMap<User, Common.UseCases.V1.User.Response.User>().ReverseMap();
         CreateMap<PageResult<User>, PageResult<Common.UseCases.V1.User.Response.User>>().ReverseMap();
+        CreateMap<User, Common.UseCases.V1.User.Response.UserPublicInfo>().ReverseMap();
         #endregion
 
         #region Auth

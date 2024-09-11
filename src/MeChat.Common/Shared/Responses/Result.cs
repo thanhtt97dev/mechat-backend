@@ -1,4 +1,5 @@
 using MeChat.Common.Constants;
+using System.Runtime.InteropServices;
 using System.Text.Json.Serialization;
 
 namespace MeChat.Common.Shared.Response;
@@ -85,8 +86,11 @@ public class Result
     #endregion
 
     #region ValidationError
-    public static Result<TData> ValidationError<TData>(TData data)
-        => new(AppConstants.ResponseCodes.ValidationError, "Validation error!", false, data);
+
+    public static Result<TData> ValidationError<TData>(string message)
+        => new(AppConstants.ResponseCodes.UnAuthentication, message, false);
+    public static Result<TData> ValidationError<TData>(TData? data, string message = "Validation error!")
+        => new(AppConstants.ResponseCodes.UnAuthentication, message, false, data);
     #endregion
 }
 

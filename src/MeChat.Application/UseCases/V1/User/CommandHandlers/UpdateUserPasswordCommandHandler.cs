@@ -32,9 +32,12 @@ public class UpdateUserPasswordCommandHandler : ICommandHandler<Command.UpdateUs
             return Result.Initialization(AppConstants.ResponseCodes.User.WrongPassword, "Invalid passowrd", false);
 
         //check usernaem existed
-        var isUsernameExisted = await userRepository.Any(x => x.Username == request.Username);
-        if (isUsernameExisted)
-            return Result.Initialization(AppConstants.ResponseCodes.User.UsernameExisted, "Username existed", false);
+        if (string.IsNullOrEmpty(user.Username))
+        {
+            var isUsernameExisted = await userRepository.Any(x => x.Username == request.Username);
+            if (isUsernameExisted)
+                return Result.Initialization(AppConstants.ResponseCodes.User.UsernameExisted, "Username existed", false);
+        }
 
         user.Username = request.Username;
         user.Password = request.NewPassword;
