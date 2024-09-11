@@ -62,11 +62,11 @@ public class SignUpCommandHandler : ICommandHandler<Command.SignUp>
         string enpoint = $"{configuration["FrontEnd:Endpoint"] ?? string.Empty}/confirmSignUp";
         string accessToken = authUtil.GenerateTokenForSignUp(request.Email);
         string content =
-$@"
-<div>
-    <p>Please click to link below to confirm!</p><br/>
-    <a href='{enpoint}?accessToken={accessToken}'>click here</a>
-</div>";
+        $@"
+        <div>
+            <p>Please click to link below to confirm!</p><br/>
+            <a href='{enpoint}?accessToken={accessToken}'>click here</a>
+        </div>";
 
         await messageBrokerProducerEmail.SendMailAsync(request.Email, subject, content);
 
