@@ -13,7 +13,6 @@ public class SignUpCommandHandler : ICommandHandler<Command.SignUp>
 {
     private readonly IConfiguration configuration;
     private readonly IRepositoryBase<Domain.Entities.User, Guid> userReposiory;
-    private readonly IUnitOfWork unitOfWorkEF;
     private readonly IMessageBrokerProducerEmail messageBrokerProducerEmail;
 
     private readonly AuthUtil authUtil;
@@ -21,13 +20,11 @@ public class SignUpCommandHandler : ICommandHandler<Command.SignUp>
     public SignUpCommandHandler
         (IConfiguration configuration,
         IRepositoryBase<Domain.Entities.User, Guid> userReposiory,
-        IUnitOfWork unitOfWorkEF,
         IMessageBrokerProducerEmail messageBrokerProducerEmail,
         AuthUtil authUtil)
     {
         this.configuration = configuration;
         this.userReposiory = userReposiory;
-        this.unitOfWorkEF = unitOfWorkEF;
         this.authUtil = authUtil;
         this.messageBrokerProducerEmail = messageBrokerProducerEmail;
 
@@ -55,7 +52,6 @@ public class SignUpCommandHandler : ICommandHandler<Command.SignUp>
         };
 
         userReposiory.Add(user);
-        await unitOfWorkEF.SaveChangeUserTrackingAsync(user.Id);
 
         //send mail
         string subject = "MeChat - Confirm Sign up account";

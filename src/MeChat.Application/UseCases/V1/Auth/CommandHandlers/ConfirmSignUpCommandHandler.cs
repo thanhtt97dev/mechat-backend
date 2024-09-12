@@ -5,22 +5,18 @@ using MeChat.Common.Abstractions.Services;
 using MeChat.Common.Constants;
 using MeChat.Common.Shared.Response;
 using MeChat.Common.UseCases.V1.Auth;
-using MeChat.Persistence.Repositories;
 
 namespace MeChat.Application.UseCases.V1.Auth.CommandHandlers;
 public class ConfirmSignUpCommandHandler : ICommandHandler<Command.ConfirmSignUp>
 {
-    private readonly IUnitOfWork unitOfWorkEF;
     private readonly IRepositoryBase<Domain.Entities.User, Guid> userRepository;
 
     private readonly IJwtService jwtTokenService;
 
     public ConfirmSignUpCommandHandler(
         IRepositoryBase<Domain.Entities.User, Guid> userRepository,
-        IUnitOfWork unitOfWorkEF,
         IJwtService jwtTokenService)
     {
-        this.unitOfWorkEF = unitOfWorkEF;
         this.userRepository = userRepository;
         this.jwtTokenService = jwtTokenService;
     }
@@ -35,7 +31,7 @@ public class ConfirmSignUpCommandHandler : ICommandHandler<Command.ConfirmSignUp
         if (emailSignUp == null)
             return Result.UnAuthentication("UnAuthentication");
 
-        var user = await userRepository.FindSingleAsync(user => user.Email.Equals(emailSignUp));
+        var user = await userRepository.FindSingleAsync(user => user.Email!.Equals(emailSignUp));
         if(user == null)
             return Result.NotFound("Account is not registed");
 
@@ -44,7 +40,6 @@ public class ConfirmSignUpCommandHandler : ICommandHandler<Command.ConfirmSignUp
 
         user.Status = AppConstants.User.Status.Activate;
         userRepository.Update(user);
-        await unitOfWorkEF.SaveChangeUserTrackingAsync(user.Id);
 
         return Result.Success();
     }

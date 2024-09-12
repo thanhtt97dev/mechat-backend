@@ -85,10 +85,10 @@ public class UserController : ApiControllerBase
     #endregion
 
     #region Get User's info by id, username or email
-    [HttpGet("info/{key}")]
-    public async Task<IActionResult> GetUserPublicInfo(string key) 
+    [HttpGet("info")]
+    public async Task<IActionResult> GetUserPublicInfo(string key, string? id) 
     {
-        var userPublicInfo = new Query.GetUserPublicInfo(key);
+        var userPublicInfo = new Query.GetUserPublicInfo(key, id);
         var result = await sender.Send(userPublicInfo);
         return Ok(result);
     }

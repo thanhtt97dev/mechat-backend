@@ -14,41 +14,54 @@ public class AuditTableEntitiesInterceptor : SaveChangesInterceptor
         if(dbContext == null)
             return base.SavingChangesAsync(eventData, result, cancellationToken);
 
-        IEnumerable<EntityEntry<IAuditTable>> entries = dbContext.ChangeTracker.Entries<IAuditTable>();
-        if(entries.Count() == 0) 
-            return base.SavingChangesAsync(eventData, result, cancellationToken);
+        IEnumerable<EntityEntry<IDateTracking>> entriesDateTracking = dbContext.ChangeTracker.Entries<IDateTracking>();
+        foreach (var entityEntry in entriesDateTracking)
+        {
+            switch (entityEntry.State)
+            {
+                case EntityState.Added:
+                    entityEntry.Property(nameof(IDateTracking.CreatedDate)).CurrentValue = DateTimeOffset.Now;
+                    break;
+                case EntityState.Modified:
+                    entityEntry.Property(nameof(IDateTracking.ModifiledDate)).CurrentValue = DateTimeOffset.Now;
+                    break;
+                case EntityState.Deleted:
+                    entityEntry.Property(nameof(IDateTracking.ModifiledDate)).CurrentValue = DateTimeOffset.Now;
+                    break;
+            }
+        }
 
-        if(entries.Any
-            (x => x.State == EntityState.Deleted ||
+        IEnumerable<EntityEntry<ISoftDelete>> entriesSoftDelete = dbContext.ChangeTracker.Entries<ISoftDelete>();
+        foreach (var entityEntry in entriesSoftDelete)
+        {
+            if (entityEntry.State != EntityState.Deleted)
+                continue;
+            entityEntry.Property(nameof(ISoftDelete.DeleteAt)).CurrentValue = DateTimeOffset.Now;
+            entityEntry.Property(nameof(ISoftDelete.IsDeleted)).CurrentValue = true;
+            entityEntry.State = EntityState.Modified;
+        }
+
+        IEnumerable<EntityEntry<IUserTracking>> entriesUserTracking = dbContext.ChangeTracker.Entries<IUserTracking>();
+        if (entriesUserTracking.Any(
+             x => x.State == EntityState.Deleted ||
              x.State == EntityState.Modified ||
-             x.State == EntityState.Added)
-            && UserTrackingAditTableHelper.UserId == null)
+             x.State == EntityState.Added) && 
+             UserTrackingAditTableHelper.UserId == null)
         {
             throw new Exception("Must be save changes data with user tracking");
         }
 
-        bool isUserTracking = true;
-        if (UserTrackingAditTableHelper.UserId == null) isUserTracking = false;
-
-        foreach (var entityEntry in entries)
+        foreach (var entityEntry in entriesUserTracking)
         {
-            if (entityEntry.State == EntityState.Deleted)
+            switch (entityEntry.State)
             {
-                entityEntry.Property(nameof(IAuditTable.DeleteAt)).CurrentValue = DateTimeOffset.Now;
-                entityEntry.Property(nameof(IAuditTable.IsDeleted)).CurrentValue = true;
-                entityEntry.State = EntityState.Modified;
-            }
-            if(entityEntry.State == EntityState.Modified)
-            {
-                if (isUserTracking)
-                    entityEntry.Property(nameof(IAuditTable.ModifiedBy)).CurrentValue = UserTrackingAditTableHelper.UserId;
-                entityEntry.Property(nameof(IAuditTable.ModifiledDate)).CurrentValue = DateTimeOffset.Now;
-            }
-            if (entityEntry.State == EntityState.Added)
-            {
-                if (isUserTracking)
-                    entityEntry.Property(nameof(IAuditTable.CreatedBy)).CurrentValue = UserTrackingAditTableHelper.UserId;
-                entityEntry.Property(nameof(IAuditTable.CreatedDate)).CurrentValue = DateTimeOffset.Now;
+                case EntityState.Added:
+                    entityEntry.Property(nameof(IUserTracking.CreatedBy)).CurrentValue = UserTrackingAditTableHelper.UserId;
+                    break;
+                case EntityState.Modified:
+                case EntityState.Deleted:
+                    entityEntry.Property(nameof(IUserTracking.CreatedBy)).CurrentValue = UserTrackingAditTableHelper.UserId;
+                    break;
             }
         }
 

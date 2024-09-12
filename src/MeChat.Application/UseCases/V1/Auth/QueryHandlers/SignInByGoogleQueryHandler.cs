@@ -61,7 +61,7 @@ public class SignInByGoogleQueryHandler : IQueryHandler<Query.SignInByGoogle, Re
             Status = AppConstants.User.Status.Activate,
         };
         userRepository.Add(newUser);
-        await unitOfWorkEF.SaveChangeUserTrackingAsync(newUser.Id);
+        await unitOfWorkEF.SaveChangeAsync();
 
         //New UserSocial
         UserSocial userSocial = new UserSocial
@@ -71,7 +71,7 @@ public class SignInByGoogleQueryHandler : IQueryHandler<Query.SignInByGoogle, Re
             AccountSocialId = payload.Subject,
         };
         userSocialRepository.Add(userSocial);
-        await unitOfWorkEF.SaveChangeUserTrackingAsync(newUser.Id);
+        await unitOfWorkEF.SaveChangeAsync();
 
         return await authUtil.GenerateToken(newUser);
     }

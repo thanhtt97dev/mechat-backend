@@ -46,7 +46,7 @@ public class UpdateUserInfoCommandHandler : ICommandHandler<Command.UpdateUserIn
             var url = await storageService.UploadFileAsync(request.Avatar, fileName);
             user.Avatar = url;
         }
-        await unitOfWorkEF.SaveChangeUserTrackingAsync(user.Id);
+        await unitOfWorkEF.SaveChangeAsync();
         return Result.Success();
     }
 }

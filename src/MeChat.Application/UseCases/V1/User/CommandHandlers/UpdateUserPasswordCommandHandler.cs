@@ -42,7 +42,7 @@ public class UpdateUserPasswordCommandHandler : ICommandHandler<Command.UpdateUs
         user.Username = request.Username;
         user.Password = request.NewPassword;
 
-        await unitOfWorkEF.SaveChangeUserTrackingAsync(request.Id);
+        await unitOfWorkEF.SaveChangeAsync();
 
         return Result.Success();
     }
