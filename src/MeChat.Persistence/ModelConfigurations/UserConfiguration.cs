@@ -20,14 +20,8 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         #endregion
 
         #region Audit properties
-        builder.Property(x => x.CreatedBy);
-        builder.Property(x => x.ModifiedBy);
         builder.Property(x => x.CreatedDate);
         builder.Property(x => x.ModifiledDate);
-        builder.Property(x => x.DeleteAt);
-        builder.Property(x => x.IsDeleted);
-
-        builder.HasQueryFilter(x => x.IsDeleted == false);
         #endregion
 
         #region Constraints
@@ -53,10 +47,6 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
                 Status = AppConstants.User.Status.Activate,
                 CreatedDate = DateTimeOffset.Now,
                 ModifiledDate = DateTimeOffset.Now,
-                CreatedBy = id,
-                ModifiedBy = id,
-                DeleteAt = DateTimeOffset.Now,
-                IsDeleted = false,
             }
         });
         #endregion
