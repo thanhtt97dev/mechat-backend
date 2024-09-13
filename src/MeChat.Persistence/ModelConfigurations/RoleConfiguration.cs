@@ -10,7 +10,7 @@ public class RoleConfiguration : IEntityTypeConfiguration<Role>
         builder.ToTable(nameof(Role));
         #region Main properties
         builder.HasKey(x => x.Id);
-        builder.Property(x => x.Id).UseIdentityColumn(seed: 1, increment: 1);
+        builder.Property(x => x.Id);//.UseIdentityColumn(seed: 1, increment: 1);
 
         builder.Property(x => x.RoleName).HasMaxLength(100).IsRequired(true);
         #endregion

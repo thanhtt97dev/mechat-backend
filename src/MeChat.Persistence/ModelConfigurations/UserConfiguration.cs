@@ -9,6 +9,7 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
     public void Configure(EntityTypeBuilder<User> builder)
     {
         builder.ToTable(nameof(User));
+
         #region Main Properties
         builder.HasKey(x => x.Id);
 
@@ -33,11 +34,10 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         #endregion
 
         #region Initial data
-        var id = Guid.NewGuid();
         builder.HasData(new User[]
         {
             new User(){
-                Id = id,
+                Id = Guid.Parse("ED003C55-0557-4885-9055-C0C47CC4F7AB"),
                 Username = "test",
                 Password = "test",
                 Fullname = "test",

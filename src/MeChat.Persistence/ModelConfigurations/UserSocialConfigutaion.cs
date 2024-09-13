@@ -12,8 +12,6 @@ public class UserSocialConfigutaion : IEntityTypeConfiguration<UserSocial>
         builder.HasKey(x => new { x.UserId, x.SocialId});
 
         builder.Property(x => x.AccountSocialId);
-        builder.Property(x => x.CreatedDate);
-        builder.Property(x => x.ModifiledDate);
         #endregion
 
         #region Audit properties
