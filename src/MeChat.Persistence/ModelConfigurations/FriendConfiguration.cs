@@ -13,6 +13,7 @@ public class FriendConfiguration : IEntityTypeConfiguration<Friend>
         builder.HasKey(x => new { x.UserFirstId, x.UserSecondId });
         builder.Property(x => x.SpecifierId);
         builder.Property(x => x.Status);
+        builder.Property(x => x.OldStatus);
         #endregion
 
         #region Audit property
@@ -37,8 +38,14 @@ public class FriendConfiguration : IEntityTypeConfiguration<Friend>
                 .OnDelete(DeleteBehavior.Restrict);
 
         builder.HasOne(friend => friend.FriendStatus)
-                .WithMany(friendStatus => friendStatus.Friends)
-                .HasForeignKey(friend => friend.Status);
+            .WithMany(friendStatus => friendStatus.Friends)
+            .HasForeignKey(friend => friend.Status)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        builder.HasOne(friend => friend.OldFriendStatus)
+            .WithMany()
+            .HasForeignKey(friend => friend.OldStatus)
+            .OnDelete(DeleteBehavior.Restrict);
         #endregion
     }
 }

@@ -39,6 +39,9 @@ namespace MeChat.Persistence.Migrations
                     b.Property<DateTimeOffset?>("ModifiledDate")
                         .HasColumnType("datetimeoffset");
 
+                    b.Property<int>("OldStatus")
+                        .HasColumnType("int");
+
                     b.Property<Guid>("SpecifierId")
                         .HasColumnType("uniqueidentifier");
 
@@ -46,6 +49,8 @@ namespace MeChat.Persistence.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("UserFirstId", "UserSecondId");
+
+                    b.HasIndex("OldStatus");
 
                     b.HasIndex("SpecifierId");
 
@@ -206,10 +211,10 @@ namespace MeChat.Persistence.Migrations
                         {
                             Id = new Guid("ed003c55-0557-4885-9055-c0c47cc4f7ab"),
                             Avatar = "https://cdnphoto.dantri.com.vn/YAfcu9nd4T5dX06hhpaf19_QvY8=/thumb_w/960/2021/05/15/co-gai-noi-nhu-con-vi-anh-can-cuoc-xinh-nhu-mong-nhan-sac-ngoai-doi-con-bat-ngo-hon-2-1621075314070.jpg",
-                            CreatedDate = new DateTimeOffset(new DateTime(2024, 9, 14, 10, 19, 28, 939, DateTimeKind.Unspecified).AddTicks(3828), new TimeSpan(0, 7, 0, 0, 0)),
+                            CreatedDate = new DateTimeOffset(new DateTime(2024, 9, 15, 1, 46, 35, 372, DateTimeKind.Unspecified).AddTicks(6490), new TimeSpan(0, 7, 0, 0, 0)),
                             Email = "mechat.mail@gmail.com",
                             Fullname = "test",
-                            ModifiledDate = new DateTimeOffset(new DateTime(2024, 9, 14, 10, 19, 28, 939, DateTimeKind.Unspecified).AddTicks(3862), new TimeSpan(0, 7, 0, 0, 0)),
+                            ModifiledDate = new DateTimeOffset(new DateTime(2024, 9, 15, 1, 46, 35, 372, DateTimeKind.Unspecified).AddTicks(6515), new TimeSpan(0, 7, 0, 0, 0)),
                             Password = "test",
                             RoleId = 2,
                             Status = 1,
@@ -244,6 +249,12 @@ namespace MeChat.Persistence.Migrations
 
             modelBuilder.Entity("MeChat.Domain.Entities.Friend", b =>
                 {
+                    b.HasOne("MeChat.Domain.Entities.FriendStatus", "OldFriendStatus")
+                        .WithMany()
+                        .HasForeignKey("OldStatus")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.HasOne("MeChat.Domain.Entities.User", "Specifier")
                         .WithMany()
                         .HasForeignKey("SpecifierId")
@@ -253,7 +264,7 @@ namespace MeChat.Persistence.Migrations
                     b.HasOne("MeChat.Domain.Entities.FriendStatus", "FriendStatus")
                         .WithMany("Friends")
                         .HasForeignKey("Status")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("MeChat.Domain.Entities.User", "UserFirst")
@@ -269,6 +280,8 @@ namespace MeChat.Persistence.Migrations
                         .IsRequired();
 
                     b.Navigation("FriendStatus");
+
+                    b.Navigation("OldFriendStatus");
 
                     b.Navigation("Specifier");
 

@@ -8,6 +8,7 @@ public class Friend : Entity, IDateTracking
     public Guid UserSecondId { get; set; }
     public Guid SpecifierId { get; set; }
     public int Status { get; set; }
+    public int OldStatus { get; set; }
     public DateTimeOffset CreatedDate { get; set; }
     public DateTimeOffset? ModifiledDate { get; set; }
 
@@ -15,4 +16,5 @@ public class Friend : Entity, IDateTracking
     public virtual User? UserSecond { get; set; }
     public virtual User? Specifier { get; set; }
     public virtual FriendStatus? FriendStatus { get; set; }
+    public virtual FriendStatus? OldFriendStatus { get; set; }
 }

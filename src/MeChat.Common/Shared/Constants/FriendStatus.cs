@@ -4,14 +4,16 @@ public partial class AppConstants
 {
     public class FriendStatus
     {
-        public const int UnFriend = 0;
-        public const int WatitingAccept = 1;
-        public const int Accepted = 2;
-        public const int Block = 3;
+        public const int UnFriend = 1;
+        public const int WatitingAccept = 2;
+        public const int Accepted = 3;
+        public const int Block = 4;
+
+        public static int[] STATUS = new int[] { UnFriend, WatitingAccept, Accepted, Block };
     }
 
     public class FriendRealtionship : FriendStatus
     {
-        public const int FriendRequest = 4;
+        public const int FriendRequest = 5;
     }
 }
