@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using MeChat.Common.Abstractions.Data.EntityFramework.Repositories;
 using MeChat.Common.Abstractions.Messages.DomainEvents;
+using MeChat.Common.Shared.Constants;
 using MeChat.Common.Shared.Response;
 using MeChat.Common.UseCases.V1.User;
 
@@ -44,7 +45,11 @@ public class GetUserPublicInfoQueryHandler : IQueryHandler<Query.GetUserPublicIn
         if (friend == null)
             return Result.Success(result);
 
-        result = result with { RelationshipStatus = friend.Status };
+        int relationshipStatus = friend.Status;
+        if (friend.SpecifierId == request.Id && friend.Status == AppConstants.FriendStatus.WatitingAccept)
+            relationshipStatus = AppConstants.FriendRealtionship.FriendRequest;
+
+        result = result with { RelationshipStatus = relationshipStatus };
 
         return Result.Success(result);
     }
