@@ -1,4 +1,4 @@
-﻿using MeChat.Common.Constants;
+﻿using MeChat.Common.Shared.Constants;
 using Microsoft.EntityFrameworkCore;
 
 namespace MeChat.Common.Shared.Response;

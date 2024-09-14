@@ -1,7 +1,8 @@
-﻿using MeChat.Domain.Abstractions.Enitites;
+﻿using MeChat.Domain.Abstractions;
+using MeChat.Domain.Abstractions.Enitites;
 
 namespace MeChat.Domain.Entities;
-public class Friend : IDateTracking
+public class Friend : Entity, IDateTracking
 {
     public Guid UserFirstId { get; set; }
     public Guid UserSecondId { get; set; }

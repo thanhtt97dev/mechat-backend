@@ -1,6 +1,6 @@
 ﻿using Dapper;
 using MeChat.Common.Abstractions.Data.Dapper.Repositories;
-using MeChat.Common.Constants;
+using MeChat.Common.Shared.Constants;
 using MeChat.Common.Shared.Enumerations;
 using MeChat.Domain.Entities;
 using Microsoft.Data.SqlClient;

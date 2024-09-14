@@ -1,5 +1,4 @@
-using MeChat.Common.Constants;
-using System.Runtime.InteropServices;
+using MeChat.Common.Shared.Constants;
 using System.Text.Json.Serialization;
 
 namespace MeChat.Common.Shared.Response;

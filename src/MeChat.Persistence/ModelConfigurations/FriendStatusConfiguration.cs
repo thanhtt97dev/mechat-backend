@@ -1,4 +1,4 @@
-﻿using MeChat.Common.Constants;
+﻿using MeChat.Common.Shared.Constants;
 using MeChat.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -17,10 +17,10 @@ public class FriendStatusConfiguration : IEntityTypeConfiguration<FriendStatus>
         #region Initial data
         builder.HasData(new FriendStatus[]
         {
-            new(){Id = 1, Name = "Waiting accept"},
-            new(){Id = 2, Name = "Accepted"},
-            new(){Id = 3, Name = "Block"},
-            //Delete record if unfriend
+            new(){Id = 1, Name = "UnFriend"},
+            new(){Id = 2, Name = "Waiting accept"},
+            new(){Id = 3, Name = "Accepted"},
+            new(){Id = 4, Name = "Block"},
         });
         #endregion
     }

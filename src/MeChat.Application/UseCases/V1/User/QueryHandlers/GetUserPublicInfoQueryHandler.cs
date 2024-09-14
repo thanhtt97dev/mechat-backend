@@ -8,12 +8,16 @@ namespace MeChat.Application.UseCases.V1.User.QueryHandlers;
 public class GetUserPublicInfoQueryHandler : IQueryHandler<Query.GetUserPublicInfo, Response.UserPublicInfo>
 {
     private readonly IRepositoryBase<Domain.Entities.User, Guid> userRepository;
+    private readonly IRepository<Domain.Entities.Friend> friendRepository;
     private readonly IMapper mapper;
 
     public GetUserPublicInfoQueryHandler(
-        IRepositoryBase<Domain.Entities.User, Guid> userRepository, IMapper mapper)
+        IRepositoryBase<Domain.Entities.User, Guid> userRepository,
+        IRepository<Domain.Entities.Friend> friendRepository,
+        IMapper mapper)
     {
         this.userRepository = userRepository;
+        this.friendRepository = friendRepository;
         this.mapper = mapper;
     }
 
@@ -28,6 +32,23 @@ public class GetUserPublicInfoQueryHandler : IQueryHandler<Query.GetUserPublicIn
             return Result.NotFound<Response.UserPublicInfo>("User not found!");
 
         var result = mapper.Map<Response.UserPublicInfo>(user);
+
+        if(request.Id == null)
+            return Result.Success(result);
+
+        if(request.Id == user.Id)
+            result = result with { IsViewProfile = true };
+
+        var friend = await friendRepository.FindSingleAsync
+                (x =>
+                    (x.UserFirstId == user.Id && x.UserSecondId == request.Id) ||
+                    (x.UserSecondId == user.Id && x.UserFirstId == request.Id)
+                );
+        if (friend == null)
+            return Result.Success(result);
+
+        result = result with { RelationshipStatus = friend.Status };
+
         return Result.Success(result);
     }
 }
