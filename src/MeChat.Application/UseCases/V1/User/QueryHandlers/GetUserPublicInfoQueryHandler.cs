@@ -25,7 +25,7 @@ public class GetUserPublicInfoQueryHandler : IQueryHandler<Query.GetUserPublicIn
     public async Task<Result<Response.UserPublicInfo>> Handle(Query.GetUserPublicInfo request, CancellationToken cancellationToken)
     {
         Guid userId;
-        Guid.TryParse(request.Key,out userId);
+        Guid.TryParse(request.Key, out userId);
 
         var user = await userRepository
                 .FindSingleAsync(x => x.Id == userId || x.Username == request.Key || x.Email == request.Key);
@@ -34,7 +34,7 @@ public class GetUserPublicInfoQueryHandler : IQueryHandler<Query.GetUserPublicIn
 
         var result = mapper.Map<Response.UserPublicInfo>(user);
 
-        if(request.Id == null || request.Id == user.Id)
+        if (request.Id == null || request.Id == user.Id)
             return Result.Success(result);
 
         var friend = await friendRepository.FindSingleAsync
@@ -46,7 +46,11 @@ public class GetUserPublicInfoQueryHandler : IQueryHandler<Query.GetUserPublicIn
             return Result.Success(result);
 
         int relationshipStatus = friend.Status;
-        if (friend.SpecifierId == request.Id && friend.Status == AppConstants.FriendStatus.WatitingAccept)
+        //check block from other user
+        if (friend.Status == AppConstants.FriendStatus.Block && request.Id == friend.SpecifierId)
+            relationshipStatus = friend.OldStatus;
+
+        if (friend.SpecifierId != request.Id && friend.Status == AppConstants.FriendStatus.WatitingAccept)
             relationshipStatus = AppConstants.FriendRealtionship.FriendRequest;
 
         result = result with { RelationshipStatus = relationshipStatus };

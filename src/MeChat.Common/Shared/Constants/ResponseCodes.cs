@@ -19,6 +19,8 @@ public partial class AppConstants
 
             public const string WrongPassword = "2001";
             public const string UsernameExisted = "2002";
+
+            public const string FriendBlock = "3001";
         }
     }
 }

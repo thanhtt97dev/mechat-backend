@@ -12,4 +12,5 @@ public class Command
     public record UpdateUserInfo(Guid Id, string Fullname, IFormFile? Avatar) : UpdateUserInfoRequestBody(Fullname, Avatar), ICommand;
     public record UpdateUserPasswordRequestBody(string Username, string? OldPassword, string NewPassword);
     public record UpdateUserPassword(Guid Id, string Username, string? OldPassword, string NewPassword): UpdateUserPasswordRequestBody(Username, OldPassword, NewPassword), ICommand;
+    public record MakeUserFriendRelationship(Guid UserId, Guid FriendId, int Status) : ICommand;
 }

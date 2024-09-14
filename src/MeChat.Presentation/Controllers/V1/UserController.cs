@@ -93,4 +93,13 @@ public class UserController : ApiControllerBase
         return Ok(result);
     }
     #endregion
+
+    #region Make user's friend relationship
+    [HttpPost("makefriend")]
+    public async Task<IActionResult> MakeUserFriendRelationship(Command.MakeUserFriendRelationship request)
+    {
+        var result = await sender.Send(request);
+        return Ok(result);
+    }
+    #endregion
 }
