@@ -15,7 +15,6 @@ public class Response
         public string? Fullname { get; init; }
         public string? Username { get; init; }
         public int? RelationshipStatus { get; init; } = AppConstants.FriendStatus.UnFriend;
-        public bool IsMyProfile { get; init; } = false;
 
         public UserPublicInfo(){ }
     }

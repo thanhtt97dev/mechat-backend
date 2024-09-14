@@ -33,11 +33,8 @@ public class GetUserPublicInfoQueryHandler : IQueryHandler<Query.GetUserPublicIn
 
         var result = mapper.Map<Response.UserPublicInfo>(user);
 
-        if(request.Id == null)
+        if(request.Id == null || request.Id == user.Id)
             return Result.Success(result);
-
-        if(request.Id == user.Id)
-            result = result with { IsViewProfile = true };
 
         var friend = await friendRepository.FindSingleAsync
                 (x =>
