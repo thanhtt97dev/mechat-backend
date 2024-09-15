@@ -63,37 +63,38 @@ public class MakeUserFriendRelationshipCommandHandler : ICommandHandler<Command.
 
         if (request.Status == AppConstants.FriendStatus.UnFriend)
         {
-            //watting -> unfriend
-            //accept -> unfriend
-            //block -> unfriend -> need check blocker
+            //watting -> unfriend => oke
+            //accept -> unfriend => oke
+            //block -> unfriend => need check blocker
             if (friendRelationship.Status == AppConstants.FriendStatus.Block &&
                 request.UserId != friendRelationship.SpecifierId)
                 return Result.Failure("Invalid request");
         }
         else if (request.Status == AppConstants.FriendStatus.WatitingAccept)
         {
-            //unfriend -> watting
-            //accept -> watting -> invalid
-            //block -> watting -> check is blocker
+            //unfriend -> watting => oke
+            //accept -> watting => invalid
             if (friendRelationship.Status == AppConstants.FriendStatus.Accepted)
                 return Result.Failure("Invalid request");
-
+            //block -> watting => check is blocker
             if (friendRelationship.Status == AppConstants.FriendStatus.Block &&
                 request.UserId != friendRelationship.SpecifierId)
                 return Result.Failure("Invalid request");
         }
         else if (request.Status == AppConstants.FriendStatus.Accepted)
         {
-            //unfriend -> accept -> invalid
-            //watting -> accept
-            //block -> accept -> check is blocker
+            //unfriend -> accept => invalid
             if (friendRelationship.Status == AppConstants.FriendStatus.UnFriend)
                 return Result.Failure("Invalid request");
 
+            //watting -> accept => oke
+
+            //block -> accept => check is blocker
             if (friendRelationship.Status == AppConstants.FriendStatus.Block &&
                 request.UserId != friendRelationship.SpecifierId)
                 return Result.Failure("Invalid request");
         }
+        //Can block in any time
 
         //update friend relationship
         friendRelationship.SpecifierId = request.UserId;
