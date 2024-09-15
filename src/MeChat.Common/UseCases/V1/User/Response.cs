@@ -15,8 +15,20 @@ public class Response
         public string? Fullname { get; init; }
         public string? Username { get; init; }
         public int? RelationshipStatus { get; init; } = AppConstants.FriendStatus.UnFriend;
-
+        public int? TotalFriends { get; init; } = 0;
+        public List<FriendInfo>? Friends { get; init; } = new();
         public UserPublicInfo(){ }
+
+        #region FriendInfo
+        public class FriendInfo
+        {
+            public Guid Id { get; init; }
+            public string? Username { get; init; }
+            public string? Fullname { get; init; }
+            public string? Avatar { get; init;}
+        }
+        #endregion
+
     }
     #endregion
 

@@ -34,23 +34,84 @@ public class GetUserPublicInfoQueryHandler : IQueryHandler<Query.GetUserPublicIn
 
         var result = mapper.Map<Response.UserPublicInfo>(user);
 
+        //get friends info
+        bool isGetSeftInfo = false;
+        int totalFriend = 0;
+        List<Response.UserPublicInfo.FriendInfo> top5FriendInfo = new();
+        if (request.Id == null || user.Id == request.Id)
+            isGetSeftInfo = true;
+
+        if(isGetSeftInfo) 
+        {
+            totalFriend = friendRepository.FindAll(x => x.UserFirstId == user.Id || x.UserSecondId == user.Id).Count();
+
+            top5FriendInfo = friendRepository.FindAll
+                    (x =>
+                        x.UserFirstId == user.Id || x.UserSecondId == user.Id,
+                     x => x.UserFirst,
+                     x => x.UserSecond
+                    )
+                    .OrderBy(x => x.CreatedDate)
+                    .Take(5)
+                    .Select(x => new Response.UserPublicInfo.FriendInfo
+                    {
+                        Id = x.UserFirstId == user.Id ? x.UserSecond!.Id : x.UserFirst!.Id,
+                        Username = x.UserFirstId == user.Id ? x.UserSecond!.Username : x.UserFirst!.Username,
+                        Fullname = x.UserFirstId == user.Id ? x.UserSecond!.Fullname : x.UserFirst!.Fullname,
+                        Avatar = x.UserFirstId == user.Id ? x.UserSecond!.Avatar : x.UserFirst!.Avatar,
+                    })
+                    .ToList();
+        }
+        else
+        {
+            totalFriend = friendRepository.FindAll
+                (x =>
+                    (x.UserFirstId == user.Id && x.UserSecondId == request.Id) ||
+                    (x.UserSecondId == user.Id && x.UserFirstId == request.Id)
+                ).Count();
+
+            top5FriendInfo = friendRepository.FindAll
+                    (x =>
+                        (x.UserFirstId == user.Id && x.UserSecondId == request.Id) ||
+                        (x.UserSecondId == user.Id && x.UserFirstId == request.Id),
+                     x => x.UserFirst,
+                     x => x.UserSecond
+                    )
+                    .OrderBy(x => x.CreatedDate)
+                    .Take(5)
+                    .Select(x => new Response.UserPublicInfo.FriendInfo
+                    {
+                        Id = x.UserFirstId == user.Id ? x.UserSecond!.Id : x.UserFirst!.Id,
+                        Username = x.UserFirstId == user.Id ? x.UserSecond!.Username : x.UserFirst!.Username,
+                        Fullname = x.UserFirstId == user.Id ? x.UserSecond!.Fullname : x.UserFirst!.Fullname,
+                        Avatar = x.UserFirstId == user.Id ? x.UserSecond!.Avatar : x.UserFirst!.Avatar,
+                    })
+                    .ToList();
+        }
+
+        result = result with
+        {
+            TotalFriends = totalFriend,
+            Friends = top5FriendInfo
+        };
+
         if (request.Id == null || request.Id == user.Id)
             return Result.Success(result);
 
-        var friend = await friendRepository.FindSingleAsync
+        var friendRelationship = await friendRepository.FindSingleAsync
                 (x =>
                     (x.UserFirstId == user.Id && x.UserSecondId == request.Id) ||
                     (x.UserSecondId == user.Id && x.UserFirstId == request.Id)
                 );
-        if (friend == null)
+        if (friendRelationship == null)
             return Result.Success(result);
 
-        int relationshipStatus = friend.Status;
+        int relationshipStatus = friendRelationship.Status;
         //check block from other user
-        if (friend.Status == AppConstants.FriendStatus.Block && request.Id == friend.SpecifierId)
-            relationshipStatus = friend.OldStatus;
+        if (friendRelationship.Status == AppConstants.FriendStatus.Block && request.Id == friendRelationship.SpecifierId)
+            relationshipStatus = friendRelationship.OldStatus;
 
-        if (friend.SpecifierId != request.Id && friend.Status == AppConstants.FriendStatus.WatitingAccept)
+        if (friendRelationship.SpecifierId != request.Id && friendRelationship.Status == AppConstants.FriendStatus.WatitingAccept)
             relationshipStatus = AppConstants.FriendRealtionship.FriendRequest;
 
         result = result with { RelationshipStatus = relationshipStatus };

@@ -94,7 +94,7 @@ public class MakeUserFriendRelationshipCommandHandler : ICommandHandler<Command.
                 request.UserId != friendRelationship.SpecifierId)
                 return Result.Failure("Invalid request");
         }
-        //Can block in any time
+        //Can block in any scene
 
         //update friend relationship
         friendRelationship.SpecifierId = request.UserId;
