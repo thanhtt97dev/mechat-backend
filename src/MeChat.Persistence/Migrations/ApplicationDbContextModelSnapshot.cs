@@ -65,8 +65,8 @@ namespace MeChat.Persistence.Migrations
                         {
                             UserFirstId = new Guid("ed003c55-0557-4885-9055-c0c47cc4f7ab"),
                             UserSecondId = new Guid("a09c6cf6-710e-466f-e716-08dcd4f11f19"),
-                            CreatedDate = new DateTimeOffset(new DateTime(2024, 9, 15, 15, 21, 7, 32, DateTimeKind.Unspecified).AddTicks(6883), new TimeSpan(0, 7, 0, 0, 0)),
-                            ModifiledDate = new DateTimeOffset(new DateTime(2024, 9, 15, 15, 21, 7, 32, DateTimeKind.Unspecified).AddTicks(6914), new TimeSpan(0, 7, 0, 0, 0)),
+                            CreatedDate = new DateTimeOffset(new DateTime(2024, 9, 16, 23, 50, 1, 764, DateTimeKind.Unspecified).AddTicks(4138), new TimeSpan(0, 7, 0, 0, 0)),
+                            ModifiledDate = new DateTimeOffset(new DateTime(2024, 9, 16, 23, 50, 1, 764, DateTimeKind.Unspecified).AddTicks(4170), new TimeSpan(0, 7, 0, 0, 0)),
                             OldStatus = 1,
                             SpecifierId = new Guid("ed003c55-0557-4885-9055-c0c47cc4f7ab"),
                             Status = 2
@@ -75,8 +75,8 @@ namespace MeChat.Persistence.Migrations
                         {
                             UserFirstId = new Guid("ed003c55-0557-4885-9055-c0c47cc4f7ab"),
                             UserSecondId = new Guid("6b44f7b1-b873-44ef-9491-ffe41f5775ed"),
-                            CreatedDate = new DateTimeOffset(new DateTime(2024, 9, 15, 15, 21, 7, 32, DateTimeKind.Unspecified).AddTicks(6921), new TimeSpan(0, 7, 0, 0, 0)),
-                            ModifiledDate = new DateTimeOffset(new DateTime(2024, 9, 15, 15, 21, 7, 32, DateTimeKind.Unspecified).AddTicks(6922), new TimeSpan(0, 7, 0, 0, 0)),
+                            CreatedDate = new DateTimeOffset(new DateTime(2024, 9, 16, 23, 50, 1, 764, DateTimeKind.Unspecified).AddTicks(4179), new TimeSpan(0, 7, 0, 0, 0)),
+                            ModifiledDate = new DateTimeOffset(new DateTime(2024, 9, 16, 23, 50, 1, 764, DateTimeKind.Unspecified).AddTicks(4180), new TimeSpan(0, 7, 0, 0, 0)),
                             OldStatus = 2,
                             SpecifierId = new Guid("ed003c55-0557-4885-9055-c0c47cc4f7ab"),
                             Status = 3
@@ -85,8 +85,8 @@ namespace MeChat.Persistence.Migrations
                         {
                             UserFirstId = new Guid("a09c6cf6-710e-466f-e716-08dcd4f11f19"),
                             UserSecondId = new Guid("6b44f7b1-b873-44ef-9491-ffe41f5775ed"),
-                            CreatedDate = new DateTimeOffset(new DateTime(2024, 9, 15, 15, 21, 7, 32, DateTimeKind.Unspecified).AddTicks(6942), new TimeSpan(0, 7, 0, 0, 0)),
-                            ModifiledDate = new DateTimeOffset(new DateTime(2024, 9, 15, 15, 21, 7, 32, DateTimeKind.Unspecified).AddTicks(6943), new TimeSpan(0, 7, 0, 0, 0)),
+                            CreatedDate = new DateTimeOffset(new DateTime(2024, 9, 16, 23, 50, 1, 764, DateTimeKind.Unspecified).AddTicks(4185), new TimeSpan(0, 7, 0, 0, 0)),
+                            ModifiledDate = new DateTimeOffset(new DateTime(2024, 9, 16, 23, 50, 1, 764, DateTimeKind.Unspecified).AddTicks(4186), new TimeSpan(0, 7, 0, 0, 0)),
                             OldStatus = 2,
                             SpecifierId = new Guid("a09c6cf6-710e-466f-e716-08dcd4f11f19"),
                             Status = 3
@@ -206,6 +206,9 @@ namespace MeChat.Persistence.Migrations
                     b.Property<string>("Avatar")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("CoverPhoto")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTimeOffset>("CreatedDate")
                         .HasColumnType("datetimeoffset");
 
@@ -243,10 +246,11 @@ namespace MeChat.Persistence.Migrations
                         {
                             Id = new Guid("ed003c55-0557-4885-9055-c0c47cc4f7ab"),
                             Avatar = "https://scontent.fhan2-4.fna.fbcdn.net/v/t39.30808-6/458141307_3752163308376305_7786396549520709717_n.jpg?_nc_cat=110&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=mZeMLHtxPS4Q7kNvgHz6M_O&_nc_ht=scontent.fhan2-4.fna&_nc_gid=AN95bCnQULrHiAXmIyVA2wZ&oh=00_AYC4yBc8ZZkdyQboPp8z4T0mdBHyc6PRqssrdLH_ahIDfQ&oe=66EC3E3A",
-                            CreatedDate = new DateTimeOffset(new DateTime(2024, 9, 15, 15, 21, 7, 34, DateTimeKind.Unspecified).AddTicks(2505), new TimeSpan(0, 7, 0, 0, 0)),
+                            CoverPhoto = "https://images.pexels.com/photos/956981/milky-way-starry-sky-night-sky-star-956981.jpeg?auto=compress&cs=tinysrgb&w=600",
+                            CreatedDate = new DateTimeOffset(new DateTime(2024, 9, 16, 23, 50, 1, 766, DateTimeKind.Unspecified).AddTicks(2886), new TimeSpan(0, 7, 0, 0, 0)),
                             Email = "mechat.mail@gmail.com",
                             Fullname = "test",
-                            ModifiledDate = new DateTimeOffset(new DateTime(2024, 9, 15, 15, 21, 7, 34, DateTimeKind.Unspecified).AddTicks(2526), new TimeSpan(0, 7, 0, 0, 0)),
+                            ModifiledDate = new DateTimeOffset(new DateTime(2024, 9, 16, 23, 50, 1, 766, DateTimeKind.Unspecified).AddTicks(2913), new TimeSpan(0, 7, 0, 0, 0)),
                             Password = "test",
                             RoleId = 2,
                             Status = 1,
@@ -256,10 +260,11 @@ namespace MeChat.Persistence.Migrations
                         {
                             Id = new Guid("a09c6cf6-710e-466f-e716-08dcd4f11f19"),
                             Avatar = "https://scontent.fhan2-3.fna.fbcdn.net/v/t39.30808-1/376711391_3582728322054427_6580417315416639743_n.jpg?stp=dst-jpg_s200x200&_nc_cat=111&ccb=1-7&_nc_sid=0ecb9b&_nc_ohc=DBrY6E9OFCkQ7kNvgFyeI5-&_nc_ht=scontent.fhan2-3.fna&_nc_gid=A3dFMcRG-YVhj7w0WRNg1wT&oh=00_AYANj8xO-MOrS4l1FZE9wJycAe0ibFNv9ZGaextYUZegDg&oe=66EC242D",
-                            CreatedDate = new DateTimeOffset(new DateTime(2024, 9, 15, 15, 21, 7, 34, DateTimeKind.Unspecified).AddTicks(2532), new TimeSpan(0, 7, 0, 0, 0)),
+                            CoverPhoto = "https://images.pexels.com/photos/956981/milky-way-starry-sky-night-sky-star-956981.jpeg?auto=compress&cs=tinysrgb&w=600",
+                            CreatedDate = new DateTimeOffset(new DateTime(2024, 9, 16, 23, 50, 1, 766, DateTimeKind.Unspecified).AddTicks(2919), new TimeSpan(0, 7, 0, 0, 0)),
                             Email = "leduchieu2001x@gmail.com",
                             Fullname = "test1",
-                            ModifiledDate = new DateTimeOffset(new DateTime(2024, 9, 15, 15, 21, 7, 34, DateTimeKind.Unspecified).AddTicks(2533), new TimeSpan(0, 7, 0, 0, 0)),
+                            ModifiledDate = new DateTimeOffset(new DateTime(2024, 9, 16, 23, 50, 1, 766, DateTimeKind.Unspecified).AddTicks(2920), new TimeSpan(0, 7, 0, 0, 0)),
                             Password = "test1",
                             RoleId = 2,
                             Status = 1,
@@ -269,10 +274,11 @@ namespace MeChat.Persistence.Migrations
                         {
                             Id = new Guid("6b44f7b1-b873-44ef-9491-ffe41f5775ed"),
                             Avatar = "https://scontent.fhan2-3.fna.fbcdn.net/v/t1.6435-9/51863877_2216876628639610_6964562136462786560_n.jpg?_nc_cat=108&ccb=1-7&_nc_sid=13d280&_nc_ohc=CkFWK4i94xMQ7kNvgFKmft2&_nc_ht=scontent.fhan2-3.fna&_nc_gid=A6Zx5iuo9_o4-xw0tzRnM3L&oh=00_AYC9tQUQYhvdGa3-WzEBShl9D25MJbY_dPfAJx_vDHwlHA&oe=670DCD49",
-                            CreatedDate = new DateTimeOffset(new DateTime(2024, 9, 15, 15, 21, 7, 34, DateTimeKind.Unspecified).AddTicks(2537), new TimeSpan(0, 7, 0, 0, 0)),
+                            CoverPhoto = "https://images.pexels.com/photos/956981/milky-way-starry-sky-night-sky-star-956981.jpeg?auto=compress&cs=tinysrgb&w=600",
+                            CreatedDate = new DateTimeOffset(new DateTime(2024, 9, 16, 23, 50, 1, 766, DateTimeKind.Unspecified).AddTicks(2924), new TimeSpan(0, 7, 0, 0, 0)),
                             Email = "hieuldhe150703@fpt.edu.vn",
                             Fullname = "test2",
-                            ModifiledDate = new DateTimeOffset(new DateTime(2024, 9, 15, 15, 21, 7, 34, DateTimeKind.Unspecified).AddTicks(2539), new TimeSpan(0, 7, 0, 0, 0)),
+                            ModifiledDate = new DateTimeOffset(new DateTime(2024, 9, 16, 23, 50, 1, 766, DateTimeKind.Unspecified).AddTicks(2924), new TimeSpan(0, 7, 0, 0, 0)),
                             Password = "test2",
                             RoleId = 2,
                             Status = 1,

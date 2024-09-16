@@ -10,6 +10,7 @@ public class User :EntityBase<Guid>, IDateTracking
     public int RoleId { get; set; }
     public string? Email { get; set; }
     public string? Avatar { get; set; }
+    public string? CoverPhoto { get; set; }
     public DateTimeOffset CreatedDate { get; set; }
     public DateTimeOffset? ModifiledDate { get; set; }
     public int Status { get; set; }
