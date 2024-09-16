@@ -21,6 +21,7 @@ public class MakeUserFriendRelationshipCommandHandler : ICommandHandler<Command.
 
     public async Task<Result> Handle(Command.MakeUserFriendRelationship request, CancellationToken cancellationToken)
     {
+        #region Validation
         if (request.UserId == request.FriendId)
             return Result.Failure("Invalid friend");
 
@@ -36,11 +37,11 @@ public class MakeUserFriendRelationshipCommandHandler : ICommandHandler<Command.
 
         if (user.Status == AppConstants.User.Status.Deactivate)
             return Result.Initialization(AppConstants.ResponseCodes.User.Banned, "User has been banned!", false);
+        #endregion
 
         var friendRelationship = await friendRepository.FindSingleAsync(x =>
                 (x.UserFirstId == request.UserId && x.UserSecondId == request.FriendId) ||
-                (x.UserSecondId == request.UserId && x.UserFirstId == request.FriendId)
-            );
+                (x.UserSecondId == request.UserId && x.UserFirstId == request.FriendId));
 
         //unfriend -> add
         if (friendRelationship == null)
@@ -63,70 +64,57 @@ public class MakeUserFriendRelationshipCommandHandler : ICommandHandler<Command.
 
         int friendshipStatusUpdate = AppConstants.FriendStatus.UnFriend;
         int newFriendRelationship = AppConstants.FriendStatus.UnFriend;
-        if (request.Status == AppConstants.FriendStatusRequest.UnFriend)
+
+        switch (request.Status)
         {
-            //watting -> unfriend => oke
-            //accept -> unfriend => oke
-            //block -> unfriend => need check blocker
-            if (friendRelationship.Status == AppConstants.FriendStatus.Block &&
-                request.UserId != friendRelationship.SpecifierId)
-                return Result.Failure("Invalid request");
+            case AppConstants.FriendStatusRequest.UnFriend:
+                //watting -> unfriend => oke
+                //accept -> unfriend => oke
+                //block -> unfriend => need check blocker
+                if (friendRelationship.Status == AppConstants.FriendStatus.Block &&
+                    request.UserId != friendRelationship.SpecifierId)
+                    return Result.Failure("Invalid request");
 
-            friendshipStatusUpdate = request.Status;
-            newFriendRelationship = request.Status;
-        }
-        else if (request.Status == AppConstants.FriendStatusRequest.WatitingAccept)
-        {
-            //unfriend -> watting => oke
-            //accept -> watting => invalid
-            if (friendRelationship.Status == AppConstants.FriendStatus.Accepted)
-                return Result.Failure("Invalid request");
-            //block -> watting => check is blocker
-            if (friendRelationship.Status == AppConstants.FriendStatus.Block &&
-                request.UserId != friendRelationship.SpecifierId)
-                return Result.Failure("Invalid request");
+                friendshipStatusUpdate = AppConstants.FriendStatus.UnFriend;
+                newFriendRelationship = AppConstants.FriendRealtionship.UnFriend;
+                break;
+            case AppConstants.FriendStatusRequest.WatitingAccept:
+                //unfriend -> watting => oke
+                //accept -> watting => invalid
+                if (friendRelationship.Status == AppConstants.FriendStatus.Accepted)
+                    return Result.Failure("Invalid request");
+                //block -> watting => check is blocker
+                if (friendRelationship.Status == AppConstants.FriendStatus.Block &&
+                    request.UserId != friendRelationship.SpecifierId)
+                    return Result.Failure("Invalid request");
 
-            friendshipStatusUpdate = request.Status;
-            newFriendRelationship = request.Status;
+                friendshipStatusUpdate = AppConstants.FriendStatus.WatitingAccept;
+                newFriendRelationship = AppConstants.FriendRealtionship.WatitingAccept;
 
-            //watting accept -> watting accept => accepted
-            if (request.Status == AppConstants.FriendStatus.WatitingAccept && friendRelationship.Status == AppConstants.FriendStatus.WatitingAccept)
-            {
+                //watting accept -> watting accept => accepted
+                if (request.Status == AppConstants.FriendStatus.WatitingAccept && friendRelationship.Status == AppConstants.FriendStatus.WatitingAccept)
+                {
+                    friendshipStatusUpdate = AppConstants.FriendStatus.Accepted;
+                    newFriendRelationship = AppConstants.FriendRealtionship.Accepted;
+                }
+                break;
+            case AppConstants.FriendStatusRequest.Accepted:
+                //unfriend -> accept => invalid
+                if (friendRelationship.Status == AppConstants.FriendStatus.UnFriend)
+                    return Result.Failure("Invalid request");
+
+                //watting -> accept => oke
                 friendshipStatusUpdate = AppConstants.FriendStatus.Accepted;
-                newFriendRelationship = AppConstants.FriendStatus.Accepted;
-            }
-        }
-        else if (request.Status == AppConstants.FriendStatusRequest.Accepted)
-        {
-            //unfriend -> accept => invalid
-            if (friendRelationship.Status == AppConstants.FriendStatus.UnFriend)
-                return Result.Failure("Invalid request");
-
-            //watting -> accept => oke
-
-            //block -> accept => check is blocker
-            if (friendRelationship.Status == AppConstants.FriendStatus.Block &&
-                request.UserId != friendRelationship.SpecifierId)
-                return Result.Failure("Invalid request");
-
-            friendshipStatusUpdate = request.Status;
-            newFriendRelationship = request.Status;
-        }
-        else if(request.Status == AppConstants.FriendStatusRequest.Block)
-        {
-            friendshipStatusUpdate = AppConstants.FriendStatus.Block;
-            newFriendRelationship = AppConstants.FriendRealtionship.BlockRequester;
-        }
-        //request un block
-        else if(request.Status == AppConstants.FriendStatusRequest.RequestUnBlock)
-        {
-            //check is specifer blocker  and current status is block
-            if (friendRelationship.SpecifierId != request.UserId && 
-                friendRelationship.Status == AppConstants.FriendStatus.Block)
-                return Result.Failure("Invalid request");
-
-            friendshipStatusUpdate = friendRelationship.OldStatus;
-            newFriendRelationship = friendRelationship.OldStatus;
+                newFriendRelationship = AppConstants.FriendRealtionship.Accepted;
+                break;
+            case AppConstants.FriendStatusRequest.Block:
+                friendshipStatusUpdate = AppConstants.FriendStatus.Block;
+                newFriendRelationship = AppConstants.FriendRealtionship.BlockRequester;
+                break;
+            case AppConstants.FriendStatusRequest.RequestUnBlock:
+                friendshipStatusUpdate = friendRelationship.OldStatus;
+                newFriendRelationship = friendRelationship.OldStatus;
+                break;
         }
 
         //update friend relationship
