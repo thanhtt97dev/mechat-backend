@@ -46,6 +46,21 @@ public class UpdateUserInfoCommandHandler : ICommandHandler<Command.UpdateUserIn
             var url = await storageService.UploadFileAsync(request.Avatar, fileName);
             user.Avatar = url;
         }
+
+        if (request.CoverPhoto != null)
+        {
+            //remove old image
+            if (!string.IsNullOrEmpty(user.Avatar))
+                await storageService.DeleteFileAsync(user.CoverPhoto!.Substring(user.CoverPhoto.LastIndexOf("/") + 1));
+
+            //upload new image
+            DateTime now = DateTime.Now;
+            var fileName = string.Format("{0}_{1}{2}{3}{4}{5}{6}{7}{8}", request.Id.ToString(), now.Year, now.Month,
+                    now.Day, now.Millisecond, now.Second, now.Minute, now.Hour,
+                    request.CoverPhoto.FileName.Substring(request.CoverPhoto.FileName.LastIndexOf(".")));
+            var url = await storageService.UploadFileAsync(request.CoverPhoto, fileName);
+            user.CoverPhoto = url;
+        }
         await unitOfWorkEF.SaveChangeAsync();
         return Result.Success();
     }
