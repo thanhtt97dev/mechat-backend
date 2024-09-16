@@ -76,10 +76,14 @@ public class GetUserPublicInfoQueryHandler : IQueryHandler<Query.GetUserPublicIn
         if (friendRelationship == null)
             return Result.Success(result);
 
+        //blocked
+        if (friendRelationship.Status == AppConstants.FriendStatus.Block && request.Id != friendRelationship.SpecifierId)
+            return Result.Success(new Response.UserPublicInfo() { RelationshipStatus = AppConstants.FriendStatus.Block });
+
         int relationshipStatus = friendRelationship.Status;
-        //check block from other user
+        
         if (friendRelationship.Status == AppConstants.FriendStatus.Block && request.Id == friendRelationship.SpecifierId)
-            relationshipStatus = friendRelationship.OldStatus;
+            relationshipStatus = AppConstants.FriendRealtionship.BlockRequester;
 
         if (friendRelationship.SpecifierId != request.Id && friendRelationship.Status == AppConstants.FriendStatus.WatitingAccept)
             relationshipStatus = AppConstants.FriendRealtionship.FriendRequest;

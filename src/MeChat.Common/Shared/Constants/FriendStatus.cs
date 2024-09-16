@@ -9,11 +9,18 @@ public partial class AppConstants
         public const int Accepted = 3;
         public const int Block = 4;
 
-        public static int[] STATUS = new int[] { UnFriend, WatitingAccept, Accepted, Block };
     }
 
     public class FriendRealtionship : FriendStatus
     {
         public const int FriendRequest = 5;
+        public const int BlockRequester = 6;
+    }
+
+    public class FriendStatusRequest : FriendStatus
+    {
+        public const int RequestUnBlock = 7;
+
+        public static int[] STATUS = new int[] { UnFriend, WatitingAccept, Accepted, Block , RequestUnBlock };
     }
 }
