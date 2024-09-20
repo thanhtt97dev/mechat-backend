@@ -27,7 +27,7 @@ public class ConfirmSignUpCommandHandler : ICommandHandler<Command.ConfirmSignUp
         if (isValidAccessToken is false)
             return Result.UnAuthentication("Invalid access token");
 
-        var emailSignUp = jwtTokenService.GetClaim(AppConstants.AppConfigs.Jwt.EMAIL, request.AccessToken, false)?.ToString();
+        var emailSignUp = jwtTokenService.GetClaim(AppConstants.Configuration.Jwt.email, request.AccessToken, false)?.ToString();
         if (emailSignUp == null)
             return Result.UnAuthentication("UnAuthentication");
 

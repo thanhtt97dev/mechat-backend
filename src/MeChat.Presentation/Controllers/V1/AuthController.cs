@@ -37,7 +37,7 @@ public class AuthController : ApiControllerBase
     public async Task<IActionResult> RefreshToken([FromBody] RequestBodyModel.RefreshTokenRequest request)
     {
         var accessToken = HttpContext.Request.Headers.Authorization.ToString().Replace(JwtBearerDefaults.AuthenticationScheme, string.Empty).Trim();
-        var userId = HttpContext.Request.Headers.GetCommaSeparatedValues(AppConstants.AppConfigs.RequestHeader.USER_ID).FirstOrDefault();
+        var userId = HttpContext.Request.Headers.GetCommaSeparatedValues(AppConstants.Configuration.RequestHeader.id).FirstOrDefault();
         Query.RefreshToken query = new(accessToken, request.RefreshToken, userId);
         var result = await sender.Send(query);
         return Ok(result);

@@ -9,6 +9,9 @@ using System.Text.Json.Serialization;
 using MeChat.Infrastucture.Service.DependencyInjection.Extentions;
 using MeChat.Infrastucture.Storage.DependencyInjection.Extentions;
 using MeChat.Infrastucture.MessageBroker.Producer.Email.DependencyInjection.Extentions;
+using MeChat.Infrastucture.RealTime.DependencyInjection.Extentions;
+using MeChat.Infrastucture.RealTime.Hubs;
+using MeChat.Common.Shared.Constants;
 
 namespace MeChat.API;
 
@@ -89,7 +92,10 @@ public class Program
 
         //Add Middlewares
         builder.Services.AddTransient<ExceptionHandlingMiddleware>();
-        
+
+        //Add realtime (Infrastucture.RealTime)
+        builder.Services.AddConfigRealTime();
+
         // Use remove cycle object's data in json respone
         builder.Services.AddControllers().AddJsonOptions(options =>
         {
@@ -117,6 +123,14 @@ public class Program
         app.UseAuthorization();
 
         app.MapControllers();
+
+        app.UseRouting();
+
+        //Mapping hubs
+        app.UseEndpoints(endpoints =>
+        {
+            endpoints.MapHub<ChatHub>(AppConstants.Configuration.RealTime.ChatEndpoint);
+        });
 
         app.Run();
     }

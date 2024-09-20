@@ -14,6 +14,7 @@
     <PackageReference Include="MassTransit.RabbitMQ" Version="8.2.3" />
     <PackageReference Include="MicroElements.Swashbuckle.FluentValidation" Version="6.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.5" />
+    <PackageReference Include="Microsoft.AspNetCore.SignalR" Version="1.1.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.18">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -27,6 +28,7 @@
     <ProjectReference Include="..\MeChat.Application\MeChat.Application.csproj" />
     <ProjectReference Include="..\MeChat.Common\MeChat.Common.csproj" />
     <ProjectReference Include="..\MeChat.Domain\MeChat.Domain.csproj" />
+    <ProjectReference Include="..\MeChat.Infrastucture.RealTime\MeChat.Infrastucture.RealTime.csproj" />
     <ProjectReference Include="..\MeChat.Infrastucture.Service\MeChat.Infrastucture.Service.csproj" />
     <ProjectReference Include="..\MeChat.Infrastucture.Storage\MeChat.Infrastucture.Storage.csproj" />
     <ProjectReference Include="..\MeChat.Infrastucture.Data.Dapper\MeChat.Infrastucture.Data.Dapper.csproj" />

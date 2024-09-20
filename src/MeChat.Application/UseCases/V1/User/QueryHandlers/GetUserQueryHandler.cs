@@ -23,7 +23,7 @@ public class GetUserQueryHandler : IQueryHandler<Query.GetUserById, Response.Use
 
     public async Task<Result<Response.User>> Handle(Query.GetUserById request, CancellationToken cancellationToken)
     {
-        var userIdInToken = jwtService.GetClaim(AppConstants.AppConfigs.Jwt.ID, request.AccessToken, false)?.ToString();
+        var userIdInToken = jwtService.GetClaim(AppConstants.Configuration.Jwt.id, request.AccessToken, false)?.ToString();
         if (userIdInToken == null)
             return Result.UnAuthentication<Response.User>("Invalid user id!");
 

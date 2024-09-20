@@ -35,7 +35,7 @@ public class GetRefreshTokenQueryHandler : IQueryHandler<Query.RefreshToken, Res
             throw new AccessTokenInValid();
 
         //get user Id in acces token
-        var rawUserId = jwtTokenService.GetClaim(AppConstants.AppConfigs.Jwt.ID, request.AccessToken);
+        var rawUserId = jwtTokenService.GetClaim(AppConstants.Configuration.Jwt.id, request.AccessToken);
         if (rawUserId == null) throw new AccessTokenInValid();
 
         Guid userId = Guid.Parse(rawUserId.ToString()!);
@@ -45,7 +45,7 @@ public class GetRefreshTokenQueryHandler : IQueryHandler<Query.RefreshToken, Res
             throw new AccessTokenInValid();
 
         //get refresh token in access token
-        var rawRefreshToken = jwtTokenService.GetClaim(AppConstants.AppConfigs.Jwt.JTI, request.AccessToken);
+        var rawRefreshToken = jwtTokenService.GetClaim(AppConstants.Configuration.Jwt.jti, request.AccessToken);
         if (rawRefreshToken == null) throw new AccessTokenInValid();
         var refreshTokenInAccessToken = (string)rawRefreshToken;
 
