@@ -127,10 +127,7 @@ public class Program
         app.UseRouting();
 
         //Mapping hubs
-        app.UseEndpoints(endpoints =>
-        {
-            endpoints.MapHub<ChatHub>(AppConstants.Configuration.RealTime.ChatEndpoint);
-        });
+        app.MapHub<ChatHub>(AppConstants.Configuration.RealTime.ChatEndpoint);
 
         app.Run();
     }

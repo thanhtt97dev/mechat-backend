@@ -21,7 +21,7 @@ public partial class AppConstants
 
         public class RealTime 
         {
-            private const string RootEndpoint = "/realTime";
+            public const string RootEndpoint = "realtime";
             public const string ChatEndpoint = $"{RootEndpoint}/{Chat}";
             public const string Chat = "chat";
         }

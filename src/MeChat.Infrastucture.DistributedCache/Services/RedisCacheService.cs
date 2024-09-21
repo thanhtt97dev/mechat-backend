@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Caching.Distributed;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using System.Runtime.InteropServices;
 
 namespace MeChat.Infrastucture.DistributedCache.Extentions;
 public class RedisCacheService : ICacheService
@@ -27,21 +28,26 @@ public class RedisCacheService : ICacheService
         await distributedCache.RemoveAsync(key);
     }
 
-    public async Task SetCache(string key, object value, TimeSpan timeOut)
+    public async Task SetCache(string key, object value, [Optional] TimeSpan timeOut)
     {
         if (value == null)
             return;
 
         var serialierValue = JsonConvert.SerializeObject(value, new JsonSerializerSettings
         {
-            ContractResolver = new  CamelCasePropertyNamesContractResolver()
+            ContractResolver = new CamelCasePropertyNamesContractResolver()
         });
 
-        var distributedCacheEntryOptions = new DistributedCacheEntryOptions
+        if (timeOut == default(TimeSpan))
         {
-            AbsoluteExpirationRelativeToNow = timeOut
-        };
+            await distributedCache.SetStringAsync(key, serialierValue);
+            return;
+        }
 
-        await distributedCache.SetStringAsync(key, serialierValue, distributedCacheEntryOptions);
+        await distributedCache.SetStringAsync(key, serialierValue,
+            new DistributedCacheEntryOptions
+            {
+                AbsoluteExpirationRelativeToNow = timeOut
+            });
     }
 }

@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Builder;
 using MeChat.Infrastucture.RealTime.Hubs;
 using MeChat.Common.Shared.Constants;
+using MeChat.Common.Abstractions.RealTime;
+using MeChat.Infrastucture.RealTime.Services;
 
 namespace MeChat.Infrastucture.RealTime.DependencyInjection.Extentions;
 
@@ -15,6 +17,8 @@ public static class RealTimeExtention
             c.ClientTimeoutInterval = TimeSpan.FromSeconds(30);
             c.KeepAliveInterval = TimeSpan.FromSeconds(15);
         });
+
+        services.AddTransient<IRealTimeConnectionManager, RealTimeConnectionManager>();
     }
 
     public static IApplicationBuilder MapRealTimeEndpoints(this IApplicationBuilder builder)
