@@ -58,8 +58,8 @@ public class FriendConfiguration : IEntityTypeConfiguration<Friend>
                 SpecifierId = Guid.Parse("ED003C55-0557-4885-9055-C0C47CC4F7AB"),
                 OldStatus = AppConstants.FriendStatus.UnFriend,
                 Status = AppConstants.FriendStatus.WatitingAccept,
-                CreatedDate = DateTimeOffset.Now,
-                ModifiledDate = DateTimeOffset.Now,
+                CreatedDate = new DateTimeOffset(2024, 1, 1, 0, 0, 0, TimeSpan.Zero),
+                ModifiledDate = new DateTimeOffset(2024, 1, 1, 0, 0, 0, TimeSpan.Zero),
             },
             new Friend(){ //1-3
                 UserFirstId = Guid.Parse("ED003C55-0557-4885-9055-C0C47CC4F7AB"),
@@ -67,8 +67,8 @@ public class FriendConfiguration : IEntityTypeConfiguration<Friend>
                 SpecifierId = Guid.Parse("ED003C55-0557-4885-9055-C0C47CC4F7AB"),
                 OldStatus = AppConstants.FriendStatus.WatitingAccept,
                 Status = AppConstants.FriendStatus.Accepted,
-                CreatedDate = DateTimeOffset.Now,
-                ModifiledDate = DateTimeOffset.Now,
+                CreatedDate = new DateTimeOffset(2024, 1, 1, 0, 0, 0, TimeSpan.Zero),
+                ModifiledDate = new DateTimeOffset(2024, 1, 1, 0, 0, 0, TimeSpan.Zero),
             },
             new Friend(){ //2-3
                 UserFirstId = Guid.Parse("A09C6CF6-710E-466F-E716-08DCD4F11F19"),
@@ -76,8 +76,8 @@ public class FriendConfiguration : IEntityTypeConfiguration<Friend>
                 SpecifierId = Guid.Parse("A09C6CF6-710E-466F-E716-08DCD4F11F19"),
                 OldStatus = AppConstants.FriendStatus.WatitingAccept,
                 Status = AppConstants.FriendStatus.Accepted,
-                CreatedDate = DateTimeOffset.Now,
-                ModifiledDate = DateTimeOffset.Now,
+                CreatedDate = new DateTimeOffset(2024, 1, 1, 0, 0, 0, TimeSpan.Zero),
+                ModifiledDate = new DateTimeOffset(2024, 1, 1, 0, 0, 0, TimeSpan.Zero),
             },
         });
         #endregion
