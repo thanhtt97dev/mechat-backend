@@ -1,4 +1,5 @@
-﻿using MeChat.Common.Abstractions.Data.EntityFramework.Repositories;
+﻿using MassTransit.Initializers;
+using MeChat.Common.Abstractions.Data.EntityFramework.Repositories;
 using MeChat.Common.Abstractions.Messages.DomainEvents;
 using MeChat.Common.Abstractions.RealTime;
 using MeChat.Common.Shared.Constants;
@@ -64,7 +65,7 @@ public class MakeUserFriendRelationshipCommandHandler : ICommandHandler<Command.
                 Status = AppConstants.FriendStatus.WatitingAccept,
             };
 
-            await SendNotificationAsync(Guid.Parse(request.FriendId.ToString()!), AppConstants.FriendStatus.WatitingAccept);
+            await SendNotificationAsync(Guid.Parse(request.FriendId.ToString()!), request.UserId, AppConstants.FriendStatus.WatitingAccept);
             return Result.Success<object>(new { NewRelationshipStatus = AppConstants.FriendRealtionship.WatitingAccept });
         }
 
@@ -104,12 +105,12 @@ public class MakeUserFriendRelationshipCommandHandler : ICommandHandler<Command.
                     newFriendRelationship = AppConstants.FriendRealtionship.Accepted;
 
                     //send noti accepted
-                    await SendNotificationAsync(request.UserId, AppConstants.FriendStatus.Accepted);
+                    await SendNotificationAsync(Guid.Parse(request.FriendId.ToString()!), request.UserId, AppConstants.FriendStatus.Accepted);
                     break;
                 }
 
                 //send noti requset add friend
-                await SendNotificationAsync(Guid.Parse(request.FriendId.ToString()!), AppConstants.FriendStatus.WatitingAccept);
+                await SendNotificationAsync(Guid.Parse(request.FriendId.ToString()!), request.UserId, AppConstants.FriendStatus.WatitingAccept);
 
                 friendshipStatusUpdate = AppConstants.FriendStatus.WatitingAccept;
                 newFriendRelationship = AppConstants.FriendRealtionship.WatitingAccept;
@@ -124,7 +125,7 @@ public class MakeUserFriendRelationshipCommandHandler : ICommandHandler<Command.
                 newFriendRelationship = AppConstants.FriendRealtionship.Accepted;
 
                 //send noti accepted
-                await SendNotificationAsync(request.UserId!, AppConstants.FriendStatus.Accepted);
+                await SendNotificationAsync(Guid.Parse(request.FriendId.ToString()!), request.UserId, AppConstants.FriendStatus.Accepted);
                 break;
             case AppConstants.FriendStatusRequest.Block:
                 friendshipStatusUpdate = AppConstants.FriendStatus.Block;
@@ -145,31 +146,30 @@ public class MakeUserFriendRelationshipCommandHandler : ICommandHandler<Command.
         return Result.Success<object>(new { NewRelationshipStatus = newFriendRelationship });
     }
 
-    public async Task SendNotificationAsync(Guid userId, int type)
+    public async Task SendNotificationAsync(Guid userId, Guid friednId, int type)
     {
         var user = await userRepository.FindByIdAsync(userId);
+        var friend = await userRepository.FindByIdAsync(friednId);
 
-        Notification notification = new();
+        var content = string.Empty;
+        
         if (type == AppConstants.FriendStatus.WatitingAccept)
         {
-            notification = new()
-            {
-                Content = $"{user.Fullname} đã gửi cho bạn yêu cầu kết bạn.",
-                Image = user.Avatar!,
-                Link = $"{AppConstants.FrontEndEndpoints.Profile}/{userId}",
-                IsReaded = false
-            };
+            content = $"{friend.Fullname} đã gửi cho bạn yêu cầu kết bạn.";
         }
         else
         {
-            notification = new()
-            {
-                Content = $"{user.Fullname} đã chấp nhận yêu cầu kết bạn.",
-                Image = user.Avatar!,
-                Link = $"{AppConstants.FrontEndEndpoints.Profile}/{userId}",
-                IsReaded = false
-            };
+            content = $"{friend.Fullname} đã chấp nhận yêu cầu kết bạn.";
         }
+        Notification notification = new()
+        {
+            Id = Guid.NewGuid(),
+            UserId = user.Id,
+            Content = content,
+            Image = friend.Avatar!,
+            Link = $"{AppConstants.FrontEndEndpoints.Profile}/{friend.Id}",
+            IsReaded = false
+        };
 
         notificationRepository.Add(notification);
 
