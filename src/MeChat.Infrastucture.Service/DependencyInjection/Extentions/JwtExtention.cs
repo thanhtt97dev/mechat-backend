@@ -1,11 +1,10 @@
 ﻿using MeChat.Common.Abstractions.Services;
-using MeChat.Infrastucture.Service.DependencyInjection.Configurations;
+using MeChat.Common.Shared.Authentication;
 using MeChat.Infrastucture.Service.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
-using System.Text;
 
 namespace MeChat.Infrastucture.Service.DependencyInjection.Extentions;
 public static class JwtExtention
@@ -19,34 +18,8 @@ public static class JwtExtention
             options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
         }).AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
         {
-            JwtConfiguration jwtConfiguration = new();
-            configuration.GetSection(nameof(JwtConfiguration)).Bind(jwtConfiguration);
-
-            var key = Encoding.UTF8.GetBytes(jwtConfiguration.SecretKey);
-            options.SaveToken = true;
-            options.TokenValidationParameters = new TokenValidationParameters
-            {
-                ValidateIssuer = false, //on production make it true
-                ValidateAudience = false, //on production make it true
-                ValidateLifetime = true,
-                ValidateIssuerSigningKey = true,
-                ValidIssuer = jwtConfiguration.Issuer,
-                ValidAudience = jwtConfiguration.Audience,
-                IssuerSigningKey = new SymmetricSecurityKey(key),
-                ClockSkew = TimeSpan.Zero,
-            };
-
-            options.Events = new JwtBearerEvents
-            {
-                OnAuthenticationFailed = context =>
-                {
-                    if (context.Exception.GetType() == typeof(SecurityTokenExpiredException))
-                    {
-                        context.Response.Headers.Add("IS-TOKEN-EXPIRED", "true");
-                    }
-                    return Task.CompletedTask;
-                }
-            };
+            options.TokenValidationParameters = new ApplicationTokenValidationParameters(configuration);
+            options.Events = new ApplicationJwtBearerValidationEvents();
         });
 
         services.AddAuthorization();

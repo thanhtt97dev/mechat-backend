@@ -1,6 +1,7 @@
 ﻿using MeChat.Common.Abstractions.Services;
+using MeChat.Common.Shared.ApplicationConfiguration;
+using MeChat.Common.Shared.Authentication;
 using MeChat.Common.Shared.Exceptions;
-using MeChat.Infrastucture.Service.DependencyInjection.Configurations;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -11,21 +12,23 @@ namespace MeChat.Infrastucture.Service.Services;
 internal class JwtService : IJwtService
 {
     private readonly JwtConfiguration jwtConfiguration = new();
+    private readonly IConfiguration configuration;
 
     public JwtService(IConfiguration configuration)
     {
+        this.configuration = configuration;
         configuration.GetSection(nameof(JwtConfiguration)).Bind(jwtConfiguration);
     }
 
     #region Generate Accsess Token
     public string GenerateAccessToken(IEnumerable<Claim> claims)
     {
-        var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtConfiguration.SecretKey));
+        var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtConfiguration.IssuerSigningKey));
         var signinCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
 
         var tokeOptions = new JwtSecurityToken(
-            issuer: jwtConfiguration.Issuer,
-            audience: jwtConfiguration.Audience,
+            issuer: jwtConfiguration.ValidIssuer,
+            audience: jwtConfiguration.ValidAudience,
             claims: claims,
             expires: DateTime.Now.AddMinutes(jwtConfiguration.ExpireMinute),
             signingCredentials: signinCredentials
@@ -53,17 +56,7 @@ internal class JwtService : IJwtService
             if (string.IsNullOrEmpty(token))
                 throw new AuthExceptions.AccessTokenInValid();
 
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtConfiguration.SecretKey));
-
-            var tokenValidationParameters = new TokenValidationParameters
-            {
-                ValidateAudience = false, //you might want to validate the audience and issuer depending on your use case
-                ValidateIssuer = false,
-                ValidateLifetime = validateLifetime, //here we are saying that we don't care about the token's expiration date
-                ValidateIssuerSigningKey = true,
-                IssuerSigningKey = key,
-                ClockSkew = TimeSpan.Zero
-            };
+            var tokenValidationParameters = new ApplicationTokenValidationParameters(configuration);
 
             var tokenHandler = new JwtSecurityTokenHandler();
             var principal = tokenHandler.ValidateToken(token, tokenValidationParameters, out SecurityToken securityToken);
@@ -98,22 +91,13 @@ internal class JwtService : IJwtService
     }
     #endregion
 
+    #region Validate AccessToken
     public bool ValidateAccessToken(string accessToken, bool validateLifetime)
     {
         if (string.IsNullOrEmpty(accessToken))
             throw new AuthExceptions.AccessTokenInValid();
 
-        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtConfiguration.SecretKey));
-
-        var tokenValidationParameters = new TokenValidationParameters
-        {
-            ValidateAudience = false, //you might want to validate the audience and issuer depending on your use case
-            ValidateIssuer = false,
-            ValidateLifetime = validateLifetime, //here we are saying that we don't care about the token's expiration date
-            ValidateIssuerSigningKey = true,
-            IssuerSigningKey = key,
-            ClockSkew = TimeSpan.Zero
-        };
+        var tokenValidationParameters = new ApplicationTokenValidationParameters(configuration);
 
         try
         {
@@ -128,4 +112,6 @@ internal class JwtService : IJwtService
         }
         return true;
     }
+    #endregion
+
 }

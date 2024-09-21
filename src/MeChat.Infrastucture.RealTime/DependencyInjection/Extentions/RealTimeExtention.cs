@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Builder;
-using MeChat.Infrastucture.RealTime.Hubs;
 using MeChat.Common.Shared.Constants;
 using MeChat.Common.Abstractions.RealTime;
 using MeChat.Infrastucture.RealTime.Services;
@@ -19,14 +18,11 @@ public static class RealTimeExtention
         });
 
         services.AddTransient<IRealTimeConnectionManager, RealTimeConnectionManager>();
+        services.AddTransient(typeof(IRealTimeContext<>), typeof(RealTimeSignalRContext<>));
     }
 
     public static IApplicationBuilder MapRealTimeEndpoints(this IApplicationBuilder builder)
     {
-        builder.UseSignalR(endpoints =>
-        {
-            endpoints.MapHub<ChatHub>(AppConstants.Configuration.RealTime.ChatEndpoint);
-        });
         return builder;
     }
 

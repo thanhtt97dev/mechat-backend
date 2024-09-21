@@ -18,12 +18,5 @@ public partial class AppConstants
             public const string jti = "jti";
             public const string expired = "expired";
         }
-
-        public class RealTime 
-        {
-            public const string RootEndpoint = "realtime";
-            public const string ChatEndpoint = $"{RootEndpoint}/{Chat}";
-            public const string Chat = "chat";
-        }
     }
 }

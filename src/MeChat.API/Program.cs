@@ -116,6 +116,8 @@ public class Program
         //Use middlewares
         app.UseMiddleware<ExceptionHandlingMiddleware>();
 
+        app.UseRouting();
+
         //Use authentication
         app.UseAuthentication();
 
@@ -124,10 +126,8 @@ public class Program
 
         app.MapControllers();
 
-        app.UseRouting();
-
         //Mapping hubs
-        app.MapHub<ChatHub>(AppConstants.Configuration.RealTime.ChatEndpoint);
+        app.MapHub<NotificationHub>(AppConstants.RealTime.Endpoint.Notification);
 
         app.Run();
     }

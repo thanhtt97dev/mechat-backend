@@ -1,8 +1,8 @@
 ﻿using MeChat.Common.Abstractions.Services;
+using MeChat.Common.Shared.ApplicationConfiguration;
 using MeChat.Common.Shared.Constants;
 using MeChat.Common.Shared.Response;
 using MeChat.Common.UseCases.V1.Auth;
-using MeChat.Infrastucture.Service.DependencyInjection.Configurations;
 using Microsoft.Extensions.Configuration;
 using System.Security.Claims;
 

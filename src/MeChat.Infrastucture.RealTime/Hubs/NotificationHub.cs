@@ -3,11 +3,11 @@ using MeChat.Common.Shared.Constants;
 using Microsoft.AspNetCore.SignalR;
 
 namespace MeChat.Infrastucture.RealTime.Hubs;
-public class ChatHub : Hub
+public class NotificationHub : Hub
 {
     private readonly IRealTimeConnectionManager connectionManager;
 
-    public ChatHub(IRealTimeConnectionManager connectionManager)
+    public NotificationHub(IRealTimeConnectionManager connectionManager)
     {
         this.connectionManager = connectionManager;
     }
@@ -15,7 +15,7 @@ public class ChatHub : Hub
     public override async Task OnConnectedAsync()
     {
         var connectionId = Context.ConnectionId;
-        await connectionManager.AddConnection("hieuld", AppConstants.Configuration.RealTime.Chat, connectionId);
+        await connectionManager.AddConnection("hieuld", AppConstants.RealTime.Method.Notification, connectionId);
         await base.OnConnectedAsync();
     }
     public override async Task OnDisconnectedAsync(Exception exception)
