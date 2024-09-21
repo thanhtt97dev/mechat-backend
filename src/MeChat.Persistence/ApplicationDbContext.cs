@@ -14,4 +14,7 @@ public class ApplicationDbContext : DbContext
     public DbSet<Role> Roles { get; set; }
     public DbSet<Social> Socials { get; set; }  
     public DbSet<UserSocial> UserSocials { get; set; }
+    public DbSet<Friend> Friends { get; set; }
+    public DbSet<FriendStatus> FriendStatus { get; set; }
+    public DbSet<Notification> Notifications { get; set; }
 }

@@ -1,14 +1,14 @@
-﻿using MeChat.Domain.Abstractions.Enitites;
+﻿using MeChat.Domain.Abstractions;
+using MeChat.Domain.Abstractions.Enitites;
 
 namespace MeChat.Domain.Entities;
-public class Notification : IEntityBase<Guid>, IDateTracking
+public class Notification : EntityBase<Guid>, IDateTracking
 {
-    public Guid Id { get;set; }
     public Guid UserId { get;set; }
-    public string Title { get; set; } = string.Empty;
-    public string Content { get; set; } = string.Empty;
-    public string Image { get; set; } = string.Empty;
-    public string Link { get; set; } = string.Empty;
+    public string? Title { get; set; }
+    public string? Content { get; set; }
+    public string? Image { get; set; }
+    public string? Link { get; set; }
     public bool IsReaded { get; set; }
 
     public DateTimeOffset CreatedDate { get; set; }
