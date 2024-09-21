@@ -18,4 +18,5 @@ public class User :EntityBase<Guid>, IDateTracking
     public virtual Role? Role { get; set; }
     public virtual ICollection<UserSocial>? UserSocials { get; set; }
     public virtual ICollection<Friend>? Friends { get; set; }
+    public virtual ICollection<Notification>? Notifications { get; set; }
 }
