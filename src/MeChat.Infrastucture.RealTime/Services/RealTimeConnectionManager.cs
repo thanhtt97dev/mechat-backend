@@ -17,13 +17,15 @@ public class RealTimeConnectionManager : IRealTimeConnectionManager
     {
         var keyStoreData = GetKeyStoreData(key, endpoint);
         string? data = await cacheService.GetCache(keyStoreData);
+        HashSet<string> connectionIds = new HashSet<string>();
         if (data == null)
         {
-            await cacheService.SetCache(keyStoreData, connectionId);
+            connectionIds.Add(connectionId);
+            await cacheService.SetCache(keyStoreData, connectionIds);
             return;
         }
 
-        HashSet<string> connectionIds = JsonSerializer.Deserialize<HashSet<string>>(data)!;
+        connectionIds = JsonSerializer.Deserialize<HashSet<string>>(data)!;
         connectionIds.Add(connectionId);
 
         await cacheService.SetCache(keyStoreData, connectionIds);
@@ -56,9 +58,14 @@ public class RealTimeConnectionManager : IRealTimeConnectionManager
 
         HashSet<string> connectionIds = JsonSerializer.Deserialize<HashSet<string>>(data)!;
         if (connectionId == default(string))
-            connectionIds.Remove(connectionId!);
+            await cacheService.RemoveCache(keyStoreData);
 
-        connectionIds.Clear();
+        connectionIds.Remove(connectionId!);
+        if(connectionIds.Count == 0)
+        {
+            await cacheService.RemoveCache(keyStoreData);
+            return;
+        }
         await cacheService.SetCache(keyStoreData, connectionIds);
     }
 
