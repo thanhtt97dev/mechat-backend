@@ -1,15 +1,18 @@
 ﻿using MeChat.Common.Abstractions.Services;
+using MeChat.Infrastucture.DistributedCache.DependencyInjection.Options;
 using MeChat.Infrastucture.DistributedCache.Extentions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using StackExchange.Redis;
 
 namespace MeChat.Infrastucture.DistributedCache.DependencyInjection.Extentions;
-public static class ServiceCollectionExtentions
+public static class RedisCacheExtention
 {
     public static void AddDistributedCacheRedis(this IServiceCollection services, IConfiguration configuration)
     {
-        var connectionStrings = configuration["DistributedCacheConfiguraion:ConnectionStrings"] ?? string.Empty;
+        DistributedCacheConfiguraion distributedCacheConfiguration = new();
+        configuration.GetSection(nameof(DistributedCacheConfiguraion)).Bind(distributedCacheConfiguration);
+        var connectionStrings = distributedCacheConfiguration.RedisCacheConfiguration.ConnectionStrings;
 
         services.AddSingleton<IConnectionMultiplexer>(_ => ConnectionMultiplexer.Connect(connectionStrings));
         services.AddStackExchangeRedisCache(options => options.Configuration = connectionStrings);
