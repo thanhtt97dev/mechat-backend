@@ -14,7 +14,7 @@ public class Program
         builder.Services.AddConfigurationMediatR();
 
         //Add messagebroker
-        builder.Services.AddMessageBrokerMasstransitRabbitMq(builder.Configuration);
+        builder.Services.AddMessageBroker(builder.Configuration);
 
         //Add email service
         builder.Services.AddEmailConfiguration();

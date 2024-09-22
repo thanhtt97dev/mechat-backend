@@ -55,8 +55,8 @@ public class Program
         //Add application utils
         builder.Services.AddApplicationUtils();
 
-        //Add messagebroker
-        builder.Services.AddMessageBrokerMasstransitRabbitMq(builder.Configuration);
+        //Add messagebroker (Infrastucture.MessageBroker)
+        builder.Services.AddMessageBroker(builder.Configuration);
 
         //Add configuration MediatR(Application)
         builder.Services.AddConfigMediatR();
