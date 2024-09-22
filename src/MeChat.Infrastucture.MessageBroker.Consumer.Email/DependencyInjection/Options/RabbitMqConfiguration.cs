@@ -1,6 +1,6 @@
-﻿namespace MeChat.API.DependencyInjection.Options;
+﻿namespace MeChat.Infrastucture.MessageBroker.Consumer.Email.DependencyInjection.Options;
 
-public sealed class MasstransitConfiguration
+public sealed class RabbitMqConfiguration
 {
     public string Host { get; set; } = string.Empty;
     public string Username { get; set; } = string.Empty;

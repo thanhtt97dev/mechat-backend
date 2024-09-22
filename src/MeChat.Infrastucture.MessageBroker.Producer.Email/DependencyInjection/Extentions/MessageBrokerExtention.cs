@@ -1,9 +1,10 @@
 ﻿using MassTransit;
-using MeChat.Infrastucture.MessageBroker.Consumer.Email.DependencyInjection.Options;
-using System.Reflection;
+using MeChat.Infrastucture.MessageBroker.Producer.Email.DependencyInjection.Options;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using System.Runtime.CompilerServices;
 
-namespace MeChat.Infrastucture.MessageBroker.Consumer.Email.DependencyInjection.Extentions;
-
+namespace MeChat.Infrastucture.MessageBroker.Producer.Email.DependencyInjection.Extentions;
 public static class MessageBrokerExtention
 {
     public static void AddMessageBrokerAzureServiceBus(IServiceCollection services, IConfiguration configuration)
@@ -21,8 +22,6 @@ public static class MessageBrokerExtention
         services.AddMassTransit(configuration =>
         {
             configuration.SetKebabCaseEndpointNameFormatter();
-
-            configuration.AddConsumers(AssemblyReference.Assembly);
 
             configuration.UsingRabbitMq((context, busConfig) =>
             {
