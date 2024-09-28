@@ -1,7 +1,6 @@
 ﻿using MeChat.Common.Abstractions.Data.EntityFramework;
 using MeChat.Common.Abstractions.Messages.DomainEvents.Annotations;
 using MediatR;
-using System.Transactions;
 
 namespace MeChat.Application.Behaviors;
 public sealed class TransactionPipelineBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> where TRequest : notnull
@@ -18,12 +17,26 @@ public sealed class TransactionPipelineBehavior<TRequest, TResponse> : IPipeline
         if (!IsCommand())
             return await next();
 
-        using var transaction = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled);
-        var response = await next();
-        await unitOfWork.SaveChangeAsync(cancellationToken);
-        transaction.Complete();
-        await unitOfWork.DisposeAsync();
-        return response;
+        await unitOfWork.BeginTransactionAsync();
+        try
+        {
+            var response = await next();
+            await unitOfWork.SaveChangeAsync(cancellationToken);
+            await unitOfWork.CommitTransactionAsync();
+            return response;
+        }
+        catch(Exception exception) 
+        {
+            await unitOfWork.RollbackTransactionAsync();
+#pragma warning disable CA2200 // Rethrow to preserve stack details
+            throw exception;
+#pragma warning restore CA2200 // Rethrow to preserve stack details
+        }
+        finally
+        {
+            await unitOfWork.DisposeAsync();
+        }
+        
     }
 
     private static bool IsCommand()
