@@ -1,13 +1,15 @@
 ﻿using MassTransit;
 using MeChat.Infrastucture.MessageBroker.Consumer.Email.DependencyInjection.Options;
-using static Org.BouncyCastle.Math.EC.ECCurve;
+using MeChat.Infrastucture.MessageBroker.Consumer.Email.MessageBus.Commands;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace MeChat.Infrastucture.MessageBroker.Consumer.Email.DependencyInjection.Extentions;
 
 public static class MessageBrokerExtention
 {
-    #region AddMessageBrokerAzureServiceBus
-    public static void AddMessageBrokerAzureServiceBus(this IServiceCollection services, IConfiguration configuration)
+    #region AzureServiceBus
+    public static void AzureServiceBus(this IServiceCollection services, IConfiguration configuration)
     {
         var messageBrokerConfig = new MessageBrokerConfiguration();
         configuration.GetSection(nameof(MessageBrokerConfiguration)).Bind(messageBrokerConfig);
@@ -17,9 +19,7 @@ public static class MessageBrokerExtention
         services.AddMassTransit(configuration =>
         {
             configuration.SetKebabCaseEndpointNameFormatter();
-
             configuration.AddConsumers(AssemblyReference.Assembly);
-
             configuration.UsingAzureServiceBus((context, config) =>
             {
                 config.Host(azureServiceBusConfig.ConnectionString);
@@ -29,8 +29,8 @@ public static class MessageBrokerExtention
     }
     #endregion
 
-
-    public static void AddMessageBrokerMasstransitRabbitMq(this IServiceCollection services, IConfiguration configuration)
+    #region RabbitMq
+    public static void RabbitMq(this IServiceCollection services, IConfiguration configuration)
     {
         var messageBrokerConfig = new MessageBrokerConfiguration();
         configuration.GetSection(nameof(MessageBrokerConfiguration)).Bind(messageBrokerConfig);
@@ -54,4 +54,6 @@ public static class MessageBrokerExtention
             });
         });
     }
+    #endregion
+
 }

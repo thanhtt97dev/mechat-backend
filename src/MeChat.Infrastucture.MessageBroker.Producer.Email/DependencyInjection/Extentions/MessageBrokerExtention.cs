@@ -8,8 +8,8 @@ using Microsoft.Extensions.DependencyInjection;
 namespace MeChat.Infrastucture.MessageBroker.Producer.Email.DependencyInjection.Extentions;
 public static class MessageBrokerExtention
 {
-    #region AddMessageBrokerAzureServiceBus
-    public static void AddMessageBrokerAzureServiceBus(this IServiceCollection services, IConfiguration configuration)
+    #region AzureServiceBus
+    public static void AzureServiceBus(this IServiceCollection services, IConfiguration configuration)
     {
         var messageBrokerConfig = new MessageBrokerConfiguration();
         configuration.GetSection(nameof(MessageBrokerConfiguration)).Bind(messageBrokerConfig);
@@ -58,9 +58,8 @@ public static class MessageBrokerExtention
 
     #endregion
 
-
-
-    public static void AddMessageBrokerMasstransitRabbitMq(this IServiceCollection services, IConfiguration configuration)
+    #region RabbitMq
+    public static void RabbitMq(this IServiceCollection services, IConfiguration configuration)
     {
         var messageBrokerConfig = new MessageBrokerConfiguration();
         configuration.GetSection(nameof(MessageBrokerConfiguration)).Bind(messageBrokerConfig);
@@ -82,4 +81,5 @@ public static class MessageBrokerExtention
             });
         });
     }
+    #endregion
 }

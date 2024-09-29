@@ -1,26 +1,36 @@
-
 using MeChat.Infrastucture.MessageBroker.Consumer.Email.DependencyInjection.Extentions;
 using MeChat.Infrastucture.Service.DependencyInjection.Extentions;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
 
 namespace MeChat.Infrastucture.MessageBroker.Consumer.Email;
 
 public class Program
 {
-    public static void Main(string[] args)
+    public static async Task Main(string[] args)
     {
-        var builder = WebApplication.CreateBuilder(args);
+        var host = Host.CreateDefaultBuilder(args)
+            .ConfigureAppConfiguration((context, config) =>
+            {
+                var env = context.HostingEnvironment;
+                config.AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true, reloadOnChange: true);
+            })
+            .ConfigureServices((context, services) =>
+            {
+                var configuration = context.Configuration;
 
-        //Add MediatR
-        builder.Services.AddConfigurationMediatR();
+                //Add MediatR
+                services.AddConfigurationMediatR();
 
-        //Add messagebroker
-        builder.Services.AddMessageBroker(builder.Configuration);
+                //Add messagebroker
+                services.AddMessageBroker(configuration);
 
-        //Add email service
-        builder.Services.AddEmailConfiguration();
+                //Add email service
+                services.AddEmailConfiguration();
+            })
+            .Build();
 
-        var app = builder.Build();
-
-        app.Run();
+        // Start the host
+        await host.RunAsync();
     }
 }

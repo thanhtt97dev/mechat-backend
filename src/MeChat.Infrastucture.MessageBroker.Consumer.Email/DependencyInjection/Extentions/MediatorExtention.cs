@@ -1,4 +1,6 @@
-﻿namespace MeChat.Infrastucture.MessageBroker.Consumer.Email.DependencyInjection.Extentions;
+﻿using Microsoft.Extensions.DependencyInjection;
+
+namespace MeChat.Infrastucture.MessageBroker.Consumer.Email.DependencyInjection.Extentions;
 
 public static class MediatorExtention
 {
