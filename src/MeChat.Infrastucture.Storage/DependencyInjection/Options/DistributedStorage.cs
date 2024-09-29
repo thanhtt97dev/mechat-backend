@@ -1,7 +1,7 @@
 ﻿using MeChat.Infrastucture.Storage.DependencyInjection.Options;
 
 namespace MeChat.Infrastucture.Storage.DependencyInjection.Options;
-public class DistributedStorageConfiguraion
+public class DistributedStorage
 {
-    public AwsS3Configuration AwsS3Configuration { get; set; } = new AwsS3Configuration();
+    public AwsS3 AwsS3 { get; set; } = new();
 }

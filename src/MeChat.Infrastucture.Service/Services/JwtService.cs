@@ -11,13 +11,13 @@ using System.Text;
 namespace MeChat.Infrastucture.Service.Services;
 internal class JwtService : IJwtService
 {
-    private readonly JwtConfiguration jwtConfiguration = new();
+    private readonly Jwt jwtConfiguration = new();
     private readonly IConfiguration configuration;
 
     public JwtService(IConfiguration configuration)
     {
         this.configuration = configuration;
-        configuration.GetSection(nameof(JwtConfiguration)).Bind(jwtConfiguration);
+        configuration.GetSection(nameof(Jwt)).Bind(jwtConfiguration);
     }
 
     #region Generate Accsess Token

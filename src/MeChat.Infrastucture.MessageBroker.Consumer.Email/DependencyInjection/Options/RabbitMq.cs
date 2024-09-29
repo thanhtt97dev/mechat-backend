@@ -1,5 +1,6 @@
-﻿namespace MeChat.Infrastucture.MessageBroker.Producer.Email.DependencyInjection.Options;
-public sealed class RabbitMqConfiguration
+﻿namespace MeChat.Infrastucture.MessageBroker.Consumer.Email.DependencyInjection.Options;
+
+public sealed class RabbitMq
 {
     public string Host { get; set; } = string.Empty;
     public string Username { get; set; } = string.Empty;

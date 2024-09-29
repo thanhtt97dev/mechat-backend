@@ -11,10 +11,10 @@ public static class MessageBrokerExtention
     #region AzureServiceBus
     public static void AzureServiceBus(this IServiceCollection services, IConfiguration configuration)
     {
-        var messageBrokerConfig = new MessageBrokerConfiguration();
-        configuration.GetSection(nameof(MessageBrokerConfiguration)).Bind(messageBrokerConfig);
+        var messageBrokerConfig = new Options.MessageBroker();
+        configuration.GetSection(nameof(MessageBroker)).Bind(messageBrokerConfig);
 
-        AzureServiceBusConfiguration azureServiceBusConfig = messageBrokerConfig.AzureServiceBusConfiguration;
+        AzureServiceBus azureServiceBusConfig = messageBrokerConfig.AzureServiceBus;
 
         AddAzureServiceBusQueues(azureServiceBusConfig);
 
@@ -30,7 +30,7 @@ public static class MessageBrokerExtention
         });
     }
 
-    private static void AddAzureServiceBusQueues(AzureServiceBusConfiguration azureServiceBusConfig)
+    private static void AddAzureServiceBusQueues(AzureServiceBus azureServiceBusConfig)
     {
         var azureAdmin = new ServiceBusAdministrationClient(azureServiceBusConfig.ConnectionString);
 
@@ -61,10 +61,10 @@ public static class MessageBrokerExtention
     #region RabbitMq
     public static void RabbitMq(this IServiceCollection services, IConfiguration configuration)
     {
-        var messageBrokerConfig = new MessageBrokerConfiguration();
-        configuration.GetSection(nameof(MessageBrokerConfiguration)).Bind(messageBrokerConfig);
+        var messageBrokerConfig = new Options.MessageBroker();
+        configuration.GetSection(nameof(MessageBroker)).Bind(messageBrokerConfig);
 
-        RabbitMqConfiguration rabbitMqConfiguration = messageBrokerConfig.RabbitMqConfiguration;
+        RabbitMq rabbitMqConfiguration = messageBrokerConfig.RabbitMq;
 
         services.AddMassTransit(configuration =>
         {

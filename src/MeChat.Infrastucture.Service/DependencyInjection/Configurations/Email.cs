@@ -1,5 +1,5 @@
 ﻿namespace MeChat.Infrastucture.Service.DependencyInjection.Configurations;
-public class EmailConfiguration
+public class Email
 {
     public string? Email { get; set; }
     public string? Password { get; set; }

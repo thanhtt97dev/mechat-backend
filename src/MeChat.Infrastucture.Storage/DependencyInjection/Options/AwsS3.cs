@@ -1,5 +1,5 @@
 ﻿namespace MeChat.Infrastucture.Storage.DependencyInjection.Options;
-public class AwsS3Configuration
+public class AwsS3
 {
     public string? BucketName { get; set; }
     public string? Region { get; set; }

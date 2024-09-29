@@ -4,7 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 namespace MeChat.Application.DependencyInjection.Extentions;
 public static class MapperObjectExtention
 {
-    public static void AddConfigAutoMapper(this IServiceCollection services)
+    public static void AddMapperObjects(this IServiceCollection services)
     {
         services.AddAutoMapper(typeof(ServiceProfile));
     }

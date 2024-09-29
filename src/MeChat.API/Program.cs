@@ -59,10 +59,10 @@ public class Program
         builder.Services.AddMessageBroker(builder.Configuration);
 
         //Add configuration MediatR(Application)
-        builder.Services.AddConfigMediatR();
+        builder.Services.AddMediator();
 
         //Add configuration AutoMapper(Application)
-        builder.Services.AddConfigAutoMapper();
+        builder.Services.AddMapperObjects();
 
         //Add configuration storage with Amazon S3
         builder.Services.AddAmazonS3();

@@ -1,7 +1,0 @@
-﻿namespace MeChat.Infrastucture.MessageBroker.Consumer.Email.DependencyInjection.Options;
-
-public sealed class MessageBrokerConfiguration
-{
-    public RabbitMqConfiguration RabbitMqConfiguration { get; set; } = new();
-    public AzureServiceBusConfiguration AzureServiceBusConfiguration { get; set; } = new();
-}

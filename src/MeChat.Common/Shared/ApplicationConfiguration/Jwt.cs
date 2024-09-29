@@ -1,5 +1,5 @@
 ﻿namespace MeChat.Common.Shared.ApplicationConfiguration;
-public class JwtConfiguration
+public class Jwt
 {
     public bool ValidateIssuer { get; set; } = false;
     public bool ValidateAudience { get; set; } = false;

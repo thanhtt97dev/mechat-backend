@@ -11,23 +11,23 @@ using Microsoft.Extensions.Configuration;
 namespace MeChat.Infrastucture.Storage.Services;
 public class AwsS3Service : IStorageService
 {
-    private readonly DistributedStorageConfiguraion distributedStorage = new();
+    private readonly DistributedStorage distributedStorage = new();
     private readonly IAmazonS3 awsS3Client;
 
     public AwsS3Service(IConfiguration configuration)
     {
-        configuration.GetSection(nameof(DistributedStorageConfiguraion)).Bind(distributedStorage);
+        configuration.GetSection(nameof(DistributedStorage)).Bind(distributedStorage);
         this.awsS3Client = new AmazonS3Client(
-            awsAccessKeyId: distributedStorage.AwsS3Configuration.AwsAccessKeyId,
-            awsSecretAccessKey: distributedStorage.AwsS3Configuration.AwsSecretAccessKey,
-            region: RegionEndpoint.GetBySystemName(distributedStorage.AwsS3Configuration.Region));
+            awsAccessKeyId: distributedStorage.AwsS3.AwsAccessKeyId,
+            awsSecretAccessKey: distributedStorage.AwsS3.AwsSecretAccessKey,
+            region: RegionEndpoint.GetBySystemName(distributedStorage.AwsS3.Region));
     }
 
     public async Task DeleteFileAsync(string filename, string? versionId = "")
     {
         DeleteObjectRequest request = new DeleteObjectRequest()
         {
-            BucketName = distributedStorage.AwsS3Configuration.BucketName,
+            BucketName = distributedStorage.AwsS3.BucketName,
             Key = filename
         };
 
@@ -43,7 +43,7 @@ public class AwsS3Service : IStorageService
 
         GetObjectRequest getObjectRequest = new GetObjectRequest()
         {
-            BucketName = distributedStorage.AwsS3Configuration.BucketName,
+            BucketName = distributedStorage.AwsS3.BucketName,
             Key = file,
         };
 
@@ -73,14 +73,14 @@ public class AwsS3Service : IStorageService
             {
                 InputStream = memoryStream,
                 Key = fileName,
-                BucketName = distributedStorage.AwsS3Configuration.BucketName,
+                BucketName = distributedStorage.AwsS3.BucketName,
                 ContentType = file.ContentType
             };
 
             var fileTransferUtility = new TransferUtility(awsS3Client);
             await fileTransferUtility.UploadAsync(uploadRequest);
 
-            var endpoint = distributedStorage.AwsS3Configuration.Endpoint + fileName;
+            var endpoint = distributedStorage.AwsS3.Endpoint + fileName;
 
             return endpoint;
         }

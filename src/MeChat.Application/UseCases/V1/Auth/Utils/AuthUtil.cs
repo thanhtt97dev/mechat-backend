@@ -22,8 +22,8 @@ public class AuthUtil
 
     public async Task<Result<Response.Authenticated>> GenerateToken(Domain.Entities.User user)
     {
-        JwtConfiguration jwtConfiguration = new();
-        configuration.GetSection(nameof(JwtConfiguration)).Bind(jwtConfiguration);
+        Jwt jwtConfiguration = new();
+        configuration.GetSection(nameof(Jwt)).Bind(jwtConfiguration);
         var sessionTime = jwtConfiguration.ExpireMinute + jwtConfiguration.RefreshTokenExpireMinute;
 
         var refreshToken = jwtTokenService.GenerateRefreshToken();
@@ -59,8 +59,8 @@ public class AuthUtil
 
     public string GenerateTokenForSignUp(string email)
     {
-        JwtConfiguration jwtConfiguration = new();
-        configuration.GetSection(nameof(JwtConfiguration)).Bind(jwtConfiguration);
+        Jwt jwtConfiguration = new();
+        configuration.GetSection(nameof(Jwt)).Bind(jwtConfiguration);
 
         var clamims = new List<Claim>
         {

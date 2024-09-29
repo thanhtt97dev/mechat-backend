@@ -5,7 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 namespace MeChat.Infrastucture.Service.DependencyInjection.Extentions;
 public static class EmailExtention
 {
-    public static void AddEmailConfiguration(this IServiceCollection services)
+    public static void AddEmailService(this IServiceCollection services)
     {
         services.AddTransient<IEmailService, EmailService>();
     }

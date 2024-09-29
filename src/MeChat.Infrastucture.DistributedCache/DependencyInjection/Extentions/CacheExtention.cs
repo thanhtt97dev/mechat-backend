@@ -6,12 +6,12 @@ using Microsoft.Extensions.DependencyInjection;
 using StackExchange.Redis;
 
 namespace MeChat.Infrastucture.DistributedCache.DependencyInjection.Extentions;
-public static class RedisCacheExtention
+public static class CacheExtention
 {
     public static void AddDistributedCacheRedis(this IServiceCollection services, IConfiguration configuration)
     {
-        DistributedCacheConfiguraion distributedCacheConfiguration = new();
-        configuration.GetSection(nameof(DistributedCacheConfiguraion)).Bind(distributedCacheConfiguration);
+        Options.DistributedCache distributedCacheConfiguration = new();
+        configuration.GetSection(nameof(DistributedCache)).Bind(distributedCacheConfiguration);
         var connectionStrings = distributedCacheConfiguration.RedisCacheConfiguration.ConnectionStrings;
 
         services.AddSingleton<IConnectionMultiplexer>(_ => ConnectionMultiplexer.Connect(connectionStrings));

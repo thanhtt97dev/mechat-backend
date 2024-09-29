@@ -20,13 +20,13 @@ public class Program
                 var configuration = context.Configuration;
 
                 //Add MediatR
-                services.AddConfigurationMediatR();
+                services.AddMediator();
 
                 //Add messagebroker
                 services.AddMessageBroker(configuration);
 
                 //Add email service
-                services.AddEmailConfiguration();
+                services.AddEmailService();
             })
             .Build();
 

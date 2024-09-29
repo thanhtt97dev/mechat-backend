@@ -8,8 +8,8 @@ public class ApplicationTokenValidationParameters : TokenValidationParameters
 {
     public ApplicationTokenValidationParameters(IConfiguration configuration)
     {
-        JwtConfiguration jwtConfig = new();
-        configuration.GetSection(nameof(JwtConfiguration)).Bind(jwtConfig);
+        Jwt jwtConfig = new();
+        configuration.GetSection(nameof(Jwt)).Bind(jwtConfig);
 
         ValidateIssuer = jwtConfig.ValidateIssuer;//on production make it true
         ValidateAudience = jwtConfig.ValidateAudience; //on production make it true

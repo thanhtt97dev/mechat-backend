@@ -8,13 +8,21 @@ namespace MeChat.Infrastucture.MessageBroker.Consumer.Email.DependencyInjection.
 
 public static class MessageBrokerExtention
 {
+    #region Add Message Broker
+    public static void AddMessageBroker(this IServiceCollection services, IConfiguration configuration)
+    {
+        //services.RabbitMq(configuration);
+        services.AzureServiceBus(configuration);
+    }
+    #endregion
+
     #region AzureServiceBus
     public static void AzureServiceBus(this IServiceCollection services, IConfiguration configuration)
     {
-        var messageBrokerConfig = new MessageBrokerConfiguration();
-        configuration.GetSection(nameof(MessageBrokerConfiguration)).Bind(messageBrokerConfig);
+        var messageBrokerConfig = new Options.MessageBroker();
+        configuration.GetSection(nameof(MessageBroker)).Bind(messageBrokerConfig);
 
-        AzureServiceBusConfiguration azureServiceBusConfig = messageBrokerConfig.AzureServiceBusConfiguration;
+        AzureServiceBus azureServiceBusConfig = messageBrokerConfig.AzureServiceBusConfiguration;
 
         services.AddMassTransit(configuration =>
         {
@@ -32,10 +40,10 @@ public static class MessageBrokerExtention
     #region RabbitMq
     public static void RabbitMq(this IServiceCollection services, IConfiguration configuration)
     {
-        var messageBrokerConfig = new MessageBrokerConfiguration();
-        configuration.GetSection(nameof(MessageBrokerConfiguration)).Bind(messageBrokerConfig);
+        var messageBrokerConfig = new Options.MessageBroker();
+        configuration.GetSection(nameof(MessageBroker)).Bind(messageBrokerConfig);
 
-        RabbitMqConfiguration rabbitMqConfiguration = messageBrokerConfig.RabbitMqConfiguration;
+        RabbitMq rabbitMqConfiguration = messageBrokerConfig.RabbitMqConfiguration;
 
         services.AddMassTransit(configuration =>
         {

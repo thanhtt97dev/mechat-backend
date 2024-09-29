@@ -6,7 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 namespace MeChat.Application.DependencyInjection.Extentions;
 public static class MediatorExtention
 {
-    public static void AddConfigMediatR(this IServiceCollection services)
+    public static void AddMediator(this IServiceCollection services)
     {
         services.AddMediatR(configs =>
         {

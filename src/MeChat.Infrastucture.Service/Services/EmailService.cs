@@ -7,11 +7,11 @@ using MeChat.Common.Abstractions.Services;
 namespace MeChat.Infrastucture.Service.Services;
 public class EmailService : IEmailService
 {
-    private readonly EmailConfiguration emailConfiguration = new();
+    private readonly Email emailConfiguration = new();
 
     public EmailService(IConfiguration configuration)
     {
-        configuration.GetSection(nameof(EmailConfiguration)).Bind(emailConfiguration);
+        configuration.GetSection(nameof(Email)).Bind(emailConfiguration);
     }
 
     public async Task SendMailAsync(IEnumerable<string> emails, string subject, string content)
