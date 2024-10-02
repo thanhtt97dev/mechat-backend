@@ -8,7 +8,7 @@ namespace MeChat.Infrastucture.RealTime.DependencyInjection.Extentions;
 
 public static class RealTimeExtention
 {
-    public static void AddConfigRealTime(this IServiceCollection services)
+    public static void AddConfigSignalR(this IServiceCollection services)
     {
         services.AddSignalR(c =>
         {

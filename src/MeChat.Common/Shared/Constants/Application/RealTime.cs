@@ -11,7 +11,7 @@ public partial class AppConstants
         public class Endpoint
         {
             public const string Root = "realtime";
-            public const string Notification = $"/{Root}/{Method.Notification}";
+            public const string Connection = $"/{Root}/connection";
         }
     }
 }

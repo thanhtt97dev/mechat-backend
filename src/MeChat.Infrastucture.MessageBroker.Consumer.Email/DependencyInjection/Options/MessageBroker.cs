@@ -2,6 +2,6 @@
 
 public sealed class MessageBroker
 {
-    public RabbitMq RabbitMqConfiguration { get; set; } = new();
-    public AzureServiceBus AzureServiceBusConfiguration { get; set; } = new();
+    public RabbitMq RabbitMq { get; set; } = new();
+    public AzureServiceBus AzureServiceBus { get; set; } = new();
 }

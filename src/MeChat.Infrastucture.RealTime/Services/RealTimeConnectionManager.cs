@@ -71,7 +71,7 @@ public class RealTimeConnectionManager : IRealTimeConnectionManager
 
     private string GetKeyStoreData(string key, string endpoint) 
     {
-        return $"{endpoint}{key}";
+        return $"{endpoint}-{key}";
     }
 
    

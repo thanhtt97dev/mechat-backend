@@ -80,7 +80,7 @@ public class Program
         builder.Services.AddMessageBrokerProducerEmail();
 
         //Add configuration Redis(Infrastucture.Redis)
-        builder.Services.AddDistributedCacheRedis(builder.Configuration);
+        builder.Services.AddDistributedCache(builder.Configuration);
         
         //Add configuration connect SQL Server with EF(Infrastucture.Persistence)
         builder.Services.AddSqlServerEntityFramwork();
@@ -94,7 +94,7 @@ public class Program
         builder.Services.AddTransient<ExceptionHandlingMiddleware>();
 
         //Add realtime (Infrastucture.RealTime)
-        builder.Services.AddConfigRealTime();
+        builder.Services.AddRealTime();
 
         // Use remove cycle object's data in json respone
         builder.Services.AddControllers().AddJsonOptions(options =>
@@ -127,7 +127,7 @@ public class Program
         app.MapControllers();
 
         //Mapping hubs
-        app.MapHub<NotificationHub>(AppConstants.RealTime.Endpoint.Notification);
+        app.MapHub<ConnectionHub>(AppConstants.RealTime.Endpoint.Connection);
 
         app.Run();
     }

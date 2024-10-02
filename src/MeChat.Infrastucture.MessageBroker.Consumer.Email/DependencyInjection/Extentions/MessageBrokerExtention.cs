@@ -1,6 +1,5 @@
 ﻿using MassTransit;
 using MeChat.Infrastucture.MessageBroker.Consumer.Email.DependencyInjection.Options;
-using MeChat.Infrastucture.MessageBroker.Consumer.Email.MessageBus.Commands;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -22,7 +21,7 @@ public static class MessageBrokerExtention
         var messageBrokerConfig = new Options.MessageBroker();
         configuration.GetSection(nameof(MessageBroker)).Bind(messageBrokerConfig);
 
-        AzureServiceBus azureServiceBusConfig = messageBrokerConfig.AzureServiceBusConfiguration;
+        AzureServiceBus azureServiceBusConfig = messageBrokerConfig.AzureServiceBus;
 
         services.AddMassTransit(configuration =>
         {
@@ -43,7 +42,7 @@ public static class MessageBrokerExtention
         var messageBrokerConfig = new Options.MessageBroker();
         configuration.GetSection(nameof(MessageBroker)).Bind(messageBrokerConfig);
 
-        RabbitMq rabbitMqConfiguration = messageBrokerConfig.RabbitMqConfiguration;
+        RabbitMq rabbitMqConfiguration = messageBrokerConfig.RabbitMq;
 
         services.AddMassTransit(configuration =>
         {

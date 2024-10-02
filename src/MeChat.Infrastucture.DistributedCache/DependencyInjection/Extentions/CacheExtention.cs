@@ -1,5 +1,4 @@
 ﻿using MeChat.Common.Abstractions.Services;
-using MeChat.Infrastucture.DistributedCache.DependencyInjection.Options;
 using MeChat.Infrastucture.DistributedCache.Extentions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;

@@ -1,19 +1,16 @@
-﻿using MassTransit.JobService;
-using MeChat.Common.Abstractions.RealTime;
+﻿using MeChat.Common.Abstractions.RealTime;
 using MeChat.Common.Shared.Constants;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
-using Microsoft.VisualBasic;
-using System.Security.Claims;
 
 namespace MeChat.Infrastucture.RealTime.Hubs;
 
 [Authorize]
-public class NotificationHub : Hub
+public class ConnectionHub : Hub
 {
     private readonly IRealTimeConnectionManager connectionManager;
 
-    public NotificationHub(IRealTimeConnectionManager connectionManager)
+    public ConnectionHub(IRealTimeConnectionManager connectionManager)
     {
         this.connectionManager = connectionManager;
     }

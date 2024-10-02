@@ -16,13 +16,13 @@ public class MakeUserFriendRelationshipCommandHandler : ICommandHandler<Command.
     private readonly IRepository<Domain.Entities.Friend> friendRepository;
     private readonly IRepositoryBase<Domain.Entities.Notification, Guid> notificationRepository;
 
-    private readonly IRealTimeContext<NotificationHub> notificationHubContext;
+    private readonly IRealTimeContext<ConnectionHub> notificationHubContext;
 
     public MakeUserFriendRelationshipCommandHandler(
         IRepositoryBase<Domain.Entities.User, Guid> userRepository,
         IRepository<Domain.Entities.Friend> friendRepository,
         IRepositoryBase<Domain.Entities.Notification, Guid> notificationRepository, 
-        IRealTimeContext<NotificationHub> notificationHubContext)
+        IRealTimeContext<ConnectionHub> notificationHubContext)
     {
         this.userRepository = userRepository;
         this.friendRepository = friendRepository;
