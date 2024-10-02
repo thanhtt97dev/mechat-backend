@@ -50,7 +50,7 @@ public class UpdateUserInfoCommandHandler : ICommandHandler<Command.UpdateUserIn
         if (request.CoverPhoto != null)
         {
             //remove old image
-            if (!string.IsNullOrEmpty(user.Avatar))
+            if (!string.IsNullOrEmpty(user.CoverPhoto))
                 await storageService.DeleteFileAsync(user.CoverPhoto!.Substring(user.CoverPhoto.LastIndexOf("/") + 1));
 
             //upload new image

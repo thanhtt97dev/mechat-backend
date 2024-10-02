@@ -1,5 +1,4 @@
-﻿using MassTransit.Initializers;
-using MeChat.Common.Abstractions.Data.EntityFramework.Repositories;
+﻿using MeChat.Common.Abstractions.Data.EntityFramework.Repositories;
 using MeChat.Common.Abstractions.Messages.DomainEvents;
 using MeChat.Common.Abstractions.RealTime;
 using MeChat.Common.Shared.Constants;
@@ -165,6 +164,7 @@ public class MakeUserFriendRelationshipCommandHandler : ICommandHandler<Command.
         {
             Id = Guid.NewGuid(),
             UserId = user.Id,
+            CreatedDate = DateTime.Now,
             Content = content,
             Image = friend.Avatar!,
             Link = $"{AppConstants.FrontEndEndpoints.Profile}/{friend.Id}",

@@ -12,16 +12,11 @@ public class NotificationConfiguration : IEntityTypeConfiguration<Notification>
         #region Main properties
         builder.HasKey(x => x.Id);
         builder.Property(x => x.UserId);
-        builder.Property(x => x.Title);
+        builder.Property(x => x.CreatedDate);
         builder.Property(x => x.Content);
         builder.Property(x => x.Image);
         builder.Property(x => x.Link);
         builder.Property(x => x.IsReaded);
-        #endregion
-
-        #region Audit properties
-        builder.Property(x => x.CreatedDate);
-        builder.Property(x => x.ModifiledDate);
         #endregion
 
         #region Constraints

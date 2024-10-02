@@ -10,8 +10,8 @@ public static class MessageBrokerExtention
     #region Add Message Broker
     public static void AddMessageBroker(this IServiceCollection services, IConfiguration configuration)
     {
-        //services.RabbitMq(configuration);
-        services.AzureServiceBus(configuration);
+        services.RabbitMq(configuration);
+        //services.AzureServiceBus(configuration);
     }
     #endregion
 
