@@ -6,8 +6,8 @@ namespace MeChat.Infrastucture.Dapper;
 public class ApplicationDbContext
 {
     private readonly IConfiguration configuration;
-    private readonly string connectionString;
-    private readonly SqlConnection connection;
+    private string connectionString = string.Empty;
+    private SqlConnection connection { get; set; }
     private DbTransaction? dbTransaction;
 
     public ApplicationDbContext(IConfiguration configuration)
@@ -25,6 +25,7 @@ public class ApplicationDbContext
 
     public SqlConnection GetConnection()
     {
+        connection = CreateConnection();
         return connection;
     }
 

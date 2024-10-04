@@ -25,6 +25,11 @@ public class ServiceProfile : Profile
             .ReverseMap();
         #endregion
 
+        #region Notification
+        CreateMap<Notification, Common.UseCases.V1.Notification.Response.Notification>()
+           .ReverseMap();
+        #endregion
+
         #endregion
 
         #region V2

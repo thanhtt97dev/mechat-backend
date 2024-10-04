@@ -33,6 +33,12 @@ public class PageResult<TData>
 
     public static PageResult<TData> Create(List<TData>? items, int pageIndex, int pageSize, int totalCount)
     {
+        var totalPage = totalCount / pageSize;
+        if (totalCount % pageSize != 0)
+            totalPage += 1;
+
+        if (pageIndex > totalPage)
+            pageIndex = totalPage;
         return new(items, pageIndex, pageSize, totalCount);
     }
         

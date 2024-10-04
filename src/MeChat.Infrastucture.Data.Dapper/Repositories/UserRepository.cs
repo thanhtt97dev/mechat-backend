@@ -19,14 +19,14 @@ public class UserRepository : IUserRepository
     public async Task<int> AddAsync(Domain.Entities.User entity)
     {
         var sql =
-@"INSERT INTO [dbo].[User]
-           ([Id]
-           ,[Username]
-           ,[Password])
-     VALUES
-           (@Id
-           ,@Username>
-           ,@Password)";
+            @"INSERT INTO [dbo].[User]
+                       ([Id]
+                       ,[Username]
+                       ,[Password])
+                 VALUES
+                       (@Id
+                       ,@Username>
+                       ,@Password)";
 
         using SqlConnection connection = context.GetConnection();
         await connection.OpenAsync();
@@ -42,8 +42,8 @@ public class UserRepository : IUserRepository
     public async Task<int> DeleteAsync(Guid id)
     {
         var sql =
-@"DELETE FROM [dbo].[User]
-      WHERE Id = @Id";
+            @"DELETE FROM [dbo].[User]
+                  WHERE Id = @Id";
         using SqlConnection connection = context.GetConnection();
         await connection.OpenAsync();
 
@@ -58,9 +58,9 @@ public class UserRepository : IUserRepository
     public async Task<Domain.Entities.User?> FindByIdAsync(Guid id)
     {
         var sql =
-@"SELECT * 
-FROM [dbo].[User]
-WHERE Id = @Id";
+            @"SELECT * 
+            FROM [dbo].[User]
+            WHERE Id = @Id";
         using SqlConnection connection = context.GetConnection();
         await connection.OpenAsync();
 
@@ -83,11 +83,11 @@ WHERE Id = @Id";
             pageSize = AppConstants.Page.SizeMaximun;
 
         var query =
-@$"SELECT * FROM [User]
-WHERE (1 = 1) AND
-{nameof(Domain.Entities.User.Id)} LIKE '%{searchTerm}%' OR
-{nameof(Domain.Entities.User.Username)} LIKE '%{searchTerm}%'
-ORDER BY ";
+            @$"SELECT * FROM [User]
+            WHERE (1 = 1) AND
+            {nameof(Domain.Entities.User.Id)} LIKE '%{searchTerm}%' OR
+            {nameof(Domain.Entities.User.Username)} LIKE '%{searchTerm}%'
+            ORDER BY ";
         if (sortColumnWithOrders.Count == 0)
         {
             query += @$"{GetSortProperty(string.Empty)}";
@@ -132,8 +132,8 @@ ORDER BY ";
     public async Task<int> GetTotalRecord()
     {
         var sql =
-@"SELECT COUNT(*) 
-FROM [dbo].[User]";
+            @"SELECT COUNT(*) 
+            FROM [dbo].[User]";
         using SqlConnection connection = context.GetConnection();
         await connection.OpenAsync();
 
@@ -148,9 +148,9 @@ FROM [dbo].[User]";
     public async Task<Domain.Entities.User?> GetUserByUsernameAndPassword(string username, string password)
     {
         var query =
-@"SELECT *
-  FROM [dbo].[User]
-WHERE [Username] = @Username AND [Password] = @Password";
+            @"SELECT *
+              FROM [dbo].[User]
+            WHERE [Username] = @Username AND [Password] = @Password";
 
         using SqlConnection connection = context.GetConnection();
         await connection.OpenAsync();
@@ -166,9 +166,9 @@ WHERE [Username] = @Username AND [Password] = @Password";
     public async Task<Domain.Entities.User?> GetUserByEmail(string email)
     {
         var sql =
-@"SELECT *
-FROM [dbo].[User]
-WHERE [Email] = @Email";
+            @"SELECT *
+            FROM [dbo].[User]
+            WHERE [Email] = @Email";
         using SqlConnection connection = context.GetConnection();
         await connection.OpenAsync();
 
@@ -183,11 +183,11 @@ WHERE [Email] = @Email";
     public async Task<int> UpdateAsync(Domain.Entities.User entity)
     {
         var sql =
-@"UPDATE [dbo].[User]
-   SET [Id] = @Id
-      ,[Username] = @Username
-      ,[Password] = @Password
- WHERE [Id] = @Id";
+            @"UPDATE [dbo].[User]
+               SET [Id] = @Id
+                  ,[Username] = @Username
+                  ,[Password] = @Password
+             WHERE [Id] = @Id";
         using SqlConnection connection = context.GetConnection();
         await connection.OpenAsync();
 
@@ -202,10 +202,10 @@ WHERE [Email] = @Email";
     public async Task<User?> GetUserByAccountSocial(string accountSocialId, int socialId)
     {
         var sql =
-@$"SELECT * 
-FROM [User]
-JOIN UserSocial ON [User].Id = UserSocial.UserId
-WHERE UserSocial.AccountSocialId = '{accountSocialId}' AND UserSocial.SocialId = '{socialId}'";
+            @$"SELECT * 
+            FROM [User]
+            JOIN UserSocial ON [User].Id = UserSocial.UserId
+            WHERE UserSocial.AccountSocialId = '{accountSocialId}' AND UserSocial.SocialId = '{socialId}'";
         using SqlConnection connection = context.GetConnection();
         await connection.OpenAsync();
         var result = await connection.QuerySingleOrDefaultAsync<Domain.Entities.User>(sql);

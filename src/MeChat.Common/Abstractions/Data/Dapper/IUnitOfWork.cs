@@ -5,6 +5,7 @@ public interface IUnitOfWork : IAsyncDisposable
 {
     public IUserRepository Users { get; }
     public IUserSocialRepository UsersSocials { get; }
+    public INotificationRepository Notifications { get; }
 
     Task BeginTransactionAsync(CancellationToken cancellationToken);
     Task CommitTransactionAsync(CancellationToken cancellationToken);

@@ -160,7 +160,7 @@ public class MakeUserFriendRelationshipCommandHandler : ICommandHandler<Command.
         {
             content = $"{friend.Fullname} đã chấp nhận yêu cầu kết bạn.";
         }
-        Notification notification = new()
+        MeChat.Domain.Entities.Notification notification = new()
         {
             Id = Guid.NewGuid(),
             UserId = user.Id,
