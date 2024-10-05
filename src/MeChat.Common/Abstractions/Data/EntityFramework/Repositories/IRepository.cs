@@ -5,6 +5,7 @@ public interface IRepository<TEntity> : IDisposable where TEntity : class
 {
     void Add(TEntity entity);
     void Update(TEntity entity);
+    void UpdateMultiple(List<TEntity> entities);
     void Remove(TEntity entity);
     void RemoveMultiple(List<TEntity> entities);
     Task<TEntity> FindSingleAsync(Expression<Func<TEntity, bool>>? predicate = null, CancellationToken cancellationToken = default, params Expression<Func<TEntity, object?>>[] includeProperties);

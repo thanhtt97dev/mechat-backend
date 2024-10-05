@@ -1,4 +1,5 @@
 using MeChat.Common.Shared.Constants;
+using System.Runtime.InteropServices;
 using System.Text.Json.Serialization;
 
 namespace MeChat.Common.Shared.Response;
@@ -41,10 +42,10 @@ public class Result
     #endregion
 
     #region NotFound
-    public static Result<string> NotFound(string message)
+    public static Result<string> NotFound(string message = "Not found")
         => new(AppConstants.ResponseCodes.NotFound, message, false);
 
-    public static Result<TData> NotFound<TData>(string message)
+    public static Result<TData> NotFound<TData>(string message = "Not found")
         => new(AppConstants.ResponseCodes.NotFound, message, false);
 
     public static Result<TData> NotFound<TData>(TData? data, string message)

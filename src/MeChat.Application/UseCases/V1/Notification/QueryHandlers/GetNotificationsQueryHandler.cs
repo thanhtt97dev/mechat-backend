@@ -5,7 +5,7 @@ using MeChat.Common.Shared.Constants;
 using MeChat.Common.Shared.Response;
 using MeChat.Common.UseCases.V1.Notification;
 
-namespace MeChat.Application.UseCases.V1.Notification.QueryHandler;
+namespace MeChat.Application.UseCases.V1.Notification.QueryHandlers;
 public class GetNotificationsQueryHandler : IQueryHandler<Query.GetNotifications, PageResult<Response.Notification>>
 {
     private readonly IUnitOfWork unitOfWork;

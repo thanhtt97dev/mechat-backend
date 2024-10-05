@@ -37,6 +37,11 @@ public class Repository<TEntity> : IRepository<TEntity> where TEntity : Entity
         context.Set<TEntity>().Update(entity);
     }
 
+    public void UpdateMultiple(List<TEntity> entities)
+    {
+        context.Set<TEntity>().UpdateRange(entities);
+    }
+
     public async Task<bool> Any(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken = default, params Expression<Func<TEntity, object?>>[] includeProperties)
     {
         if (predicate == null) throw new ArgumentNullException(nameof(predicate));
