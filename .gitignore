@@ -226,6 +226,3 @@ AppPackages/
 #####
 
 #MeChat
-
-#ignore backup data redis docker container
-data/
