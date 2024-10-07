@@ -1,9 +1,7 @@
 ﻿using MeChat.Common.Shared.Response;
 using MeChat.Common.Shared.Exceptions.Base;
 using System.Text.Json;
-using System.Text.Json.Serialization;
 using MeChat.Common.Shared.Commons;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace MeChat.API.Middlewares;
 
