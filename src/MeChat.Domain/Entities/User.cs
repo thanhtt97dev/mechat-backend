@@ -19,4 +19,7 @@ public class User :EntityBase<Guid>, IDateTracking
     public virtual ICollection<UserSocial>? UserSocials { get; set; }
     public virtual ICollection<Friend>? Friends { get; set; }
     public virtual ICollection<Notification>? Notifications { get; set; }
+    public virtual ICollection<Conversation>? Conversations { get; set; }
+    public virtual ICollection<UserConversation>? UserConversations { get; set; }
+    public virtual ICollection<Message>? Messages { get; set; }
 }

@@ -150,17 +150,14 @@ public class MakeUserFriendRelationshipCommandHandler : ICommandHandler<Command.
         var user = await userRepository.FindByIdAsync(userId);
         var friend = await userRepository.FindByIdAsync(friednId);
 
-        var content = string.Empty;
+        string content;
         
         if (type == AppConstants.FriendStatus.WatitingAccept)
-        {
             content = $"{friend.Fullname} đã gửi cho bạn yêu cầu kết bạn.";
-        }
         else
-        {
             content = $"{friend.Fullname} đã chấp nhận yêu cầu kết bạn.";
-        }
-        MeChat.Domain.Entities.Notification notification = new()
+
+        Domain.Entities.Notification notification = new()
         {
             Id = Guid.NewGuid(),
             UserId = user.Id,
