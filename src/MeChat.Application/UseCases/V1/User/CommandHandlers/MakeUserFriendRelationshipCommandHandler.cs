@@ -1,4 +1,5 @@
-﻿using MeChat.Common.Abstractions.Data.EntityFramework.Repositories;
+﻿using AutoMapper;
+using MeChat.Common.Abstractions.Data.EntityFramework.Repositories;
 using MeChat.Common.Abstractions.Messages.DomainEvents;
 using MeChat.Common.Abstractions.RealTime;
 using MeChat.Common.Shared.Constants;
@@ -14,6 +15,7 @@ public class MakeUserFriendRelationshipCommandHandler : ICommandHandler<Command.
     private readonly IRepositoryBase<Domain.Entities.User, Guid> userRepository;
     private readonly IRepository<Domain.Entities.Friend> friendRepository;
     private readonly IRepositoryBase<Domain.Entities.Notification, Guid> notificationRepository;
+    private readonly IMapper mapper;
 
     private readonly IRealTimeContext<ConnectionHub> notificationHubContext;
 
@@ -21,12 +23,14 @@ public class MakeUserFriendRelationshipCommandHandler : ICommandHandler<Command.
         IRepositoryBase<Domain.Entities.User, Guid> userRepository,
         IRepository<Domain.Entities.Friend> friendRepository,
         IRepositoryBase<Domain.Entities.Notification, Guid> notificationRepository, 
-        IRealTimeContext<ConnectionHub> notificationHubContext)
+        IRealTimeContext<ConnectionHub> notificationHubContext,
+        IMapper mapper)
     {
         this.userRepository = userRepository;
         this.friendRepository = friendRepository;
         this.notificationRepository = notificationRepository;
         this.notificationHubContext = notificationHubContext;
+        this.mapper = mapper;
     }
 
     public async Task<Result> Handle(Command.MakeUserFriendRelationship request, CancellationToken cancellationToken)
@@ -145,33 +149,36 @@ public class MakeUserFriendRelationshipCommandHandler : ICommandHandler<Command.
         return Result.Success<object>(new { NewRelationshipStatus = newFriendRelationship });
     }
 
-    public async Task SendNotificationAsync(Guid userId, Guid friednId, int type)
+    public async Task SendNotificationAsync(Guid receiverId, Guid requesterId, int type)
     {
-        var user = await userRepository.FindByIdAsync(userId);
-        var friend = await userRepository.FindByIdAsync(friednId);
+        var receiver = await userRepository.FindByIdAsync(receiverId);
+        var requester = await userRepository.FindByIdAsync(requesterId);
 
-        string content;
-        
+        int notificationType;
+
         if (type == AppConstants.FriendStatus.WatitingAccept)
-            content = $"{friend.Fullname} đã gửi cho bạn yêu cầu kết bạn.";
+            notificationType = AppConstants.NotificationType.FriendRequest;
         else
-            content = $"{friend.Fullname} đã chấp nhận yêu cầu kết bạn.";
+            notificationType = AppConstants.NotificationType.FriendRequestAccepted;
 
         Domain.Entities.Notification notification = new()
         {
             Id = Guid.NewGuid(),
-            UserId = user.Id,
+            ReceiverId = receiver.Id,
+            RequesterId = requester.Id,
+            Type = notificationType,
             CreatedDate = DateTime.Now,
-            Content = content,
-            Image = friend.Avatar!,
-            Link = $"{AppConstants.FrontEndEndpoints.Profile}/{friend.Id}",
-            IsReaded = false
+            Link = $"{AppConstants.FrontEndEndpoints.Profile}/{requester.Id}",
+            IsReaded = false,
         };
 
         notificationRepository.Add(notification);
 
-        var message = JsonSerializer.Serialize(notification);
-        await notificationHubContext.SendMessageAsync(AppConstants.RealTime.Method.Notification, userId, message);
+        var notificatonSend = mapper.Map<Common.UseCases.V1.Notification.Response.Notification>(notification);
+        notificatonSend = notificatonSend with { RequesterName = requester.Fullname, Image = requester.Avatar };
+
+        var message = JsonSerializer.Serialize(notificatonSend);
+        await notificationHubContext.SendMessageAsync(AppConstants.RealTime.Method.Notification, receiverId, message);
     }
 
 }

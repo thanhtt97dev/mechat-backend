@@ -1,15 +1,15 @@
 ﻿using MeChat.Domain.Abstractions;
-using MeChat.Domain.Abstractions.Enitites;
 
 namespace MeChat.Domain.Entities;
 public class Notification : EntityBase<Guid>
 {
-    public Guid UserId { get;set; }
+    public Guid RequesterId { get; set; }
+    public Guid ReceiverId { get;set; }
     public DateTime CreatedDate { get; set; }
-    public string? Content { get; set; }
-    public string? Image { get; set; }
+    public int Type { get; set; } 
     public string? Link { get; set; }
     public bool IsReaded { get; set; }
 
-    public virtual User? User { get; set; }
+    public virtual User? Receiver { get; set; }
+    public virtual User? Requester { get; set; }
 }

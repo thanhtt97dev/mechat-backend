@@ -35,16 +35,23 @@ public class NotificationRepository : INotificationRepository
             pageIndex = totalPage;
 
         var query =
-                @$"SELECT * 
+                @$"SELECT [Notification].*, [User].Id, [User].Fullname, [User].Avatar
                 FROM [Notification]
-                WHERE UserId = '{id}'
+                INNER JOIN  [User] ON [Notification].RequesterId = [User].Id
+                WHERE ReceiverId = '{id}'
                 ORDER BY CreatedDate DESC
                 OFFSET {(pageIndex - 1) * pageSize} ROWS FETCH NEXT {pageSize} ROWS ONLY";
 
         using SqlConnection connection = context.GetConnection();
         await connection.OpenAsync();
 
-        var result = await connection.QueryAsync<Domain.Entities.Notification>(query);
+        var result = await connection.QueryAsync<Notification, User, Notification>(query, (notification, user) =>
+        {
+            notification.Requester = user;
+            return notification;
+        },
+            splitOn: "Id"
+        );
 
         return result.ToList();
     }
@@ -56,7 +63,7 @@ public class NotificationRepository : INotificationRepository
         var query =
             $@"SELECT COUNT(*)
             FROM [Notification]
-            WHERE UserId = '{id}'";
+            WHERE ReceiverId = '{id}'";
 
         using SqlConnection connection = context.GetConnection();
         await connection.OpenAsync();

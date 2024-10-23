@@ -16,7 +16,7 @@ public class ReadAllNotificationCommandHandler : ICommandHandler<Command.ReadAll
 
     public async Task<Result> Handle(Command.ReadAllNotification request, CancellationToken cancellationToken)
     {
-        var notificationsUnRead = await notificationRepository.FindAll(x => x.UserId == request.Id && x.IsReaded == false).ToListAsync();
+        var notificationsUnRead = await notificationRepository.FindAll(x => x.ReceiverId == request.Id && x.IsReaded == false).ToListAsync();
 
         if (notificationsUnRead.Count == 0)
             return Result.Success();
