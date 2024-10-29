@@ -7,7 +7,6 @@ public class Notification : EntityBase<Guid>
     public Guid ReceiverId { get;set; }
     public DateTime CreatedDate { get; set; }
     public int Type { get; set; } 
-    public string? Link { get; set; }
     public bool IsReaded { get; set; }
 
     public virtual User? Receiver { get; set; }

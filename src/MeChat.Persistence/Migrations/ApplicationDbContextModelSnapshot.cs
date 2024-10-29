@@ -223,9 +223,6 @@ namespace MeChat.Persistence.Migrations
                     b.Property<bool>("IsReaded")
                         .HasColumnType("bit");
 
-                    b.Property<string>("Link")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<Guid>("ReceiverId")
                         .HasColumnType("uniqueidentifier");
 

@@ -14,7 +14,6 @@ public class NotificationConfiguration : IEntityTypeConfiguration<Notification>
         builder.Property(x => x.ReceiverId);
         builder.Property(x => x.CreatedDate);
         builder.Property(x => x.Type);
-        builder.Property(x => x.Link);
         builder.Property(x => x.IsReaded);
         #endregion
 

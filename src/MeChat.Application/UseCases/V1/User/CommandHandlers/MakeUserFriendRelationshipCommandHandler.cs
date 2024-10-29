@@ -168,7 +168,6 @@ public class MakeUserFriendRelationshipCommandHandler : ICommandHandler<Command.
             RequesterId = requester.Id,
             Type = notificationType,
             CreatedDate = DateTime.Now,
-            Link = $"{AppConstants.FrontEndEndpoints.Profile}/{requester.Id}",
             IsReaded = false,
         };
 
