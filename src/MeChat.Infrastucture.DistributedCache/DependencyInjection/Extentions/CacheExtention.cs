@@ -30,7 +30,7 @@ public static class CacheExtention
     #endregion
 
     #region InMemory
-    public static void AddInMemoryCache(this IServiceCollection services, IConfiguration configuration)
+    private static void AddInMemoryCache(this IServiceCollection services, IConfiguration configuration)
     {
         //configuration
         services.AddMemoryCache();
@@ -41,7 +41,7 @@ public static class CacheExtention
     #endregion
 
     #region Redis
-    public static void AddRedis(this IServiceCollection services, IConfiguration configuration)
+    private static void AddRedis(this IServiceCollection services, IConfiguration configuration)
     {
         //configuration
         Common.Shared.Configurations.DistributedCache distributedCacheConfiguration = new();
