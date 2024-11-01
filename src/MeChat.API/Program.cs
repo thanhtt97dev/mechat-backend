@@ -64,8 +64,8 @@ public class Program
         //Add configuration AutoMapper(Application)
         builder.Services.AddMapperObjects();
 
-        //Add configuration storage with Amazon S3
-        builder.Services.AddAmazonS3();
+        //Add configuration storage
+        builder.Services.AddStorage(builder.Configuration);
 
         //Add configuration connect SQL Server with Dapper(Infrastucture.Dapper)
         builder.Services.AddSqlServerDapper();
