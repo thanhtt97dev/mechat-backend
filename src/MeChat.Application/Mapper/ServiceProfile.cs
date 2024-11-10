@@ -27,6 +27,7 @@ public class ServiceProfile : Profile
 
         #region Notification
         CreateMap<Notification, Common.UseCases.V1.Notification.Response.Notification>()
+            .ForMember(des => des.RequesterId, opt => opt.MapFrom(src => src.Requester!.Id))
             .ForMember(des => des.RequesterName, atc => atc.MapFrom(src => src.Requester!.Fullname == null ? string.Empty : src.Requester!.Fullname))
             .ForMember(des => des.Image, atc => atc.MapFrom(src => src.Requester!.Avatar == null ? string.Empty : src.Requester!.Avatar))
             .ReverseMap();

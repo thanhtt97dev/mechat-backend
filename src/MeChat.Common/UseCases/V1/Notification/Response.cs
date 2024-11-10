@@ -7,6 +7,7 @@ public class Response
         public Guid Id { get; init; }
         public DateTime CreatedDate { get; init; }
         public int Type { get; init; }
+        public Guid? RequesterId { get; init; }
         public string? RequesterName { get; init; }
         public string? Image { get; init; }
         public string? Link { get; init; }
