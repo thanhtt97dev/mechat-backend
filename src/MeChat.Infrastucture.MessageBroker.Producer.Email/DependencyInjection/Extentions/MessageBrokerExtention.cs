@@ -1,7 +1,6 @@
 ﻿using Azure.Messaging.ServiceBus.Administration;
 using MassTransit;
 using MeChat.Common.MessageBroker.Email;
-using MeChat.Common.Shared.Configurations;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -61,7 +60,7 @@ public static class MessageBrokerExtention
             {
                 busConfig.Host(rabbitMqConfiguration.Host, rabbitMqConfiguration.VHost, hostConfig =>
                 {
-                    hostConfig.Username(rabbitMqConfiguration.Username);
+                    hostConfig.Username(rabbitMqConfiguration.UserName);
                     hostConfig.Password(rabbitMqConfiguration.Password);
                 });
                 busConfig.ConfigureEndpoints(context);
