@@ -1,5 +1,4 @@
 ﻿using MassTransit;
-using MeChat.Infrastucture.MessageBroker.Consumer.Email.DependencyInjection.Options;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -10,44 +9,53 @@ public static class MessageBrokerExtention
     #region Add Message Broker
     public static void AddMessageBroker(this IServiceCollection services, IConfiguration configuration)
     {
-        services.RabbitMq(configuration);
-        //services.AzureServiceBus(configuration);
+        Common.Shared.Configurations.MessageBroker messageBrokerConfig = new();
+        configuration.GetSection(nameof(MessageBroker)).Bind(messageBrokerConfig);
+
+        switch (messageBrokerConfig.Mode)
+        {
+            //case nameof(Common.Shared.Configurations.MessageBroker.InMemory):
+            //    services.AddInMemory(configuration);
+            //    break;
+            case nameof(Common.Shared.Configurations.MessageBroker.RabbitMq):
+                services.AddRabbitMq(configuration);
+                break;
+            case nameof(Common.Shared.Configurations.MessageBroker.AzureServiceBus):
+                services.AzureServiceBus(configuration);
+                break;
+            default:
+                services.AddRabbitMq(configuration);
+                break;
+        }
     }
     #endregion
 
-    #region AzureServiceBus
-    public static void AzureServiceBus(this IServiceCollection services, IConfiguration configuration)
+    #region InMemory
+    private static void AddInMemory(this IServiceCollection services, IConfiguration configuration)
     {
-        var messageBrokerConfig = new Options.MessageBroker();
-        configuration.GetSection(nameof(MessageBroker)).Bind(messageBrokerConfig);
-
-        AzureServiceBus azureServiceBusConfig = messageBrokerConfig.AzureServiceBus;
-
         services.AddMassTransit(configuration =>
         {
             configuration.SetKebabCaseEndpointNameFormatter();
             configuration.AddConsumers(AssemblyReference.Assembly);
-            configuration.UsingAzureServiceBus((context, config) =>
+            configuration.UsingInMemory((context, cfg) =>
             {
-                config.Host(azureServiceBusConfig.ConnectionString);
-                config.ConfigureEndpoints(context);
+                cfg.ConfigureEndpoints(context);
             });
         });
     }
     #endregion
 
     #region RabbitMq
-    public static void RabbitMq(this IServiceCollection services, IConfiguration configuration)
+    private static void AddRabbitMq(this IServiceCollection services, IConfiguration configuration)
     {
-        var messageBrokerConfig = new Options.MessageBroker();
+        var messageBrokerConfig = new Common.Shared.Configurations.MessageBroker();
         configuration.GetSection(nameof(MessageBroker)).Bind(messageBrokerConfig);
 
-        RabbitMq rabbitMqConfiguration = messageBrokerConfig.RabbitMq;
+        Common.Shared.Configurations.RabbitMq rabbitMqConfiguration = messageBrokerConfig.RabbitMq;
 
         services.AddMassTransit(configuration =>
         {
             configuration.SetKebabCaseEndpointNameFormatter();
-
             configuration.AddConsumers(AssemblyReference.Assembly);
 
             configuration.UsingRabbitMq((context, busConfig) =>
@@ -58,6 +66,28 @@ public static class MessageBrokerExtention
                     hostConfig.Password(rabbitMqConfiguration.Password);
                 });
                 busConfig.ConfigureEndpoints(context);
+            });
+        });
+    }
+    #endregion
+
+    #region AzureServiceBus
+    private static void AzureServiceBus(this IServiceCollection services, IConfiguration configuration)
+    {
+        var messageBrokerConfig = new Common.Shared.Configurations.MessageBroker();
+        configuration.GetSection(nameof(MessageBroker)).Bind(messageBrokerConfig);
+
+        Common.Shared.Configurations.AzureServiceBus azureServiceBusConfig = messageBrokerConfig.AzureServiceBus;
+
+        services.AddMassTransit(configuration =>
+        {
+            configuration.SetKebabCaseEndpointNameFormatter();
+            configuration.AddConsumers(AssemblyReference.Assembly);
+
+            configuration.UsingAzureServiceBus((context, config) =>
+            {
+                config.Host(azureServiceBusConfig.ConnectionString);
+                config.ConfigureEndpoints(context);
             });
         });
     }

@@ -6,11 +6,6 @@ using Microsoft.Extensions.DependencyInjection;
 namespace MeChat.Infrastucture.MessageBroker.Producer.Email.DependencyInjection.Extentions;
 public static class ServiceCollectionExtentions
 {
-    public static void AddMessageBroker(this IServiceCollection services, IConfiguration configuration)
-    {
-        services.RabbitMq(configuration);
-        //services.AzureServiceBus(configuration);
-    }
 
     public static void AddMessageBrokerProducerEmail(this IServiceCollection services)
     {
