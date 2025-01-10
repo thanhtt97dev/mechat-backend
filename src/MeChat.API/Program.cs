@@ -1,16 +1,16 @@
 using MeChat.Persistence.DependencyInjection.Extentions;
-using MeChat.Infrastucture.Dapper.DependencyInjection.Extentions;
+using MeChat.Infrastructure.Dapper.DependencyInjection.Extentions;
 using MicroElements.Swashbuckle.FluentValidation.AspNetCore;
 using MeChat.API.DependencyInjection.Extentions;
 using MeChat.Application.DependencyInjection.Extentions;
 using MeChat.API.Middlewares;
-using MeChat.Infrastucture.DistributedCache.DependencyInjection.Extentions;
+using MeChat.Infrastructure.DistributedCache.DependencyInjection.Extentions;
 using System.Text.Json.Serialization;
-using MeChat.Infrastucture.Service.DependencyInjection.Extentions;
-using MeChat.Infrastucture.Storage.DependencyInjection.Extentions;
-using MeChat.Infrastucture.MessageBroker.Producer.Email.DependencyInjection.Extentions;
-using MeChat.Infrastucture.RealTime.DependencyInjection.Extentions;
-using MeChat.Infrastucture.RealTime.Hubs;
+using MeChat.Infrastructure.Service.DependencyInjection.Extentions;
+using MeChat.Infrastructure.Storage.DependencyInjection.Extentions;
+using MeChat.Infrastructure.MessageBroker.Producer.Email.DependencyInjection.Extentions;
+using MeChat.Infrastructure.RealTime.DependencyInjection.Extentions;
+using MeChat.Infrastructure.RealTime.Hubs;
 using MeChat.Common.Shared.Constants;
 
 namespace MeChat.API;
@@ -127,7 +127,7 @@ public class Program
         app.MapControllers();
 
         //Mapping hubs
-        app.MapHub<ConnectionHub>(AppConstants.RealTime.Endpoint.Connection);
+        app.MapRealTimeEndpoints();
 
         app.Run();
     }
