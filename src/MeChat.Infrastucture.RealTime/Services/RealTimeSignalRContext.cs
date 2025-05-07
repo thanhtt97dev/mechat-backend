@@ -1,7 +1,7 @@
 ﻿using MeChat.Common.Abstractions.RealTime;
 using Microsoft.AspNetCore.SignalR;
 
-namespace MeChat.Infrastucture.RealTime.Services;
+namespace MeChat.Infrastructure.RealTime.Services;
 public class RealTimeSignalRContext<T> : IRealTimeContext<T>
     where T : Hub
 {

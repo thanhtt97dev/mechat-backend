@@ -3,7 +3,7 @@ using MeChat.Common.Abstractions.Services;
 using System.Runtime.InteropServices;
 using System.Text.Json;
 
-namespace MeChat.Infrastucture.RealTime.Services;
+namespace MeChat.Infrastructure.RealTime.Services;
 public class RealTimeConnectionManager : IRealTimeConnectionManager
 {
     private readonly ICacheService cacheService;

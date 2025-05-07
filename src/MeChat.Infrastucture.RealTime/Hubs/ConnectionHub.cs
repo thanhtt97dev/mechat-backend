@@ -3,7 +3,7 @@ using MeChat.Common.Shared.Constants;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
 
-namespace MeChat.Infrastucture.RealTime.Hubs;
+namespace MeChat.Infrastructure.RealTime.Hubs;
 
 [Authorize]
 public class ConnectionHub : Hub
