@@ -75,7 +75,15 @@ jobs:
       - name: Set up .NET Core
         uses: actions/setup-dotnet@v2
         with:
-          dotnet-version: '7.0'
+          dotnet-version: '7.0'  # Adjust if needed
+
+      # Clean the solution
+      - name: Clean the solution
+        run: dotnet clean src/test/MeChat.Architecture.Tests/MeChat.Architecture.Tests.csproj
+
+      # Build the test project
+      - name: Build the test project
+        run: dotnet build test/MeChat.Architecture.Tests/MeChat.Architecture.Tests.csproj --configuration Release
 
       # Run unit tests for MeChat.Architecture.Tests
       - name: Run unit tests for MeChat.Architecture.Tests
