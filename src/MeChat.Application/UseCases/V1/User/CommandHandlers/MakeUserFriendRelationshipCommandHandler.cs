@@ -6,7 +6,7 @@ using MeChat.Common.Shared.Constants;
 using MeChat.Common.Shared.Response;
 using MeChat.Common.UseCases.V1.User;
 using MeChat.Domain.Entities;
-using MeChat.Infrastucture.RealTime.Hubs;
+using MeChat.Infrastructure.RealTime.Hubs;
 using System.Text.Json;
 
 namespace MeChat.Application.UseCases.V1.User.CommandHandlers;
