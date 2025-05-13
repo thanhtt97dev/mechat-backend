@@ -43,7 +43,7 @@ jobs:
           dotnet-version: '7.0'
 
       - name: Install dotnet format
-        run: dotnet tool install --global dotnet-format --version 7.0.400
+        run: dotnet tool install --global dotnet-format
         
       - name: Run dotnet format (check only)
         run: dotnet format MeChat.sln --verify-no-changes --verbosity diagnostic
