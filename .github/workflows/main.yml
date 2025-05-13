@@ -63,14 +63,23 @@ jobs:
         with:
           dotnet-version: '7.0'  # Adjust if needed
 
-      # Restore the solution
-      - name: Restore the solution
+      # Restore the solutions
+      - name: Restore MeChat.Architecture.Tests
         run: dotnet restore test/MeChat.Architecture.Tests/MeChat.Architecture.Tests.csproj
-
-      # Build the test project
-      - name: Build the test project
+  
+      - name: Restore MeChat.BusinessLogic.Tests
+        run: dotnet restore test/MeChat.BusinessLogic.Tests/MeChat.BusinessLogic.Tests.csproj
+  
+      # Build the test projects
+      - name: Build MeChat.Architecture.Tests
         run: dotnet build test/MeChat.Architecture.Tests/MeChat.Architecture.Tests.csproj --no-restore --configuration Release
-
-      # Run unit tests for MeChat.Architecture.Tests
-      - name: Run unit tests for MeChat.Architecture.Tests
+  
+      - name: Build MeChat.BusinessLogic.Tests
+        run: dotnet build test/MeChat.BusinessLogic.Tests/MeChat.BusinessLogic.Tests.csproj --no-restore --configuration Release
+  
+      # Run unit tests
+      - name: Run tests - MeChat.Architecture.Tests
         run: dotnet test test/MeChat.Architecture.Tests/MeChat.Architecture.Tests.csproj --no-build --configuration Release --verbosity normal
+  
+      - name: Run tests - MeChat.BusinessLogic.Tests
+        run: dotnet test test/MeChat.BusinessLogic.Tests/MeChat.BusinessLogic.Tests.csproj --no-build --configuration Release --verbosity normal
