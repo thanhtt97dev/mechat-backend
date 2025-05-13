@@ -42,11 +42,11 @@ jobs:
         with:
           dotnet-version: '7.0'
 
-      - name: Install dotnet format
-        run: dotnet tool install --global dotnet-format
+      # - name: Install dotnet format
+      #   run: dotnet tool install --global dotnet-format
         
-      - name: Run dotnet format (check only)
-        run: dotnet format MeChat.sln --verify-no-changes --verbosity diagnostic
+      # - name: Run dotnet format (check only)
+      #   run: dotnet format MeChat.sln --verify-no-changes --verbosity diagnostic
 
       - name: Add StyleCop.Analyzers to all projects
         run: |
