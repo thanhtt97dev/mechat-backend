@@ -62,7 +62,7 @@ public static class MessageBrokerExtention
             {
                 busConfig.Host(rabbitMqConfiguration.Host, rabbitMqConfiguration.VHost, hostConfig =>
                 {
-                    hostConfig.Username(rabbitMqConfiguration.Username);
+                    hostConfig.Username(rabbitMqConfiguration.UserName);
                     hostConfig.Password(rabbitMqConfiguration.Password);
                 });
                 busConfig.ConfigureEndpoints(context);
