@@ -30,6 +30,10 @@
     <ProjectReference Include="..\..\src\MeChat.Common\MeChat.Common.csproj" />
     <ProjectReference Include="..\..\src\MeChat.Domain\MeChat.Domain.csproj" />
     <ProjectReference Include="..\..\src\MeChat.Infrastucture.Data.Dapper\MeChat.Infrastucture.Data.Dapper.csproj" />
+    <ProjectReference Include="..\..\src\MeChat.Infrastucture.DistributedCache\MeChat.Infrastucture.DistributedCache.csproj" />
+    <ProjectReference Include="..\..\src\MeChat.Infrastucture.RealTime\MeChat.Infrastucture.RealTime.csproj" />
+    <ProjectReference Include="..\..\src\MeChat.Infrastucture.Service\MeChat.Infrastucture.Service.csproj" />
+    <ProjectReference Include="..\..\src\MeChat.Infrastucture.Storage\MeChat.Infrastucture.Storage.csproj" />
     <ProjectReference Include="..\..\src\MeChat.Persistence\MeChat.Persistence.csproj" />
     <ProjectReference Include="..\..\src\MeChat.Presentation\MeChat.Presentation.csproj" />
   </ItemGroup>
