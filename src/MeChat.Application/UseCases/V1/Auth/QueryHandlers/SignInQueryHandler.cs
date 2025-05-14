@@ -24,9 +24,7 @@ public class SignInQueryHandler : IQueryHandler<Query.SignIn, Response.Authentic
         var user = await unitOfWork.Users.GetUserByUsernameAndPassword(request.Username, request.Password);
         
         if (user == null)
-            //return Result.NotFound<Response.Authenticated>("Username or Password incorrect!");
-            return Result.Success<Response.Authenticated>(null);
-
+            return Result.NotFound<Response.Authenticated>("Username or Password incorrect!");
 
         //Check User
         if (user.Status != AppConstants.User.Status.Activate)
