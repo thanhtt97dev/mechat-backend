@@ -27,6 +27,7 @@ public class SignInQueryHandler : IQueryHandler<Query.SignIn, Response.Authentic
             //return Result.NotFound<Response.Authenticated>("Username or Password incorrect!");
             return Result.Success<Response.Authenticated>(null);
 
+
         //Check User
         if (user.Status != AppConstants.User.Status.Activate)
             return Result.Initialization<Response.Authenticated>(AppConstants.ResponseCodes.User.Banned, "User has been banned!", false, null);
