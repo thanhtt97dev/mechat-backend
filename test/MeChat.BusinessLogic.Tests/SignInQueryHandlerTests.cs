@@ -78,7 +78,7 @@ public class SignInQueryHandlerTests
             RoleId = 1,
             Fullname = "Test User",
             Avatar = "avatar.png",
-            Status = 1
+            Status = AppConstants.User.Status.Activate
         };
 
         unitOfWorkMock.Setup(u => u.Users.GetUserByUsernameAndPassword("testuser", "password"))
